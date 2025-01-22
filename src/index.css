@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+     :root {
+        --background: 0 0% 100%;
+        --foreground: 0 0% 96.1%; /* #F5F5F5 -> HSL(0, 0%, 96.1%) */
+        --card: 0 0% 100%;
+        --card-foreground: 222.2 84% 4.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 84% 4.9%;
+        --primary: 77.8 55.1% 44.5%;
+        --primary-foreground: 210 40% 98%;
+        --secondary: 20 57.6% 44.7%; /* #1D5391 -> HSL(213.5, 62.3%, 34.3%) */
+        --secondary-foreground: 312.3 80% 31.8%;
+        --chart-1: 312.3 80% 31.8%; /* #8B1778 -> HSL(312.3, 80%, 31.8%) */
+        --chart-2: 222.2 47.4% 11.2%;
+        --chart-3: 217.2 32.6% 17.5%;
+    }
+    .dark {
+        --background: 222.2 84% 4.9%;
+        --foreground: 0 0% 96.1%; /* #F5F5F5 -> HSL(0, 0%, 96.1%) */
+        --card: 222.2 84% 4.9%;
+        --card-foreground: 210 40% 98%;
+        --popover: 222.2 84% 4.9%;
+        --popover-foreground: 210 40% 98%;
+        --primary: 77.8 55.1% 44.5%;
+        --primary-foreground: 222.2 47.4% 11.2%;
+        --secondary: 20 57.6% 44.7%; /* #1D5391 -> HSL(213.5, 62.3%, 34.3%) */
+        --secondary-foreground: 312.3 80% 31.8%;
+        --ring: 224.3 76.3% 48%; /* #3E70DD -> HSL(224.3, 76.3%, 48%) */
+        --chart-1: 312.3 80% 31.8%; /* #8B1778 -> HSL(312.3, 80%, 31.8%) */
+        --chart-2: 222.2 47.4% 11.2%;
+        --chart-3: 217.2 32.6% 17.5%;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+        @apply font-sans;
+    }
+    .clip-path-inset {
+        clip-path: inset(0 10em 10em 15em);
+    }
+    
+    .transition-all {
+        transition: all 0.25s ease-out;
+    }
+    
+    .opacity-0 {
+        opacity: 0;
+    }
+    
+    .opacity-100 {
+        opacity: 1;
+    }
+}

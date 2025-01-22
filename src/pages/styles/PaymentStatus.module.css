@@ -1,0 +1,110 @@
+/* PaymentStatus.module.css */
+.container {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, hsl(20, 57.6%, 44.7%), hsl(213.5, 62.3%, 34.3%));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  
+  .card {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 28rem;
+    width: 100%;
+  }
+  
+  .card-header {
+    background-color: hsl(20, 57.6%, 44.7%);
+    padding: 1.5rem;
+    text-align: center;
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  .success, .already-success, .failed, .loading {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .icon {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto 1rem auto;
+  }
+  
+  .success .icon {
+    color: green;
+  }
+  
+  .already-success .icon {
+    color: green;
+  }
+  
+  .failed .icon {
+    color: red;
+  }
+  
+  .loading .icon {
+    color: hsl(20, 57.6%, 44.7%);
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 0.5rem;
+  }
+  
+  .payment-info {
+    margin-top: 1.5rem;
+  }
+  
+  .payment-info div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+  }
+  
+  .payment-info span {
+    font-size: 0.875rem;
+  }
+  
+  .payment-info .key {
+    font-weight: 500;
+    color: #4b5563;
+    text-transform: capitalize;
+  }
+  
+  .payment-info .value {
+    color: hsl(0, 0%, 15%);
+  }
+  
+  .card-footer {
+    background-color: #f9fafb;
+    padding: 1.5rem;
+  }
+  
+  .footer-text {
+    font-size: 0.75rem;
+    text-align: center;
+    color: #6b7280;
+  }
+  

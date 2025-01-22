@@ -1,0 +1,191 @@
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Wana {
+  id          Int       @id @default(autoincrement())
+  firstName   String?
+  lastName    String?
+  email       String?   @unique
+  phone       String?   @unique
+  userName    String?   @unique
+  password    String?
+  role        String?
+  isActive    Boolean?  @default(true)
+
+  Schedules   Schedule[] 
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model MeseretawiDirijet { //Liyu wereda
+  id          Int       @id @default(autoincrement())
+  firstName   String?
+  lastName    String?
+  email       String?   @unique
+  phone       String?   @unique
+  userName    String?   @unique
+  password    String?
+  role        String?
+  isActive    Boolean?  @default(true)
+
+  Report      Report[]
+  listOfHiwas Hiwas[]
+  Notifications Notification[] // Relation to notifications
+  Schedules   Schedule[]       // Relation to Schedule
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Wereda {
+  id          Int       @id @default(autoincrement())
+  firstName   String?
+  lastName    String?
+  email       String?   @unique
+  phone       String?   @unique
+  userName    String?   @unique
+  password    String?
+  role        String?
+  isActive    Boolean?  @default(true)
+
+  ReportSent  Report[]
+  Notifications Notification[] // Relation to notifications
+  Schedules    Schedule[]       // Relation to Schedule
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Hiwas {
+  id          Int       @id @default(autoincrement())
+  firstName   String?
+  lastName    String?
+  email       String?   @unique
+  phone       String?   @unique
+  userName    String?   @unique
+  password    String?
+  role        String?
+  isActive    Boolean?  @default(true)
+  mdId        Int
+  md          MeseretawiDirijet @relation(fields: [mdId], references: [id], onDelete: Cascade)
+
+  ReportSent  Report[]
+  Notifications Notification[] // Relation to notifications
+  Schedules    Schedule[]       // Relation to Schedule
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Schedule {
+  id             Int                 @id @default(autoincrement())
+  title          String              // Title of the schedule
+  description    String?             // Optional description
+  startTime      DateTime            // Schedule start time
+  endTime        DateTime            // Schedule end time
+  status         String              // Status of the schedule, e.g., 'Pending', 'Completed', etc.
+  
+  createdByRole  String              // Role of the creator: 'Hiwas', 'MeseretawiDirijet', 'Wereda', 'Wana'
+  createdById    Int                 // Creator's ID
+
+  createdByHiwasId   Int?            // Relation to Hiwas
+  createdByHiwas     Hiwas?          @relation(fields: [createdByHiwasId], references: [id], onDelete: Cascade)
+
+  createdByMDId      Int?            // Relation to Meseretawi Dirijet
+  createdByMD        MeseretawiDirijet? @relation(fields: [createdByMDId], references: [id], onDelete: Cascade)
+
+  createdByWeredaId  Int?            // Relation to Wereda
+  createdByWereda    Wereda?         @relation(fields: [createdByWeredaId], references: [id], onDelete: Cascade)
+
+  createdByWanaId    Int?            // Relation to Wana
+  createdByWana      Wana?           @relation(fields: [createdByWanaId], references: [id], onDelete: Cascade)
+
+  // Relations to Reports
+  reports        Report[]            // A schedule can have multiple reports
+
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  Notification Notification[]
+}
+
+model Report {
+  id                  Int                 @id @default(autoincrement())
+  name                String?
+  description         String?
+  reportedBy          String
+  reportedByHiwasId   Int?
+  reportByHiwas       Hiwas?             @relation(fields: [reportedByHiwasId], references: [id], onDelete: Cascade)
+
+  reportedByMDId      Int?
+  reportedByMD        MeseretawiDirijet? @relation(fields: [reportedByMDId], references: [id], onDelete: Cascade)
+
+  reportedByWeredaId  Int?
+  reportedByWereda    Wereda?            @relation(fields: [reportedByWeredaId], references: [id], onDelete: Cascade)
+
+  scheduleId          Int                
+  schedule            Schedule           @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+
+  reportImages        ReportImage[]
+  reportPdfs          ReportPdf[]
+  reportVideo         String?
+  audio               String
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+
+  Notification Notification[]
+}
+
+model ReportImage {
+  id            Int    @id @default(autoincrement())
+  type          String // 'Meeting' or 'Paper'
+  url           String // Image URL
+  reportId      Int
+  report        Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model ReportPdf {
+  id            Int    @id @default(autoincrement())
+  title         String // PDF title
+  url           String // PDF URL
+  reportId      Int
+  report        Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Notification {
+  id          Int       @id @default(autoincrement())
+  message     String
+  recipientId Int?       // The user ID receiving the notification
+  recipientType String  // 'Wana', 'MeseretawiDirijet', 'Hiwas', or 'Wereda'
+  scheduleId    Int?
+  schedule               Schedule? @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  reportId    Int?
+  report               Report? @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  isRead      Boolean   @default(false) // Mark whether the notification is read
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  hiwasId             Int? // Optional relation to Hiwas
+  hiwas               Hiwas? @relation(fields: [hiwasId], references: [id], onDelete: Cascade)
+
+  meseretawiDirijetId Int? // Optional relation to MeseretawiDirijet
+  meseretawiDirijet   MeseretawiDirijet? @relation(fields: [meseretawiDirijetId], references: [id], onDelete: Cascade)
+
+  weredaId            Int? // Optional relation to Wereda
+  wereda              Wereda? @relation(fields: [weredaId], references: [id], onDelete: Cascade)
+}
