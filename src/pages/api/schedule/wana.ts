@@ -14,7 +14,7 @@ export const config = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log("eer")
-  // res.setHeader('Access-Control-Allow-Origin', apiURL);
+  res.setHeader('Access-Control-Allow-Origin', apiURL);
   res.setHeader('Access-Control-Allow-Methods', 'POST, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   console.log("eer")

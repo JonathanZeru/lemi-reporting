@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
-  // res.setHeader('Access-Control-Allow-Origin', apiURL);
+  res.setHeader('Access-Control-Allow-Origin', apiURL);
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
   res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
 

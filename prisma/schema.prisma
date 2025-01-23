@@ -1,5 +1,5 @@
 datasource db {
-  provider = "postgres"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -44,25 +44,6 @@ model MeseretawiDirijet { //Liyu wereda
   updatedAt   DateTime  @updatedAt
 }
 
-model Wereda {
-  id          Int       @id @default(autoincrement())
-  firstName   String?
-  lastName    String?
-  email       String?   @unique
-  phone       String?   @unique
-  userName    String?   @unique
-  password    String?
-  role        String?
-  isActive    Boolean?  @default(true)
-
-  ReportSent  Report[]
-  Notifications Notification[] // Relation to notifications
-  Schedules    Schedule[]       // Relation to Schedule
-
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
 model Hiwas {
   id          Int       @id @default(autoincrement())
   firstName   String?
@@ -83,6 +64,25 @@ model Hiwas {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
+model Wereda {
+  id          Int       @id @default(autoincrement())
+  firstName   String?
+  lastName    String?
+  email       String?   @unique
+  phone       String?   @unique
+  userName    String?   @unique
+  password    String?
+  role        String?
+  isActive    Boolean?  @default(true)
+
+  ReportSent  Report[]
+  Notifications Notification[] // Relation to notifications
+  Schedules    Schedule[]       // Relation to Schedule
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
 
 model Schedule {
   id             Int                 @id @default(autoincrement())

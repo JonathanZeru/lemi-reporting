@@ -4,7 +4,7 @@ import { IncomingForm, File as FormidableFile } from 'formidable';
 import fs from 'fs';
 import path from 'path';
 import { apiURL } from '../../../utils/constants/constants';
-import nodemailer from 'nodemailer'
+// import nodemailer from 'nodemailer'
 import logo from '../../../assets/logo.png';
 import jwt from 'jsonwebtoken';
 
@@ -30,7 +30,7 @@ export const config = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   // CORS Headers
-  // res.setHeader('Access-Control-Allow-Origin', apiURL);
+  res.setHeader('Access-Control-Allow-Origin', apiURL);
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
   res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
 
@@ -148,57 +148,57 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           await prisma.reportImage.createMany({ data: imageData });
         }
 
-        const transporter = nodemailer.createTransport({
-            service: 'Gmail', 
-            auth: {
-                port: 587,
-                secure: false, 
-                user: "jonathanzeru21@gmail.com", 
-                pass: "isek dnxp xkms iiha"
-            },
-          })
-          console.log(transporter, "transporter")
-          const allWana = await prisma.wana.findMany();
+        // const transporter = nodemailer.createTransport({
+        //     service: 'Gmail', 
+        //     auth: {
+        //         port: 587,
+        //         secure: false, 
+        //         user: "jonathanzeru21@gmail.com", 
+        //         pass: "isek dnxp xkms iiha"
+        //     },
+        //   })
+        //   console.log(transporter, "transporter")
+        //   const allWana = await prisma.wana.findMany();
           
 
-          try {
-        allWana.map(async (wana)=>{
-            await transporter.sendMail(
-                {
-                    from: "jonathanzeru21@gmail.com",
-                    to: wana.email,
-                    subject: 'Welcome to Our Community!',
-                    html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
-            <div style="background-color: #897848; padding: 20px; text-align: center; color: white;">
-              <img src="${logo}" alt="Logo" style="max-width: 150px; margin-bottom: 10px;">
-              <h1>Dear ${wana.firstName} ${wana.lastName}!</h1>
-              <p>Wereda ${firstName} ${lastName} as reported for the meeting ${scheduledMetting.title} held between 
-              ${scheduledMetting.startTime} ${scheduledMetting.endTime}!</p>
-            </div>
-            <img src="${logo}" alt="Banner Image" style="width: 100%; height: auto;">
-            <div style="padding: 20px; color: #333;">
-              <p style="font-size: 16px;">Please check out there report on the following website,</p>
-              <p style="font-size: 16px;">After logging in.</p>
-            </div>
-            <div style="background-color: #897848; color: white; text-align: center; padding: 10px;">
-              <p style="margin: 0;">&copy; 2025 Prosperity Party. All rights reserved.</p>
-            </div>
-          </div>
-        `
-                  }
-            )
-            res.status(200).json({ message: 'Email sent successfully' })
-          })
+        //   try {
+        // allWana.map(async (wana)=>{
+        //     await transporter.sendMail(
+        //         {
+        //             from: "jonathanzeru21@gmail.com",
+        //             to: wana.email,
+        //             subject: 'Welcome to Our Community!',
+        //             html: `
+        //   <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+        //     <div style="background-color: #897848; padding: 20px; text-align: center; color: white;">
+        //       <img src="${logo}" alt="Logo" style="max-width: 150px; margin-bottom: 10px;">
+        //       <h1>Dear ${wana.firstName} ${wana.lastName}!</h1>
+        //       <p>Wereda ${firstName} ${lastName} as reported for the meeting ${scheduledMetting.title} held between 
+        //       ${scheduledMetting.startTime} ${scheduledMetting.endTime}!</p>
+        //     </div>
+        //     <img src="${logo}" alt="Banner Image" style="width: 100%; height: auto;">
+        //     <div style="padding: 20px; color: #333;">
+        //       <p style="font-size: 16px;">Please check out there report on the following website,</p>
+        //       <p style="font-size: 16px;">After logging in.</p>
+        //     </div>
+        //     <div style="background-color: #897848; color: white; text-align: center; padding: 10px;">
+        //       <p style="margin: 0;">&copy; 2025 Prosperity Party. All rights reserved.</p>
+        //     </div>
+        //   </div>
+        // `
+        //           }
+        //     )
+        //     res.status(200).json({ message: 'Email sent successfully' })
+        //   })
         
-          } catch (error) {
-            console.error('Error sending email:', error)
-            res.status(500).json({ message: 'Failed to send email' })
-          }
+        //   } catch (error) {
+        //     console.error('Error sending email:', error)
+        //     res.status(500).json({ message: 'Failed to send email' })
+        //   }
         await prisma.notification.create({
           data: {
-            message: `Wereda ${firstName} ${lastName} as reported for the meeting ${scheduledMetting.title} held between 
-              ${scheduledMetting.startTime} ${scheduledMetting.endTime}!`,
+            message: `Wereda ${firstName} ${lastName} as reported for the meeting ${scheduledMetting!.title} held between 
+              ${scheduledMetting!.startTime} ${scheduledMetting!.endTime}!`,
             recipientType: "Wereda",
             isRead: false,
             weredaId: Number(weredaId),

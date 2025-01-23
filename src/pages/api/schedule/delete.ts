@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   // const allowedOrigin = 'http://localhost:5173'; // Replace with your frontend origin
 
   // Set CORS headers
-  // res.setHeader('Access-Control-Allow-Origin', apiURL);
+  res.setHeader('Access-Control-Allow-Origin', apiURL);
   res.setHeader('Access-Control-Allow-Methods', 'GET, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
