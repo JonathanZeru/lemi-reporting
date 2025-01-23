@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+     "dev": "next dev --port ${PORT-9900}",
     "build": "yarn migrate:deploy && next build",
-    "start": "next start",
+    "start": "next start --port ${PORT-9900}",
     "migrate:dev": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
     "migrate:status": "prisma migrate status",
