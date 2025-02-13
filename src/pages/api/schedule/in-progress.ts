@@ -7,9 +7,10 @@ import { apiURL } from '../../../utils/constants/constants';
 // import nodemailer from 'nodemailer'
 import logo from '../../../assets/logo.png';
 import jwt from 'jsonwebtoken';
+import { applyCors } from '../cors';
+import { prisma } from '../prisma';
 
 // Initialize Prisma Client
-const prisma = new PrismaClient();
 const SECRET_KEY = process.env.JWT_SECRET || 'Dj2T1oa2nzx0ndBQ6LRfRiGjAyL4vfipve2PCGBwZl8=';
 
 const authenticateToken = (token: string) => {
@@ -29,11 +30,7 @@ export const config = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
-  // CORS Headers
-  res.setHeader('Access-Control-Allow-Origin', apiURL);
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
-  res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
-
+  applyCors(res); // Apply CORS headers
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Max-Age', '86400'); // Cache preflight request
     return res.status(204).end();
@@ -47,39 +44,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.error('Error parsing form data:', err);
         return res.status(500).json({ error: 'Failed to process form data' });
       }
-      console.log(req.headers.authorization)
       const token = req.headers.authorization?.split(' ')[1];
-      console.log("1 = ",token)
       if (!token) {
-        console.log("2 = ",token)
         return res.status(401).json({ error: 'Unauthorized' });
       }
-      console.log("3 = ",token)
 
       const userPayload = authenticateToken(token);
-      console.log("5 = ",token)
-      if (!userPayload!.user || !userPayload!.user.id) {
-        console.log("6 = ",token)
+      if (!userPayload || !userPayload.id) {
         return res.status(401).json({ error: 'Invalid or expired token' });
       }
-
       const firstName = Array.isArray(fields.firstName) ? fields.firstName[0] : fields.firstName;
       const lastName = Array.isArray(fields.lastName) ? fields.lastName[0] : fields.lastName;
       const hiwasId = Array.isArray(fields.hiwasId) ? fields.hiwasId[0] : fields.hiwasId;
       const meseretawiDirijetId = Array.isArray(fields.meseretawiDirijetId) ? fields.meseretawiDirijetId[0] : fields.meseretawiDirijetId;
       const scheduleId = Array.isArray(fields.scheduleId) ? fields.scheduleId[0] : fields.scheduleId;
-      console.log(fields)
-      console.log(files)
-      console.log(
-        {
-            firstName,
-            lastName,
-            hiwasId,
-            scheduleId,
-            meseretawiDirijetId
-          }
-      )
-      console.log("1")
       try {
 
         const scheduledMetting = await prisma.schedule.findUnique({
@@ -194,6 +172,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       } catch (error) {
         console.error('Error creating report:', error);
         res.status(500).json({ error: 'Internal Server Error' });
+      }finally {
+        console.log('Disconnecting Prisma...');
+        await prisma.$disconnect(); // Just disconnect, don't make more queries after this
       }
     });
   } else {

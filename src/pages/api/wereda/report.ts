@@ -1,20 +1,19 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 import { apiURL } from '../../../utils/constants/constants';
+import { applyCors } from '../cors';
+import { prisma } from '../prisma';
 
-const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   // CORS Headers
-  res.setHeader('Access-Control-Allow-Origin', apiURL);
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
-  res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+  applyCors(res); // Apply CORS headers
 
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Max-Age', '86400'); // Cache preflight request
     return res.status(204).end();
-  } 
+  }
 
   if (req.method === 'GET') {
     const { scheduleId } = req.query;
@@ -28,7 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             reportPdfs: true,
             schedule: true,
             reportedByWereda: {
-              select:{
+              select: {
                 id: true,
                 firstName: true,
                 lastName: true,
@@ -42,11 +41,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (!report) {
           return res.status(404).json({ error: 'Report not found' });
         }
-        
+
         return res.status(200).json(report);
       } catch (error) {
         console.error('Error retrieving report:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
+      } finally {
+        console.log('Disconnecting Prisma...');
+        await prisma.$disconnect(); // Just disconnect, don't make more queries after this
       }
     }
   } else {
@@ -54,3 +56,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
+
+
+

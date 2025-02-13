@@ -1,14 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 import { apiURL } from '../../../utils/constants/constants';
+import { prisma } from '../prisma';
+import { applyCors } from '../cors';
 
-const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
-  res.setHeader('Access-Control-Allow-Origin', apiURL);
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
-  res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+
+        applyCors(res); // Apply CORS headers
 
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Max-Age', '86400'); // Cache preflight request
@@ -108,7 +108,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       } catch (error) {
         console.error('Error retrieving hiwas:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
-      }
+      }finally {
+                        console.log('Disconnecting Prisma...');
+                        await prisma.$disconnect(); // Just disconnect, don't make more queries after this
+                      }
     }
   } else {
     res.setHeader('Allow', ['GET']);

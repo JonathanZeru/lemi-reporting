@@ -14,7 +14,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 
 const MeseretawiTaskDetail = () => {
-  const { id } = useParams()
+  const { id } = useParams() as { id: string }
   const [notification, setNotification] = useState<HiwasNotification | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)

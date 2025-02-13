@@ -1,10 +1,10 @@
-'use client'
+"use client"
 import type React from "react"
 import { useState, useEffect, useMemo } from "react"
 import axios from "axios"
 import { useRouter } from "next/navigation"
-import { format, parseISO } from "date-fns"
-import { Loader, ArrowUpDown, CalendarIcon } from "lucide-react"
+import { format } from "date-fns"
+import { Loader, ArrowUpDown, CalendarIcon, Bell } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Input } from "@/components/ui/input"
@@ -15,74 +15,24 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils"
 import { apiURL } from "@/utils/constants/constants"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 
-// Type definitions (unchanged)
-interface User {
-  id: number
-  firstName: string
-  lastName: string
-  email: string
-  phone: string
-  userName: string
-  role: string
-  isActive: boolean
-  createdAt: string
-  updatedAt: string
-}
-
-interface Report {
-  id: number
-  name: string
-  description: string
-  reportedBy: string
-  reportedByHiwasId: number | null
-  reportedByMDId: number | null
-  reportedByWeredaId: number | null
-  scheduleId: number
-  reportVideo: string
-  audio: string
-  createdAt: string
-  updatedAt: string
-}
-
-interface Schedule {
-  id: number
-  title: string
-  description: string
-  startTime: string
-  endTime: string
-  status: string
-  createdByRole: string
-  createdById: number
-  createdByHiwasId: number | null
-  createdByMDId: number | null
-  createdByWeredaId: number | null
-  createdByWanaId: number | null
-  createdAt: string
-  updatedAt: string
-}
-
+// Type definitions
 interface WanaNotificationProps {
   id: number
   message: string
-  recipientId: number | null
-  recipientType: string
-  scheduleId: number | null
-  reportId: number | null
-  isRead: boolean
   createdAt: string
-  updatedAt: string
-  hiwasId: number | null
-  meseretawiDirijetId: number | null
-  weredaId: number | null
-  hiwas: User | null
-  wereda: User | null
-  meseretawiDirijet: User | null
-  report: Report[] | null
-  schedule: Schedule | null
+  isRead: boolean
+  schedule?: {
+    status: string
+  }
+  recipientType?: string
+  year?: number
+  month?: number
+  name?: string
+  status?: string
 }
 
-// NotificationTables component
 interface NotificationTablesProps {
   notifications: WanaNotificationProps[]
 }
@@ -97,139 +47,65 @@ const Notifications: React.FC<NotificationTablesProps> = ({ notifications }) => 
   const [selectedRecipientType, setSelectedRecipientType] = useState<string>("all")
   const [selectedStatus, setSelectedStatus] = useState<string>("all")
 
-  const filteredAndSortedNotifications = useMemo(() => {
-    return notifications
-      .filter((notification) => {
-        const searchLower = searchTerm.toLowerCase()
-        const matchesSearch =
-          notification.message.toLowerCase().includes(searchLower) ||
-          (notification.report && notification.report[0]?.name?.toLowerCase().includes(searchLower)) ||
-          (notification.report && notification.report[0]?.description?.toLowerCase().includes(searchLower)) ||
-          (notification.schedule?.title?.toLowerCase().includes(searchLower) ?? false) ||
-          (notification.schedule?.description?.toLowerCase().includes(searchLower) ?? false)
+  const filteredNotifications = useMemo(() => {
+    return notifications.filter((notification) => {
+      const messageMatch = notification.message.toLowerCase().includes(searchTerm.toLowerCase())
+      const dateMatch =
+        (!startDate || new Date(notification.createdAt) >= startDate) &&
+        (!endDate || new Date(notification.createdAt) <= endDate)
+      const recipientTypeMatch = selectedRecipientType === "all" || notification.recipientType === selectedRecipientType
+      const statusMatch = selectedStatus === "all" || notification.status === selectedStatus
 
-        const notificationDate = new Date(notification.createdAt)
-        const matchesDateRange =
-          (!startDate || notificationDate >= startDate) && (!endDate || notificationDate <= endDate)
+      return messageMatch && dateMatch && recipientTypeMatch && statusMatch
+    })
+  }, [notifications, searchTerm, startDate, endDate, selectedRecipientType, selectedStatus])
 
-        const matchesRecipientType =
-          selectedRecipientType === "all" || notification.recipientType === selectedRecipientType
+  const sortedNotifications = useMemo(() => {
+    return [...filteredNotifications].sort((a, b) => {
+      const valueA = a[sortBy as keyof WanaNotificationProps] as string | number | undefined
+      const valueB = b[sortBy as keyof WanaNotificationProps] as string | number | undefined
 
-        const matchesStatus = selectedStatus === "all" || notification.schedule?.status === selectedStatus
-
-        return matchesSearch && matchesDateRange && matchesRecipientType && matchesStatus
-      })
-      .sort((a, b) => {
-        let aValue, bValue
-        switch (sortBy) {
-          case "year":
-            aValue = new Date(a.createdAt).getFullYear()
-            bValue = new Date(b.createdAt).getFullYear()
-            break
-          case "month":
-            aValue = new Date(a.createdAt).getMonth()
-            bValue = new Date(b.createdAt).getMonth()
-            break
-          case "name":
-            aValue = a.report?.[0]?.name ?? a.schedule?.title ?? ""
-            bValue = b.report?.[0]?.name ?? b.schedule?.title ?? ""
-            break
-          case "recipientType":
-            aValue = a.recipientType
-            bValue = b.recipientType
-            break
-          case "status":
-            aValue = a.schedule?.status ?? "N/A"
-            bValue = b.schedule?.status ?? "N/A"
-            break
-          default:
-            aValue = a.createdAt
-            bValue = b.createdAt
-        }
-        return sortOrder === "asc" ? (aValue > bValue ? 1 : -1) : aValue < bValue ? 1 : -1
-      })
-  }, [notifications, searchTerm, sortBy, sortOrder, startDate, endDate, selectedRecipientType, selectedStatus])
+      if (valueA !== undefined && valueB !== undefined && valueA < valueB) {
+        return sortOrder === "asc" ? -1 : 1
+      }
+      if (valueA !== undefined && valueB !== undefined && valueA > valueB) {
+        return sortOrder === "asc" ? 1 : -1
+      }
+      return 0
+    })
+  }, [filteredNotifications, sortBy, sortOrder])
 
   const groupedNotifications = useMemo(() => {
-    if (sortBy === "month") {
-      const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ]
-      return filteredAndSortedNotifications.reduce(
-        (acc, notification) => {
-          const month = months[new Date(notification.createdAt).getMonth()]
-          if (!acc[month]) {
-            acc[month] = []
-          }
-          acc[month].push(notification)
-          return acc
-        },
-        {} as Record<string, WanaNotificationProps[]>,
-      )
-    } else {
-      return filteredAndSortedNotifications.reduce(
-        (acc, notification) => {
-          const type = notification.recipientType.includes("Hiwas")
-            ? "Hiwas"
-            : notification.recipientType === "MeseretawiDirijet"
-              ? "MeseretawiDirijet"
-              : notification.recipientType === "Wereda"
-                ? "Wereda"
-                : "Other"
-
-          if (!acc[type]) {
-            acc[type] = []
-          }
-          acc[type].push(notification)
-          return acc
-        },
-        {} as Record<string, WanaNotificationProps[]>,
-      )
-    }
-  }, [filteredAndSortedNotifications, sortBy])
+    return sortedNotifications.reduce(
+      (acc, notification) => {
+        const type =
+          sortBy === "month"
+            ? new Date(notification.createdAt).toLocaleString("default", { month: "long" })
+            : notification.recipientType || "ሌላ"
+        acc[type] = acc[type] || []
+        acc[type].push(notification)
+        return acc
+      },
+      {} as { [key: string]: WanaNotificationProps[] },
+    )
+  }, [sortedNotifications, sortBy])
 
   const handleRowClick = (notification: WanaNotificationProps) => {
-    if (notification.recipientType.includes("Hiwas")) {
-      if (notification.report === null) {
-        navigate.push(`/dashboard/task-detail/${notification.id}`)
-      } else {
-        navigate.push(`/dashboard/report-detail/${notification.schedule ? notification.schedule.id : 0}`)
-      }
-    } else if (notification.recipientType === "MeseretawiDirijet") {
-      if (notification.report === null) {
-        navigate.push(`/dashboard/meseretawi-task-detail/${notification.id}`)
-      } else {
-        navigate.push(`/dashboard/report-detail/${notification.schedule ? notification.schedule.id : 0}`)
-      }
-    } else if (notification.recipientType === "Wereda") {
-      if (notification.report?.length === 0) {
-        navigate.push(`/dashboard/wereda-task-detail/${notification.id}`)
-      } else {
-        navigate.push(`/dashboard/wereda-report-detail/${notification.schedule ? notification.schedule.id : 0}`)
-      }
-    }
+    // Implement your row click logic here
+    console.log("Notification clicked:", notification)
+    // Example: navigate to a detail page
+    // navigate(`/notifications/${notification.id}`)
   }
 
   const renderTable = (notifications: WanaNotificationProps[]) => (
     <Table>
-      <TableHeader>
+      <TableHeader className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
         <TableRow>
-          <TableHead>ID</TableHead>
-          <TableHead>Message</TableHead>
-          <TableHead>Created At</TableHead>
-          <TableHead>Is Read</TableHead>
-          <TableHead>Status</TableHead>
+          <TableHead className="text-white">መለያ ቁጥር</TableHead>
+          <TableHead className="text-white">መልዕክት</TableHead>
+          <TableHead className="text-white">የተፈጠረበት ጊዜ</TableHead>
+          <TableHead className="text-white">ተነቧል?</TableHead>
+          <TableHead className="text-white">ሁኔታ</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -237,19 +113,19 @@ const Notifications: React.FC<NotificationTablesProps> = ({ notifications }) => 
           <TableRow
             key={notification.id}
             onClick={() => handleRowClick(notification)}
-            className="cursor-pointer hover:bg-gray-100"
+            className="cursor-pointer hover:bg-purple-50 transition-colors duration-200"
           >
             <TableCell>{notification.id}</TableCell>
             <TableCell>{notification.message}</TableCell>
             <TableCell>{new Date(notification.createdAt).toLocaleString()}</TableCell>
-            <TableCell>{notification.isRead ? "Yes" : "No"}</TableCell>
+            <TableCell>{notification.isRead ? "አዎ" : "አይ"}</TableCell>
             <TableCell>
               {notification.schedule ? (
-                <Badge defaultValue={notification.schedule.status === "Completed" ? "success" : "secondary"}>
-                  {notification.schedule.status}
+                <Badge variant={notification.schedule.status === "Completed" ? "default" : "secondary"}>
+                  {notification.schedule.status === "Completed" ? "ተጠናቋል" : "በሂደት ላይ"}
                 </Badge>
               ) : (
-                "N/A"
+                "ተፈጻሚ አይደለም"
               )}
             </TableCell>
           </TableRow>
@@ -259,103 +135,110 @@ const Notifications: React.FC<NotificationTablesProps> = ({ notifications }) => 
   )
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap gap-4 mb-4">
-        <Input
-          type="text"
-          placeholder="Search notifications..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
-        />
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className={cn("w-[240px] justify-start text-left font-normal", !startDate && "text-white")}
-            >
-              <CalendarIcon className="mr-2 h-4 w-4 text-white" />
-              {startDate ? format(startDate, "PPP") : <span>Start date</span>}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar mode="single" selected={startDate} onSelect={setStartDate} initialFocus />
-          </PopoverContent>
-        </Popover>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className={cn("w-[240px] justify-start text-left font-normal", !endDate && "text-white")}
-            >
-              <CalendarIcon className="mr-2 h-4 w-4 text-white" />
-              {endDate ? format(endDate, "PPP") : <span>End date</span>}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar mode="single" selected={endDate} onSelect={setEndDate} initialFocus />
-          </PopoverContent>
-        </Popover>
-        <Select value={selectedRecipientType} onValueChange={setSelectedRecipientType}>
-          <SelectTrigger className="w-[200px]">
-            <SelectValue placeholder="Recipient Type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All</SelectItem>
-            <SelectItem value="Hiwas">Hiwas</SelectItem>
-            <SelectItem value="MeseretawiDirijet">MeseretawiDirijet</SelectItem>
-            <SelectItem value="Wereda">Wereda</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-          <SelectTrigger className="w-[200px]">
-            <SelectValue placeholder="Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All</SelectItem>
-            <SelectItem value="In Progress">In Progress</SelectItem>
-            <SelectItem value="To Do">To Do</SelectItem>
-            <SelectItem value="Under Meseretawi Review">Under Meseretawi Review</SelectItem>
-            <SelectItem value="Completed">Completed</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={sortBy} onValueChange={setSortBy}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Sort by" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="createdAt">Date</SelectItem>
-            <SelectItem value="year">Year</SelectItem>
-            <SelectItem value="month">Month</SelectItem>
-            <SelectItem value="name">Name</SelectItem>
-            <SelectItem value="recipientType">Recipient Type</SelectItem>
-            <SelectItem value="status">Status</SelectItem>
-          </SelectContent>
-        </Select>
-        <Button
-          onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
-          className="p-2 bg-blue-500 hover:bg-blue-600 text-white"
-          aria-label={`Sort ${sortOrder === "asc" ? "descending" : "ascending"}`}
-        >
-          <ArrowUpDown className="h-4 w-4" />
-          <span className="sr-only">{sortOrder === "asc" ? "Sort descending" : "Sort ascending"}</span>
-        </Button>
-      </div>
-      <Accordion type="single" collapsible className="w-full">
-        {Object.entries(groupedNotifications).map(([type, notifications]) => (
-          <AccordionItem key={type} value={type}>
-            <AccordionTrigger>
-              {type} {sortBy === "month" ? "" : "Notifications"} ({notifications.length})
-            </AccordionTrigger>
-            <AccordionContent>{renderTable(notifications)}</AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </div>
+    <Card className="bg-white shadow-lg">
+      <CardHeader className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
+        <CardTitle className="text-2xl font-bold flex items-center">
+          <Bell className="mr-2" />
+          የዋና ማሳወቂያዎች
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4 p-6">
+        <div className="flex flex-wrap gap-4 mb-4">
+          <Input
+            type="text"
+            placeholder="ማሳወቂያዎችን ይፈልጉ..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="max-w-sm"
+          />
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn("w-[240px] justify-start text-left font-normal", !startDate && "text-gray-500")}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {startDate ? format(startDate, "PPP") : <span>የመጀመሪያ ቀን</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar mode="single" selected={startDate} onSelect={setStartDate} initialFocus />
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn("w-[240px] justify-start text-left font-normal", !endDate && "text-gray-500")}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {endDate ? format(endDate, "PPP") : <span>የመጨረሻ ቀን</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar mode="single" selected={endDate} onSelect={setEndDate} initialFocus />
+            </PopoverContent>
+          </Popover>
+          <Select value={selectedRecipientType} onValueChange={setSelectedRecipientType}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="የተቀባይ ዓይነት" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">ሁሉም</SelectItem>
+              <SelectItem value="Hiwas">ህዋስ</SelectItem>
+              <SelectItem value="MeseretawiDirijet">መሠረታዊ ድርጅት</SelectItem>
+              <SelectItem value="Wereda">ወረዳ</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="ሁኔታ" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">ሁሉም</SelectItem>
+              <SelectItem value="In Progress">በሂደት ላይ</SelectItem>
+              <SelectItem value="To Do">ለመስራት</SelectItem>
+              <SelectItem value="Under Meseretawi Review">በመሠረታዊ ግምገማ ላይ</SelectItem>
+              <SelectItem value="Completed">ተጠናቋል</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="ደርድር በ" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="createdAt">ቀን</SelectItem>
+              <SelectItem value="year">ዓመት</SelectItem>
+              <SelectItem value="month">ወር</SelectItem>
+              <SelectItem value="name">ስም</SelectItem>
+              <SelectItem value="recipientType">የተቀባይ ዓይነት</SelectItem>
+              <SelectItem value="status">ሁኔታ</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button
+            onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+            className="p-2 bg-purple-500 hover:bg-purple-600 text-white"
+            aria-label={`ደርድር ${sortOrder === "asc" ? "ወደታች" : "ወደላይ"}`}
+          >
+            <ArrowUpDown className="h-4 w-4" />
+            <span className="sr-only">{sortOrder === "asc" ? "ወደታች ደርድር" : "ወደላይ ደርድር"}</span>
+          </Button>
+        </div>
+        <Accordion type="single" collapsible className="w-full">
+          {Object.entries(groupedNotifications).map(([type, notifications]) => (
+            <AccordionItem key={type} value={type}>
+              <AccordionTrigger className="text-lg font-semibold">
+                {type} {sortBy === "month" ? "" : "ማሳወቂያዎች"} ({notifications.length})
+              </AccordionTrigger>
+              <AccordionContent>{renderTable(notifications)}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </CardContent>
+    </Card>
   )
 }
 
-// WanaNotification component
 const WanaNotification: React.FC = () => {
   const [notifications, setNotifications] = useState<WanaNotificationProps[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -367,7 +250,7 @@ const WanaNotification: React.FC = () => {
         const response = await axios.get<WanaNotificationProps[]>(`${apiURL}api/wana/notification`)
         setNotifications(response.data)
       } catch (err) {
-        console.error("Error fetching notifications:", err)
+        console.error("ማሳወቂያዎችን በማምጣት ላይ ስህተት ተከስቷል:", err)
       } finally {
         setIsLoading(false)
       }
@@ -379,14 +262,14 @@ const WanaNotification: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <Loader className="w-8 h-8 animate-spin" />
+        <Loader className="w-8 h-8 animate-spin text-purple-600" />
       </div>
     )
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Notifications</h1>
+    <div className="container mx-auto p-4 bg-gradient-to-br from-purple-50 to-indigo-50 min-h-screen">
+      <h1 className="text-3xl font-bold mb-6 text-center text-purple-800">የዋና ማሳወቂያ ሰሌዳ</h1>
       <Notifications notifications={notifications} />
     </div>
   )

@@ -91,7 +91,15 @@ const MyHiwasSchedule = () => {
       <Button className="mt-3 px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600">
       {task.createdByHiwas?.firstName}View Report Details
       </Button>
-    </Link>:
+    </Link> : task.status == "Under Meseretawi Review" ? 
+      <Link
+      href={`/dashboard/report-detail/${task.id}`}
+    >
+      <Button className="mt-3 px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600">
+      {task.createdByHiwas?.firstName}View Report Details
+      </Button>
+    </Link>
+    :
     <Link
     href={`/dashboard/task-detail/${task.createdByHiwasId}`}
         >

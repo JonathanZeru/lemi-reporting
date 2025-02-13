@@ -1,42 +1,39 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
-import { apiURL } from '../../../utils/constants/constants';
-
-const prisma = new PrismaClient();
+import { applyCors } from '../cors';
+import { prisma } from '../prisma';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    applyCors(res); // Apply CORS headers
 
-  // CORS Headers
-  res.setHeader('Access-Control-Allow-Origin', apiURL);
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
-  res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+    if (req.method === 'OPTIONS') {
+        return res.status(204).end(); // Handle preflight request
+    }
 
-  // Handle preflight OPTIONS request
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Max-Age', '86400'); // Cache preflight request
-    return res.status(204).end();
-  } 
-  if (req.method === 'GET') {
-    const { meseretawiDirijetId } = req.query;
+    if (req.method === 'GET') {
+        const { meseretawiDirijetId } = req.query;
 
-    if (meseretawiDirijetId) {
-      try {
-        const job = await prisma.hiwas.findMany({
-          where: { mdId: Number(meseretawiDirijetId) }
-        });
-
-        if (!job) {
-          return res.status(404).json({ error: 'hiwas not found' });
+        if (!meseretawiDirijetId) {
+            return res.status(400).json({ error: 'meseretawiDirijetId is required' });
         }
 
-        return res.status(200).json(job);
-      } catch (error) {
-        console.error('Error retrieving hiwas:', error);
-        return res.status(500).json({ error: 'Internal Server Error' });
-      }
+        try {
+            const job = await prisma.hiwas.findMany({
+                where: { mdId: Number(meseretawiDirijetId) }
+            });
+
+            if (!job.length) {
+                return res.status(404).json({ error: 'Hiwas not found' });
+            }
+
+            return res.status(200).json(job);
+        } catch (error) {
+            console.error('Error retrieving hiwas:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        } finally {
+          await prisma.$disconnect(); // Ensure the connection closes after execution
+        }
     }
-  } else {
+
     res.setHeader('Allow', ['GET']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
 }

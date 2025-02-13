@@ -1,22 +1,12 @@
 "use client"
 
+import type React from "react"
+import { useState, useEffect, Suspense } from "react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Logo from "@/assets/pp.svg"
-import {
-  Book,
-  Camera,
-  Home,
-  LogOutIcon,
-  NewspaperIcon,
-  PanelTopInactive,
-  Settings,
-  SwitchCameraIcon,
-  Users,
-  Workflow,
-} from "lucide-react"
+import { Camera, Home, LogOutIcon, Settings, Workflow, Menu, User } from "lucide-react"
 import TopNavBar from "@/layouts/TopNavBar"
 import Link from "next/link"
-import { useState } from "react"
 import { Separator } from "@/components/ui/separator"
 import {
   AlertDialog,
@@ -63,54 +53,89 @@ const navigationLists: Record<string, NavItem[]> = {
     { title: "እቅድ", icon: <Workflow className="w-4 h-4" />, link: "wereda-schedule" },
     { title: "የመገለጫ ቅንብሮች", icon: <Settings className="w-4 h-4" />, link: "settings" },
   ],
+  Admin: [
+    { title: "ማስታወቂያ", icon: <Home className="w-4 h-4" />, link: "" },
+    { title: "እቅድ", icon: <Workflow className="w-4 h-4" />, link: "wana" },
+    { title: "ይመዝገቡ", icon: <User className="w-4 h-4" />, link: "choose" },
+    { title: "ህዋሶች", icon: <Workflow className="w-4 h-4" />, link: "user/1" },
+    { title: "መሠረታዊ", icon: <Workflow className="w-4 h-4" />, link: "user/2" },
+    { title: "ዋና", icon: <Workflow className="w-4 h-4" />, link: "user/3" },
+    { title: "ወረዳ", icon: <Workflow className="w-4 h-4" />, link: "user/4" },
+    { title: "የመገለጫ ቅንብሮች", icon: <Settings className="w-4 h-4" />, link: "settings" },
+  ],
+}
+
+function LoadingSpinner() {
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
+    </div>
+  )
 }
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { user } = useAuthStore()
+  const { user, isLoading, checkAuth } = useAuthStore()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
+  const [loadingPage, setLoadingPage] = useState(true)
+
+  useEffect(() => {
+    checkAuth()
+    setLoadingPage(false)
+  }, [checkAuth])
 
   const logout = () => {
+    setLoadingPage(true)
     localStorage.removeItem("user")
     localStorage.removeItem("accessToken")
     router.push("/")
   }
 
-  if (!user) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen">
-        <h1 className="text-2xl font-bold">Unauthorized Access</h1>
-        <p className="text-lg">You need to log in to access this page.</p>
-        <Button onClick={() => router.push("/")} className="mt-4">
-          Login
-        </Button>
-      </div>
-    )
+  if (loadingPage) {
+    return <LoadingSpinner />
+  } else {
+    if (!user) {
+      return (
+        <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-500 to-purple-600">
+          <h1 className="text-3xl font-bold text-white mb-4">Unauthorized Access</h1>
+          <p className="text-xl text-white mb-6">You need to log in to access this page.</p>
+          <Button onClick={() => router.push("/")} className="bg-white text-blue-500 hover:bg-blue-100">
+            Login
+          </Button>
+        </div>
+      )
+    }
   }
 
   const navigationList = navigationLists[user.role] || []
 
   const NavContent = () => (
-    <ScrollArea className="flex flex-col h-full justify-center items-center ">
-      <div className="flex flex-col items-center py-4">
-        <Image src={Logo || "/placeholder.svg"} alt="Logo" width={128} height={128} />
-        <Separator className="my-4" />
-        <div className="text-center">
-          <h3 className="text-lg font-semibold">{`${user.firstName} ${user.lastName}`}</h3>
-          <p className="text-sm text-muted-foreground">{user.email}</p>
-          <Badge>{user.role}</Badge>
+    <ScrollArea className="flex flex-col h-full py-6 bg-gradient-to-b from-blue-500 to-purple-600">
+      <div className="flex flex-col items-center py-6">
+        <Image
+          src={Logo || "/placeholder.svg"}
+          alt="Logo"
+          width={100}
+          height={100}
+          className=""
+        />
+        <div className="text-center mt-4">
+          <h3 className="text-xl font-semibold text-white">{`${user.firstName} ${user.lastName}`}</h3>
+          <p className="text-sm text-blue-100">{user.email}</p>
+          <Badge className="mt-2 bg-white text-blue-500">{user.role}</Badge>
         </div>
       </div>
-      <nav className="flex-1 mt-4 justify-center items-center">
+      <Separator className="my-4" />
+      <nav className="flex-1 px-4">
         {navigationList.map((item, index) => (
           <Link
             key={index}
             href={`/dashboard/${item.link}`}
-            className={`flex items-center gap-2 px-4 py-2 transition-colors ${
+            className={`flex items-center gap-3 px-4 py-3 my-1 rounded-lg transition-colors ${
               pathname === `/dashboard/${item.link}`
-                ? "bg-primary text-white"
-                : "text-muted-foreground hover:bg-muted hover:text-gray-300"
+                ? "bg-white text-primary"
+                : "text-white hover:bg-blue-100 hover:text-blue-500"
             }`}
             onClick={() => setIsOpen(false)}
           >
@@ -118,11 +143,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {item.title}
           </Link>
         ))}
-        <Separator className="my-4" />
+      </nav>
+      <Separator className="my-4" />
+      <div className="px-4 pb-6">
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="destructive" className="text-red-500 px-4 py-2 w-full border-0" size="sm">
-              <LogOutIcon className="w-4 h-4" />
+            <Button variant="outline" className="w-full text-red-500 hover:bg-red-50 hover:text-red-600">
+              <LogOutIcon className="w-4 h-4 mr-2" />
               Logout
             </Button>
           </AlertDialogTrigger>
@@ -135,37 +162,42 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={logout}>Logout</AlertDialogAction>
+              <AlertDialogAction onClick={logout} className="bg-red-500 text-white hover:bg-red-600">
+                Logout
+              </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-      </nav>
+      </div>
     </ScrollArea>
   )
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <aside className="hidden w-64 border-r bg-background lg:block">
+    <div className="flex h-screen overflow-hidden bg-gray-50">
+      <aside className="hidden w-64 border-r bg-white shadow-lg lg:block">
         <NavContent />
       </aside>
       <div className="flex flex-col flex-1 overflow-hidden">
-        <header className="flex items-center justify-between px-4 py-2 border-b lg:justify-end">
+        <header className="flex items-center justify-between px-6 py-4 bg-gradient-to-b from-blue-500 to-purple-600 border-b shadow-sm lg:justify-end">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden">
+              <Button variant="outline" size="icon" className="lg:hidden">
+                <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-64 p-0">
-              <SheetHeader className="text-left">
-                <SheetTitle className="px-4 py-2 text-lg font-semibold">Menu</SheetTitle>
+              <SheetHeader className="text-left px-4 py-6 bg-gradient-to-r from-blue-500 to-purple-600">
+                <SheetTitle className="text-2xl font-bold text-white">Dashboard Menu</SheetTitle>
               </SheetHeader>
               <NavContent />
             </SheetContent>
           </Sheet>
           <TopNavBar />
         </header>
-        <main className="flex-1 overflow-auto">{children}</main>
+        <main className="flex-1 overflow-auto bg-gray-50 p-6">
+          <Suspense fallback={<LoadingSpinner />}>{children}</Suspense>
+        </main>
       </div>
     </div>
   )

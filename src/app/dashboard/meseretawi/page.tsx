@@ -35,6 +35,7 @@ const MeseretawiRegistration = () => {
       phone: "",
       userName: "",
       password: "",
+      role: "Admin"
     },
   })
 
@@ -54,13 +55,15 @@ const MeseretawiRegistration = () => {
 
   const onSubmit = async (data: MeseretawiRegistrationFormData) => {
     setLoading(true)
+    console.log("data", data)
 
     try {
       const response = await axios.post(`${apiURL}api/meseretawi/register`, data)
+      console.log(response.data)
       if (response.status === 201) {
         toast({
           title: "እንኳን ደህና መጡ",
-          description: "ምዝገባው በተሳካ ሁኔታ ተጠናቅቋል",
+          description: "ምዝገባው በተሳካ ሁኔታ ተጠናቅቋል"
         })
         navigate.push("/")
       } else {

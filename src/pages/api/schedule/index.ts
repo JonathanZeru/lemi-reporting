@@ -1,13 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 import { apiURL } from '../../../utils/constants/constants';
+import { applyCors } from '../cors';
+import { prisma } from '../prisma';
 
-const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  res.setHeader('Access-Control-Allow-Origin', apiURL);
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  applyCors(res); // Apply CORS headers
 
   // Handle preflight OPTIONS request
   if (req.method === 'OPTIONS') {
@@ -82,6 +81,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       } catch (error) {
         console.error('hiwas retrieving jobs:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
+      }finally {
+        console.log('Disconnecting Prisma...');
+        await prisma.$disconnect(); // Just disconnect, don't make more queries after this
       }
     }
   } else {

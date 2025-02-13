@@ -25,6 +25,7 @@ interface AuthStore {
   error: string | null
   login: (email: string, password: string) => Promise<boolean>
   logout: () => Promise<void>
+  checkAuth: () => Promise<void>
 }
 
 const getInitialState = () => {
@@ -74,6 +75,20 @@ export const useAuthStore = create<AuthStore>((set) => ({
     localStorage.removeItem("accessToken")
     localStorage.removeItem("user")
     set({ user: null, accessToken: null })
+  },
+  checkAuth: async () => {
+    set({ isLoading: true })
+    try {
+      const storedUser = localStorage.getItem("user")
+      const accessToken = localStorage.getItem("accessToken")
+      if (storedUser && accessToken) {
+        set({ user: JSON.parse(storedUser), isLoading: false })
+      } else {
+        set({ user: null, isLoading: false })
+      }
+    } catch (error) {
+      set({ error: "Authentication check failed", isLoading: false, user: null })
+    }
   },
 }))
 

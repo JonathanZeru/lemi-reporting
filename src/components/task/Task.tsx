@@ -1,3 +1,4 @@
+"use client"
 
 import type React from "react"
 import { useEffect, useState } from "react"
@@ -6,24 +7,25 @@ import { apiURL } from "../../utils/constants/constants"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { Textarea } from "../ui/textarea"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 import { Badge } from "../ui/badge"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
 import type { Schedule } from "@/types/types"
 import { toast } from "@/components/ui/use-toast"
-import { format, differenceInMinutes, isPast, parse } from "date-fns"
+import { format, differenceInMinutes, isPast } from "date-fns"
 import { useAuthStore } from "@/stores/authStore"
 import { z } from "zod"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
-import { Calendar } from "../ui/calendar"
 import { cn } from "@/lib/utils"
-import { CalendarIcon } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog"
+import { ScrollArea } from "../ui/scroll-area"
+import { motion } from "framer-motion"
+import { Loader2 } from "lucide-react"
+import { getContrastingTextColor } from "@/lib/utils"
 
-// Zod schema for task validation
+// Zod schema for task validation (unchanged)
 const taskSchema = z.object({
   title: z.string().min(1, "Title is required").max(100, "Title must be 100 characters or less"),
   description: z.string().min(1, "Description is required").max(500, "Description must be 500 characters or less"),
@@ -37,16 +39,25 @@ const taskSchema = z.object({
 
 type TaskFormData = z.infer<typeof taskSchema>
 
+const categoryColors = {
+  "To Do": "#FF9999",
+  "In Progress": "#99CCFF",
+  "Under Meseretawi Review": "#FFCC99",
+  Completed: "#99FF99",
+}
+
 const Task: React.FC = () => {
   const { user, accessToken } = useAuthStore()
-    const router = useRouter()
+  const router = useRouter()
   const [loadingInProgress, setLoadingInProgress] = useState(false)
   const [tasks, setTasks] = useState<Schedule[]>([])
   const [filteredTasks, setFilteredTasks] = useState<Schedule[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [searchAttribute, setSearchAttribute] = useState<"all" | "title" | "description" | "status">("all")
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined)
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined)
+  const [startDateTime, setStartDateTime] = useState<Date | undefined>(undefined)
+  const [endDateTime, setEndDateTime] = useState<Date | undefined>(undefined)
+  const [isAddTaskDialogOpen, setIsAddTaskDialogOpen] = useState(false)
+  const [selectedTask, setSelectedTask] = useState<Schedule | null>(null)
 
   const {
     register,
@@ -102,6 +113,7 @@ const Task: React.FC = () => {
         })
         fetchTasks(user.id)
         reset()
+        setIsAddTaskDialogOpen(false)
       }
     } catch (error) {
       toast({
@@ -140,7 +152,6 @@ const Task: React.FC = () => {
     form.append("lastName", user?.lastName || "")
     form.append("hiwasId", user?.id?.toString() || "")
     form.append("meseretawiDirijetId", user?.mdId?.toString() || "")
-
     try {
       const response = await axios.post(`${apiURL}api/schedule/in-progress`, form, {
         headers: {
@@ -184,7 +195,8 @@ const Task: React.FC = () => {
       const taskStartDate = new Date(task.startTime)
       const taskEndDate = new Date(task.endTime)
 
-      const matchesDateRange = (!startDate || taskStartDate >= startDate) && (!endDate || taskEndDate <= endDate)
+      const matchesDateRange =
+        (!startDateTime || taskStartDate >= startDateTime) && (!endDateTime || taskEndDate <= endDateTime)
 
       return matchesSearchTerm && matchesDateRange
     })
@@ -194,7 +206,7 @@ const Task: React.FC = () => {
 
   useEffect(() => {
     handleSearch()
-  }, [searchTerm, searchAttribute, startDate, endDate, tasks])
+  }, [searchTerm, searchAttribute, startDateTime, endDateTime, tasks])
 
   const categorizeTasks = (status: string) => filteredTasks.filter((task) => task.status === status)
 
@@ -204,112 +216,120 @@ const Task: React.FC = () => {
     const now = new Date()
     const timeDifferenceInMinutes = differenceInMinutes(taskStartTime, now)
 
-    const taskStatus =
-      timeDifferenceInMinutes > 0
-        ? `Meeting starts in ${Math.floor(timeDifferenceInMinutes / 60)}h ${timeDifferenceInMinutes % 60}m`
-        : isPast(taskEndTime)
-          ? "Meeting has ended"
-          : "Meeting is in progress"
+    const getTaskStatus = () => {
+      if (timeDifferenceInMinutes > 0) {
+        const hours = Math.floor(timeDifferenceInMinutes / 60)
+        const minutes = timeDifferenceInMinutes % 60
+        return `Meeting starts in ${hours}h ${minutes}m`
+      } else if (isPast(taskEndTime)) {
+        return "Meeting has ended"
+      } else {
+        return "Meeting is in progress"
+      }
+    }
 
-    const buttonText =
-      task.status === "Completed" || task.status === "Under Meseretawi Review" ? "View Report" : "Add Report"
-
-    const buttonUrl =
-      task.status === "Completed" || task.status === "Under Meseretawi Review"
-        ? `/dashboard/report-detail/${task.id}`
-        : `/dashboard/report/${task.createdByRole}/${
-            task.createdByRole === "Hiwas"
-              ? task.createdByHiwasId
-              : task.createdByRole === "MD"
-                ? task.createdByMDId
-                : task.createdByRole === "Wereda"
-                  ? task.createdByWeredaId
-                  : task.createdByRole === "Wana"
-                    ? task.createdByWanaId
-                    : ""
-          }/${task.id}`
+    const taskStatus = getTaskStatus()
+    const isNearMeeting = timeDifferenceInMinutes > 0 && timeDifferenceInMinutes <= 12 * 60
+    const isMeetingPassed = isPast(taskEndTime)
 
     return (
-      <Card key={task.id} className="mb-4">
-        <CardHeader>
-          <CardTitle>{task.title}</CardTitle>
-          <Badge variant={task.status === "Completed" ? "secondary" : "default"}>{task.status}</Badge>
-        </CardHeader>
-        <CardContent>
-          <p>{task.description}</p>
-          <p className="text-sm text-muted-foreground mt-2">
-            Start: {format(taskStartTime, "pp PP")} <br />
-            End: {format(taskEndTime, "pp PP")}
-          </p>
-          <p className="text-sm font-medium mt-2" aria-live="polite">
-            {taskStatus}
-          </p>
-        </CardContent>
-        <CardFooter className="flex justify-between">
-          <Link href={buttonUrl}>
-            <Button variant="outline">{buttonText}</Button>
-          </Link>
-          {task.status === "To Do" && timeDifferenceInMinutes <= 0 && (
-            <Button
-              disabled={loadingInProgress}
-              variant={"default"}
-              className="bg-primary text-white"
-              onClick={() => handleTaskInProgress(task)}
-            >
-              Go To Meeting
-            </Button>
+      <motion.div key={task.id} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+        <Card
+          className={cn(
+            "mb-4 cursor-pointer overflow-hidden",
+            isNearMeeting && "animate-pulse",
+            isMeetingPassed && "opacity-60",
           )}
-          <Button variant="destructive" className="text-red-600" onClick={() => handleDeleteTask(task.id)}>
-            Delete Task
-          </Button>
-        </CardFooter>
-      </Card>
+          style={{ backgroundColor: categoryColors[task.status as keyof typeof categoryColors] }}
+          onClick={() => setSelectedTask(task)}
+        >
+          <CardHeader className="pb-2">
+            <CardTitle
+              className="text-lg"
+              style={{ color: getContrastingTextColor(categoryColors[task.status as keyof typeof categoryColors]) }}
+            >
+              {task.title}
+            </CardTitle>
+            <Badge
+              variant="outline"
+              style={{
+                backgroundColor: getContrastingTextColor(
+                  categoryColors[task.status as keyof typeof categoryColors],
+                  0.2,
+                ),
+                color: getContrastingTextColor(categoryColors[task.status as keyof typeof categoryColors]),
+              }}
+            >
+              {task.status}
+            </Badge>
+          </CardHeader>
+          <CardContent>
+            <p
+              className="line-clamp-2 text-sm"
+              style={{ color: getContrastingTextColor(categoryColors[task.status as keyof typeof categoryColors]) }}
+            >
+              {task.description}
+            </p>
+            <p
+              className="text-xs mt-2"
+              style={{
+                color: getContrastingTextColor(categoryColors[task.status as keyof typeof categoryColors], 0.7),
+              }}
+            >
+              Start: {format(taskStartTime, "pp PP")}
+            </p>
+            <p
+              className={cn(
+                "text-xs font-medium mt-1",
+                isNearMeeting && "font-bold",
+                isMeetingPassed && "line-through",
+              )}
+              style={{ color: getContrastingTextColor(categoryColors[task.status as keyof typeof categoryColors]) }}
+              aria-live="polite"
+            >
+              {task.status === "Under Meseretawi Review" ? "Under Review" : taskStatus}
+            </p>
+          </CardContent>
+        </Card>
+      </motion.div>
     )
   }
 
+  const getReportButtonText = (task: Schedule) => {
+    return task.status === "Completed" || task.status === "Under Meseretawi Review" ? "View Report" : "Add Report"
+  }
+
+  const getReportButtonUrl = (task: Schedule) => {
+    return task.status === "Completed" || task.status === "Under Meseretawi Review"
+      ? `/dashboard/report-detail/${task.id}`
+      : `/dashboard/report/${task.createdByRole}/${
+          task.createdByRole === "Hiwas"
+            ? task.createdByHiwasId
+            : task.createdByRole === "MD"
+              ? task.createdByMDId
+              : task.createdByRole === "Wereda"
+                ? task.createdByWeredaId
+                : task.createdByRole === "Wana"
+                  ? task.createdByWanaId
+                  : ""
+        }/${task.id}`
+  }
+
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-8">Task Management</h1>
+    <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
+      <h1 className="text-4xl font-bold mb-8 text-center text-primary">Task Management</h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="mb-8 space-y-4">
-        <h2 className="text-2xl font-bold mb-4">Create a New Task</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Input {...register("title")} placeholder="Task Title" aria-label="Task Title" />
-            {errors.title && <p className="text-red-500">{errors.title.message}</p>}
-          </div>
-          <div>
-            <Textarea {...register("description")} placeholder="Task Description" aria-label="Task Description" />
-            {errors.description && <p className="text-red-500">{errors.description.message}</p>}
-          </div>
-          <div>
-            <Controller
-              name="startTime"
-              control={control}
-              render={({ field }) => <Input type="datetime-local" {...field} aria-label="Start Time" />}
-            />
-            {errors.startTime && <p className="text-red-500">{errors.startTime.message}</p>}
-          </div>
-          <div>
-            <Controller
-              name="endTime"
-              control={control}
-              render={({ field }) => <Input type="datetime-local" {...field} aria-label="End Time" />}
-            />
-            {errors.endTime && <p className="text-red-500">{errors.endTime.message}</p>}
-          </div>
-        </div>
-        <Button type="submit" className="w-full md:w-auto">
-          Create Task
+      <div className="flex justify-between items-center mb-8">
+        <Button onClick={() => setIsAddTaskDialogOpen(true)} className="bg-primary hover:bg-primary/90">
+          Add Task
         </Button>
-      </form>
-
-      <div className="mb-6 space-y-4">
-        <h2 className="text-2xl font-bold">Search Tasks</h2>
-        <div className="flex flex-wrap gap-4">
-          <Select value={searchAttribute} onValueChange={()=>setSearchAttribute}>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Search attribute" />
+        <div className="flex space-x-2">
+          <Select
+            value={searchAttribute}
+            onValueChange={(value) => setSearchAttribute(value as "all" | "title" | "description" | "status")}
+          >
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Search by" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All</SelectItem>
@@ -320,52 +340,114 @@ const Task: React.FC = () => {
           </Select>
           <Input
             type="text"
-            placeholder="Search term"
+            placeholder="Search tasks..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-grow"
+            className="w-[200px]"
           />
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn("w-[240px] justify-start text-left font-normal", !startDate && "text-white")}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4text-white" />
-                {startDate ? format(startDate, "PPP") : <span>Start date</span>}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar mode="single" selected={startDate} onSelect={setStartDate} initialFocus />
-            </PopoverContent>
-          </Popover>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn("w-[240px] justify-start text-left font-normal", !endDate && "text-white")}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4 text-white" />
-                {endDate ? format(endDate, "PPP") : <span>End date</span>}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar mode="single" selected={endDate} onSelect={setEndDate} initialFocus />
-            </PopoverContent>
-          </Popover>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {["To Do", "In Progress", "Under Meseretawi Review", "Completed"].map((status) => (
           <div key={status} className="space-y-4">
-            <h3 className="text-xl font-bold">
+            <h3
+              className="text-xl font-bold sticky top-0 bg-gray-100 z-10 py-2 px-4 rounded-t-lg"
+              style={{
+                backgroundColor: categoryColors[status as keyof typeof categoryColors],
+                color: getContrastingTextColor(categoryColors[status as keyof typeof categoryColors]),
+              }}
+            >
               {status} ({categorizeTasks(status).length})
             </h3>
-            {categorizeTasks(status).map(renderTaskCard)}
+            <ScrollArea className="h-[calc(100vh-250px)] rounded-b-lg bg-white p-4">
+              {categorizeTasks(status).map(renderTaskCard)}
+            </ScrollArea>
           </div>
         ))}
       </div>
+
+      <Dialog open={isAddTaskDialogOpen} onOpenChange={setIsAddTaskDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create a New Task</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <Input {...register("title")} placeholder="Task Title" aria-label="Task Title" />
+            {errors.title && <p className="text-red-500">{errors.title.message}</p>}
+            <Textarea {...register("description")} placeholder="Task Description" aria-label="Task Description" />
+            {errors.description && <p className="text-red-500">{errors.description.message}</p>}
+            <Controller
+              name="startTime"
+              control={control}
+              render={({ field }) => <Input type="datetime-local" {...field} aria-label="Start Time" />}
+            />
+            {errors.startTime && <p className="text-red-500">{errors.startTime.message}</p>}
+            <Controller
+              name="endTime"
+              control={control}
+              render={({ field }) => <Input type="datetime-local" {...field} aria-label="End Time" />}
+            />
+            {errors.endTime && <p className="text-red-500">{errors.endTime.message}</p>}
+            <Button type="submit">Create Task</Button>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!selectedTask} onOpenChange={() => setSelectedTask(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold">{selectedTask?.title}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-gray-600">{selectedTask?.description}</p>
+            <div className="grid grid-cols-2 gap-2 text-sm">
+              <div>
+                <p className="font-semibold">Start:</p>
+                <p>{selectedTask && format(new Date(selectedTask.startTime), "pp PP")}</p>
+              </div>
+              <div>
+                <p className="font-semibold">End:</p>
+                <p>{selectedTask && format(new Date(selectedTask.endTime), "pp PP")}</p>
+              </div>
+            </div>
+            <Badge className="mt-2" variant={selectedTask?.status === "Completed" ? "secondary" : "default"}>
+              {selectedTask?.status}
+            </Badge>
+            <div className="flex space-x-4 mt-6">
+              {selectedTask?.status === "To Do" && (
+                <Button
+                  disabled={loadingInProgress}
+                  variant="default"
+                  className="bg-primary text-white flex-1"
+                  onClick={() => selectedTask && handleTaskInProgress(selectedTask)}
+                >
+                  {loadingInProgress ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                  Go To Meeting
+                </Button>
+              )}
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => {
+                  if (selectedTask) {
+                    router.push(getReportButtonUrl(selectedTask))
+                  }
+                }}
+              >
+                {selectedTask && getReportButtonText(selectedTask)}
+              </Button>
+            </div>
+            <Button
+              variant="destructive"
+              className="w-full mt-4 text-red-400"
+              onClick={() => selectedTask && handleDeleteTask(selectedTask.id)}
+            >
+              Delete Task
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

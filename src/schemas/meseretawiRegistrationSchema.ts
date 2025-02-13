@@ -12,6 +12,7 @@ export const meseretawiRegistrationSchema = z.object({
     .regex(/[a-z]/, "የይለፍ ቃል ቢያንስ አንድ ትንሽ ፊደል መያዝ አለበት")
     .regex(/[0-9]/, "የይለፍ ቃል ቢያንስ አንድ ቁጥር መያዝ አለበት")
     .regex(/[^A-Za-z0-9]/, "የይለፍ ቃል ቢያንስ አንድ ልዩ ምልክት መያዝ አለበት"),
+    role: z.string().optional()
 })
 
 export type MeseretawiRegistrationFormData = z.infer<typeof meseretawiRegistrationSchema>

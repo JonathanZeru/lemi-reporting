@@ -4,9 +4,10 @@ import { IncomingForm, File as FormidableFile } from 'formidable';
 import fs from 'fs';
 import path from 'path';
 import { apiURL } from '../../../utils/constants/constants';
+import { applyCors } from '../cors';
+import { prisma } from '../prisma';
 
 
-const prisma = new PrismaClient();
 
 export const config = {
   api: {
@@ -15,10 +16,8 @@ export const config = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  res.setHeader('Access-Control-Allow-Origin', apiURL);
-  res.setHeader('Access-Control-Allow-Methods', 'POST, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  console.log("eer")
+  
+  applyCors(res); // Apply CORS headers
 
   // Handle preflight OPTIONS request
   if (req.method === 'OPTIONS') {
@@ -174,6 +173,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       } catch (error) {
         console.error('Error creating report:', error);
         res.status(500).json({ error: 'Internal Server Error' });
+      }finally {
+        console.log('Disconnecting Prisma...');
+        await prisma.$disconnect(); // Just disconnect, don't make more queries after this
       }
     });
   } else {

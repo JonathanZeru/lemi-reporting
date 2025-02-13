@@ -82,7 +82,7 @@ export interface CommonTaskDetailProps {
 }
 
 const CommonTaskDetail = () => {
-  const { scheduleId } = useParams()
+  const { scheduleId } = useParams() as { scheduleId: string }
   const [taskDetail, setTaskDetail] = useState<CommonTaskDetailProps | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)

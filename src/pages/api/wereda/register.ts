@@ -1,91 +1,59 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
-import { apiURL } from '../../../utils/constants/constants';
-
-const prisma = new PrismaClient();
+import { prisma } from '../prisma';
+import { applyCors } from '../cors';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    res.setHeader('Access-Control-Allow-Origin', apiURL);
-    res.setHeader('Access-Control-Allow-Methods', 'POST, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    console.log("eer")
-  
-    // Handle preflight OPTIONS request
+    applyCors(res); // Apply CORS headers
+
     if (req.method === 'OPTIONS') {
-      res.setHeader('Access-Control-Max-Age', '86400'); // Cache preflight request
-      return res.status(204).end();
-    } 
-
-    if (req.method === 'POST') {
-        const {
-            firstName,
-            lastName,
-            email,
-            phone,
-            userName,
-            password,
-        } = req.body;
-console.log(req.body)
-        try {
-            
-            const existingMeseretawiByEmail = await prisma.wereda.findFirst(
-                {
-                    where: {email: email}
-                }
-            )
-            if(existingMeseretawiByEmail){
-                
-            return res.status(401).
-            json({ message: 'Email already used!' });
-
-            }
-            const existingMeseretawiByPhone = await prisma.wereda.findFirst(
-                {
-                    where: {phone: phone}
-                }
-            )
-            if(existingMeseretawiByPhone){
-                
-            return res.status(401).
-            json({ message: 'Phone Number already used!' });
-
-            }
-            const existingMeseretawiByUsername = await prisma.wereda.findFirst(
-                {
-                    where: {userName: userName}
-                }
-            )
-            if(existingMeseretawiByUsername){
-                
-            return res.status(401).
-            json({ message: 'User name already used!' });
-
-            }
-            // Hash the password before storing
-            const hashedPassword = await bcrypt.hash(password, 10);
-
-            let user;
-            user = await prisma.wereda.create({
-                data: {
-                    firstName,
-                    lastName,
-                    email,
-                    phone,
-                    userName,
-                    password: hashedPassword, // Store hashed password
-                    role: "Wereda",
-                    isActive: true
-                },
-            });
-            return res.status(201).json({ message: 'Wereda created successfully', data: user });
-            
-        } catch (error) {
-            console.error('Error creating user:', error);
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
+        res.setHeader('Access-Control-Max-Age', '86400'); // Cache preflight request
+        return res.status(204).end();
     }
 
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).end(`Method ${req.method} Not Allowed`);
+    if (req.method !== 'POST') {
+        res.setHeader('Allow', ['POST']);
+        return res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
+
+    try {
+        const { firstName, lastName, email, phone, userName, password } = req.body;
+
+        console.time('User Registration');
+
+        // Parallel existence checks
+        const [emailExists, phoneExists, usernameExists] = await Promise.all([
+            prisma.wereda.findFirst({ where: { email } }),
+            prisma.wereda.findFirst({ where: { phone } }),
+            prisma.wereda.findFirst({ where: { userName } })
+        ]);
+
+        if (emailExists) return res.status(409).json({ message: 'Email already used!' });
+        if (phoneExists) return res.status(409).json({ message: 'Phone Number already used!' });
+        if (usernameExists) return res.status(409).json({ message: 'User name already used!' });
+
+        // Hash password with lower cost factor for speed
+        const hashedPassword = await bcrypt.hash(password, 8);
+
+        // Create user
+        const user = await prisma.wereda.create({
+            data: {
+                firstName,
+                lastName,
+                email,
+                phone,
+                userName,
+                password: hashedPassword,
+                role: 'Wereda',
+                isActive: true
+            },
+        });
+
+        console.timeEnd('User Registration'); // Log execution time
+
+        return res.status(201).json({ message: 'Wereda created successfully', data: user });
+    } catch (error) {
+        console.error('Error creating user:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
 }

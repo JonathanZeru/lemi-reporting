@@ -1,20 +1,19 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../prisma'; // Import the global instance
 import bcrypt from 'bcryptjs';
 import { apiURL } from '../../../utils/constants/constants';
 
-const prisma = new PrismaClient();
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     res.setHeader('Access-Control-Allow-Origin', apiURL);
-    res.setHeader('Access-Control-Allow-Methods', 'POST, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    console.log("eer")
-  
+
+    console.log("Request received");
+
     // Handle preflight OPTIONS request
     if (req.method === 'OPTIONS') {
-      res.setHeader('Access-Control-Max-Age', '86400'); // Cache preflight request
-      return res.status(204).end();
+        res.setHeader('Access-Control-Max-Age', '86400'); // Cache preflight request
+        return res.status(204).end();
     } 
 
     if (req.method === 'POST') {
@@ -30,7 +29,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             type,
             mdId,
         } = req.body;
-console.log(req.body)
+
+        console.log(req.body);
+
         try {
             // Hash the password before storing
             const hashedPassword = await bcrypt.hash(password, 10);
@@ -45,12 +46,12 @@ console.log(req.body)
                             email,
                             phone,
                             userName,
-                            password: hashedPassword, // Store hashed password
+                            password: hashedPassword,
                             role: "Wana",
                             isActive,
                         },
                     });
-                    return res.status(201).json({ message: 'Wana created successfully', data: user });
+                    break;
                     
                 case "Meseretawi":
                     user = await prisma.meseretawiDirijet.create({
@@ -60,12 +61,12 @@ console.log(req.body)
                             email,
                             phone,
                             userName,
-                            password: hashedPassword, // Store hashed password
+                            password: hashedPassword,
                             role: "Meseretawi Derejit",
                             isActive,
                         },
                     });
-                    return res.status(201).json({ message: 'Meseretawi created successfully', data: user });
+                    break;
                     
                 case "Wereda":
                     user = await prisma.wereda.create({
@@ -75,12 +76,12 @@ console.log(req.body)
                             email,
                             phone,
                             userName,
-                            password: hashedPassword, // Store hashed password
+                            password: hashedPassword,
                             role: "Wereda",
-                            isActive
+                            isActive,
                         },
                     });
-                    return res.status(201).json({ message: 'Wereda created successfully', data: user });
+                    break;
 
                 case "Hiwas":
                     user = await prisma.hiwas.create({
@@ -90,21 +91,25 @@ console.log(req.body)
                             email,
                             phone,
                             userName,
-                            password: hashedPassword, // Store hashed password
+                            password: hashedPassword,
                             role: "Hiwas",
                             isActive,
-                            mdId:Number(mdId),
+                            mdId: Number(mdId),
                         },
                     });
-                    return res.status(201).json({ message: 'Hiwas created successfully', data: user });
+                    break;
 
                 default:
                     return res.status(400).json({ error: 'Invalid user type' });
             }
+
+            return res.status(201).json({ message: `${type} created successfully`, data: user });
         } catch (error) {
             console.error('Error creating user:', error);
             return res.status(500).json({ error: 'Internal Server Error' });
-        }
+        } finally {
+            await prisma.$disconnect(); // Ensure the connection closes after execution
+          }
     }
 
     res.setHeader('Allow', ['POST']);

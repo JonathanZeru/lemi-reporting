@@ -6,7 +6,9 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { apiURL } from "@/utils/constants/constants"
-import { Users, UserPlus, Building, Landmark, ChevronRight, Building2, ArrowLeft } from "lucide-react"
+import { Users, UserPlus, Building, Landmark, ChevronRight, Building2 } from "lucide-react"
+import { useAuthStore } from "@/stores/authStore"
+import { Button } from "@/components/ui/button"
 
 interface MeseretawiOption {
   id: number
@@ -72,8 +74,20 @@ const RegistrationCard: React.FC<RegistrationCardProps> = ({ title, description,
 }
 
 const ChooseRegistration: React.FC = () => {
+  const { user } = useAuthStore()
+  const router = useRouter()
   const [meseretawiOptions, setMeseretawiOptions] = useState<MeseretawiOption[]>([])
-
+  if(user!.role !== "Admin"){
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h1 className="text-2xl font-bold">Unauthorized Access</h1>
+        <p className="text-lg">You need to log in to access this page.</p>
+        <Button onClick={() => router.push("/")} className="mt-4">
+          Login
+        </Button>
+      </div>
+    ) 
+  }else{
   useEffect(() => {
     axios
       .get<MeseretawiOption[]>(`${apiURL}api/meseretawi`)
@@ -84,25 +98,19 @@ const ChooseRegistration: React.FC = () => {
         console.error("Error fetching Meseretawi options:", error)
       })
   }, [])
-
+  
   return (
     <div className="min-h-screen bg-slate-50">
-      <Header />
       <main className="container mx-auto p-8">
-        <h2 className="text-3xl font-bold mb-6 text-slate-800">የምዝገባ አይነት ይምረጡ</h2>
-                <Link href="/" className="underline text-sm text-blue-500 flex gap-2">
-                  <ArrowLeft/>ወደ መነሻ
-                </Link>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <RegistrationCard title="ሕዋስ" description="ለሕዋስ ምዝገባ" icon={Users} to="/" />
           <RegistrationCard
             title="መሠረታዊ"
             description="ለመሠረታዊ ምዝገባ"
             icon={UserPlus}
-            to="/meseretawi"
+            to="/dashboard/meseretawi"
           />
-          <RegistrationCard title="ዋና" description="ለዋና ምዝገባ" icon={Building} to="/wana" />
-          <RegistrationCard title="ወረዳ" description="ለወረዳ ምዝገባ" icon={Landmark} to="/wereda" />
+          <RegistrationCard title="ዋና" description="ለዋና ምዝገባ" icon={Building} to="/dashboard/wana-registration" />
+          <RegistrationCard title="ወረዳ" description="ለወረዳ ምዝገባ" icon={Landmark} to="/dashboard/wereda" />
         </div>
 
         {meseretawiOptions.length > 0 && (
@@ -112,7 +120,7 @@ const ChooseRegistration: React.FC = () => {
               {meseretawiOptions.map((option) => (
                 <Link
                   key={option.id}
-                  href={`/hiwas/${option.firstName}${option.lastName}/${option.id}`}
+                  href={`/dashboard/hiwas/${option.firstName}${option.lastName}/${option.id}`}
                   className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
                 >
                   <h4 className="text-lg font-semibold text-slate-800">
@@ -129,6 +137,7 @@ const ChooseRegistration: React.FC = () => {
       </main>
     </div>
   )
+}
 }
 
 export default ChooseRegistration

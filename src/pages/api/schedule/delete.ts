@@ -1,17 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 import { apiURL } from '../../../utils/constants/constants';
+import { applyCors } from '../cors';
+import { prisma } from '../prisma';
 
-const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // const allowedOrigin = 'http://localhost:5173'; // Replace with your frontend origin
 
-  // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', apiURL);
-  res.setHeader('Access-Control-Allow-Methods', 'GET, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
+ applyCors(res); // Apply CORS headers
   // Handle preflight OPTIONS request
   if (req.method === 'OPTIONS') {
     res.status(200).end();
@@ -29,6 +26,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } catch (error) {
       console.error('Error deleting Schedule:', error);
       res.status(500).json({ error: 'Internal Server Error' });
+    }finally {
+      console.log('Disconnecting Prisma...');
+      await prisma.$disconnect(); // Just disconnect, don't make more queries after this
     }
   } else {
     res.setHeader('Allow', ['DELETE']);
