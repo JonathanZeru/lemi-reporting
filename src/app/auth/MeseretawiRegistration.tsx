@@ -79,18 +79,18 @@ const MeseretawiRegistration = () => {
   return (
     <Card className="w-full max-w-lg mx-auto">
       <CardHeader>
-        <CardTitle>የመሰረታዊ ድርጅት ምዝገባ</CardTitle>
-        <CardDescription>እባክዎን የመሰረታዊ ድርጅት ተጠቃሚ ለመመዝገብ የሚከተለውን ቅጽ ይሙሉ።</CardDescription>
+        <CardTitle>የብልጽግና ህብረት ድርጅት ምዝገባ</CardTitle>
+        <CardDescription>እባክዎን የብልጽግና ህብረት ድርጅት ተጠቃሚ ለመመዝገብ የሚከተለውን ቅጽ ይሙሉ።</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="firstName">መሠረታዊ</Label>
+            <Label htmlFor="firstName">የብልጽግና ህብረት</Label>
             <Controller
               name="firstName"
               control={control}
               render={({ field }) => (
-                <Input {...field} id="firstName" placeholder="መሠረታዊ ስምዎን ያስገቡ" aria-describedby="firstName-error" />
+                <Input {...field} id="firstName" placeholder="የብልጽግና ህብረት ስምዎን ያስገቡ" aria-describedby="firstName-error" />
               )}
             />
             {errors.firstName && (
@@ -102,7 +102,7 @@ const MeseretawiRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="lastName">መሠረታዊ ስም</Label>
+            <Label htmlFor="lastName">የብልጽግና ህብረት ስም</Label>
             <Controller
               name="lastName"
               control={control}

@@ -81,13 +81,13 @@ const WanaRegistration = () => {
   return (
     <Card className="w-full max-w-lg mx-auto">
       <CardHeader>
-        <CardTitle>የዋና ተጠቃሚ ምዝገባ</CardTitle>
-        <CardDescription>እባክዎን የዋና ተጠቃሚ ለመመዝገብ የሚከተለውን ቅጽ ይሙሉ።</CardDescription>
+        <CardTitle>የፖለቲካ ዘርፍ ሀላፊ ተጠቃሚ ምዝገባ</CardTitle>
+        <CardDescription>እባክዎን የፖለቲካ ዘርፍ ሀላፊ ተጠቃሚ ለመመዝገብ የሚከተለውን ቅጽ ይሙሉ።</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="firstName">ዋና ስም</Label>
+            <Label htmlFor="firstName">የፖለቲካ ዘርፍ ሀላፊ ስም</Label>
             <Controller
               name="firstName"
               control={control}
@@ -95,7 +95,7 @@ const WanaRegistration = () => {
                 <Input
                   {...field}
                   id="firstName"
-                  placeholder="ዋና ስምዎን ያስገቡ"
+                  placeholder="የፖለቲካ ዘርፍ ሀላፊ ስምዎን ያስገቡ"
                   aria-describedby="firstName-error"
                 />
               )}
@@ -109,7 +109,7 @@ const WanaRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="lastName">ዋና ስም</Label>
+            <Label htmlFor="lastName">የፖለቲካ ዘርፍ ሀላፊ ስም</Label>
             <Controller
               name="lastName"
               control={control}
@@ -117,7 +117,7 @@ const WanaRegistration = () => {
                 <Input
                   {...field}
                   id="lastName"
-                  placeholder="ዋና ስም ያስገቡ"
+                  placeholder="የፖለቲካ ዘርፍ ሀላፊ ስም ያስገቡ"
                   aria-describedby="lastName-error"
                 />
               )}

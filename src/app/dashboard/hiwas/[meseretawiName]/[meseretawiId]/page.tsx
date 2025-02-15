@@ -89,7 +89,7 @@ const HiwasRegistration = () => {
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="firstName">ስም</Label>
+            <Label htmlFor="firstName">የብልጽግና ቤተሰብ ሰብሳቢ ስም</Label>
             <Controller
               name="firstName"
               control={control}
@@ -97,7 +97,7 @@ const HiwasRegistration = () => {
                 <Input
                   {...field}
                   id="firstName"
-                  placeholder="እባኮትን ሕዋስ ስምዎን ያስገቡ"
+                  placeholder="እባኮትን የብልጽግና ቤተሰብ ስምዎን ያስገቡ"
                   aria-describedby="firstName-error"
                 />
               )}
@@ -111,12 +111,12 @@ const HiwasRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="lastName">ሕዋስ ስም</Label>
+            <Label htmlFor="lastName">የብልጽግና ቤተሰብ ስም</Label>
             <Controller
               name="lastName"
               control={control}
               render={({ field }) => (
-                <Input {...field} id="lastName" placeholder="ሕዋስ ስምዎን ያስገቡ" aria-describedby="lastName-error" />
+                <Input {...field} id="lastName" placeholder="የብልጽግና ቤተሰብ ስምዎን ያስገቡ" aria-describedby="lastName-error" />
               )}
             />
             {errors.lastName && (

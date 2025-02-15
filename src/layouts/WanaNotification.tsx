@@ -139,7 +139,7 @@ const Notifications: React.FC<NotificationTablesProps> = ({ notifications }) => 
       <CardHeader className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
         <CardTitle className="text-2xl font-bold flex items-center">
           <Bell className="mr-2" />
-          የዋና ማሳወቂያዎች
+          የፖለቲካ ዘርፍ ሀላፊ ማሳወቂያዎች
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 p-6">
@@ -185,8 +185,8 @@ const Notifications: React.FC<NotificationTablesProps> = ({ notifications }) => 
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">ሁሉም</SelectItem>
-              <SelectItem value="Hiwas">ህዋስ</SelectItem>
-              <SelectItem value="MeseretawiDirijet">መሠረታዊ ድርጅት</SelectItem>
+              <SelectItem value="Hiwas">የብልጽግና ቤተሰብ</SelectItem>
+              <SelectItem value="MeseretawiDirijet">የብልጽግና ህብረት</SelectItem>
               <SelectItem value="Wereda">ወረዳ</SelectItem>
             </SelectContent>
           </Select>
@@ -198,7 +198,7 @@ const Notifications: React.FC<NotificationTablesProps> = ({ notifications }) => 
               <SelectItem value="all">ሁሉም</SelectItem>
               <SelectItem value="In Progress">በሂደት ላይ</SelectItem>
               <SelectItem value="To Do">ለመስራት</SelectItem>
-              <SelectItem value="Under Meseretawi Review">በመሠረታዊ ግምገማ ላይ</SelectItem>
+              <SelectItem value="Under Meseretawi Review">በብልጽግና ህብረት ግምገማ ላይ</SelectItem>
               <SelectItem value="Completed">ተጠናቋል</SelectItem>
             </SelectContent>
           </Select>
@@ -269,7 +269,7 @@ const WanaNotification: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4 bg-gradient-to-br from-purple-50 to-indigo-50 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-center text-purple-800">የዋና ማሳወቂያ ሰሌዳ</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center text-purple-800">የፖለቲካ ዘርፍ ሀላፊ ማሳወቂያ ሰሌዳ</h1>
       <Notifications notifications={notifications} />
     </div>
   )

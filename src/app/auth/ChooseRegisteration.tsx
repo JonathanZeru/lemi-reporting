@@ -34,7 +34,7 @@ const Header: React.FC = () => {
 
 const RegistrationCard: React.FC<RegistrationCardProps> = ({ title, description, icon: Icon, to }) => {
  
-    if(title === "ሕዋስ"){
+    if(title === "የብልጽግና ቤተሰብ"){
         return <Card className="h-full transition-all hover:shadow-lg">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">{title}</CardTitle>
@@ -44,7 +44,7 @@ const RegistrationCard: React.FC<RegistrationCardProps> = ({ title, description,
           <div className="text-2xl font-bold">{title}</div>
           <p className="text-xs text-muted-foreground">{description}</p>
           <div className="mt-4 flex items-center text-sm text-blue-600">
-          የሕዋስ አማራጮች ዝርዝሮችን ይመልከቱ ይመዝገቡ <ChevronRight className="ml-1 h-4 w-4" />
+          የብልጽግና ቤተሰብ አማራጮች ዝርዝሮችን ይመልከቱ ይመዝገቡ <ChevronRight className="ml-1 h-4 w-4" />
           </div>
         </CardContent>
       </Card>
@@ -93,20 +93,20 @@ const ChooseRegistration: React.FC = () => {
                   <ArrowLeft/>ወደ መነሻ
                 </Link>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <RegistrationCard title="ሕዋስ" description="ለሕዋስ ምዝገባ" icon={Users} to="/" />
+          <RegistrationCard title="የብልጽግና ቤተሰብ" description="ለ ብልጽግና ቤተሰብ ምዝገባ" icon={Users} to="/" />
           <RegistrationCard
-            title="መሠረታዊ"
-            description="ለመሠረታዊ ምዝገባ"
+            title="የብልጽግና ህብረት"
+            description="ለ ብልጽግና ህብረት ምዝገባ"
             icon={UserPlus}
             to="/meseretawi"
           />
-          <RegistrationCard title="ዋና" description="ለዋና ምዝገባ" icon={Building} to="/wana" />
+          <RegistrationCard title="የፖለቲካ ዘርፍ ሀላፊ" description="ለ ፖለቲካ ዘርፍ ሀላፊ ምዝገባ" icon={Building} to="/wana" />
           <RegistrationCard title="ወረዳ" description="ለወረዳ ምዝገባ" icon={Landmark} to="/wereda" />
         </div>
 
         {meseretawiOptions.length > 0 && (
           <div className="mt-12">
-            <h3 className="text-2xl font-semibold mb-4 text-slate-800">የሕዋስ አማራጮች </h3>
+            <h3 className="text-2xl font-semibold mb-4 text-slate-800">የብልጽግና ቤተሰብ አማራጮች </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {meseretawiOptions.map((option) => (
                 <Link
