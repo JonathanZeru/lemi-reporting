@@ -148,10 +148,11 @@ const fetchReport = async () => {
                 <h2 className="text-xl font-semibold mb-2">የሪፖርት ዝርዝሮች</h2>
                 <p><strong>ስም:</strong> {report.name}</p>
                 <p><strong>ዝርዝር መግለጫ:</strong> {report.description}</p>
-                <p><strong>የተመዘገበበት ቦታ:</strong> {format(reportCreatedAt, 'PPpp')}</p>
-                {report.updatedAt == null ? <></>:
-                 <p><strong>Updated ቦታ:</strong> {format(new Date(report.updatedAt), 'PPpp')}</p>}
+                <p><strong>የተመዘገበበት ጊዜ:</strong> {format(reportCreatedAt, 'PPpp')}</p>
                 <p><strong>ሁኔታ:</strong> {reportStatus}</p>
+                <p><strong>ወር:</strong> {report.month}</p>
+                <p><strong>የተገኙ ሰራተኞች ብዛት:</strong> {report.absentEmployees}</p>
+                <p><strong>ያልተገኙ ሰራተኞች ብዛት:</strong> {report.presentEmployees}</p>
               </div>
              {report.reportByHiwas == null ?
              <></>

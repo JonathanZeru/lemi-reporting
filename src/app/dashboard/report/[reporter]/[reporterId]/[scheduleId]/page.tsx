@@ -14,7 +14,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { toast } from "@/components/ui/use-toast"
 import { useAuthStore } from "@/stores/authStore"
 import { apiURL } from "@/utils/constants/constants"
-import { AlertCircle, X } from "lucide-react"
+import { AlertCircle, X, Upload, FileText, Mic, Video } from "lucide-react"
 import { type AmharicReportFormData, amharicReportSchema } from "@/schemas/reportSchema"
 
 export default function ReportForm() {
@@ -62,7 +62,7 @@ export default function ReportForm() {
     formData.append("month", data.month)
     formData.append("presentEmployees", data.presentEmployees.toString())
     formData.append("absentEmployees", data.absentEmployees.toString())
-    
+
     // Append files
     data.images?.forEach((image) => formData.append("reportImages", image))
     data.pdfs?.forEach((pdf) => formData.append("reportPdfs", pdf))
@@ -122,20 +122,30 @@ export default function ReportForm() {
   }
 
   return (
-    <Card className="w-full max-w-3xl mx-auto">
-      <CardHeader>
-        <CardTitle>የመንግስት ሪፖርት ማስገቢያ</CardTitle>
-        <CardDescription>እባክዎን የሚከተለውን ቅጽ ሞልተው ይላኩ። ሁሉም መረጃዎች ትክክለኛ እና ሙሉ መሆናቸውን ያረጋግጡ።</CardDescription>
+    <Card className="w-full max-w-5xl mx-auto bg-gradient-to-br from-blue-500 to-purple-600 shadow-2xl">
+      <CardHeader className="bg-white bg-opacity-90 rounded-t-lg">
+        <CardTitle className="text-4xl font-bold text-blue-600">የመንግስት ሪፖርት ማስገቢያ</CardTitle>
+        <CardDescription className="text-lg text-purple-600">
+          እባክዎን የሚከተለውን ቅጽ ሞልተው ይላኩ። ሁሉም መረጃዎች ትክክለኛ እና ሙሉ መሆናቸውን ያረጋግጡ።
+        </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="name">የሪፖርት ርዕስ</Label>
+      <CardContent className="bg-white bg-opacity-90 p-8">
+        <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-4 md:col-span-2">
+            <Label htmlFor="name" className="text-blue-600 font-semibold text-lg">
+              የሪፖርት ርዕስ
+            </Label>
             <Controller
               name="name"
               control={control}
               render={({ field }) => (
-                <Input {...field} id="name" placeholder="እባክዎን ለሪፖርትዎ አጭር ርዕስ ያስገቡ" aria-describedby="name-error" />
+                <Input
+                  {...field}
+                  id="name"
+                  placeholder="እባክዎን ለሪፖርትዎ አጭር ርዕስ ያስገቡ"
+                  className="border-2 border-blue-400 rounded-md p-3 focus:ring-2 focus:ring-purple-400 transition-all duration-300"
+                  aria-describedby="name-error"
+                />
               )}
             />
             {errors.name && (
@@ -147,8 +157,10 @@ export default function ReportForm() {
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="description">የሪፖርት ማብራሪያ</Label>
+          <div className="space-y-4 md:col-span-2">
+            <Label htmlFor="description" className="text-blue-600 font-semibold text-lg">
+              የሪፖርት ማብራሪያ
+            </Label>
             <Controller
               name="description"
               control={control}
@@ -158,6 +170,7 @@ export default function ReportForm() {
                   id="description"
                   placeholder="እባክዎን ስለ ሪፖርትዎ ዝርዝር ማብራሪያ ይስጡ"
                   rows={5}
+                  className="border-2 border-blue-400 rounded-md p-3 focus:ring-2 focus:ring-purple-400 transition-all duration-300"
                   aria-describedby="description-error"
                 />
               )}
@@ -171,13 +184,21 @@ export default function ReportForm() {
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="month">ወር</Label>
+          <div className="space-y-4">
+            <Label htmlFor="month" className="text-blue-600 font-semibold text-lg">
+              ወር
+            </Label>
             <Controller
               name="month"
               control={control}
               render={({ field }) => (
-                <Input {...field} id="month" placeholder="የስብሰባው ወር" aria-describedby="month-error" />
+                <Input
+                  {...field}
+                  id="month"
+                  placeholder="የስብሰባው ወር"
+                  className="border-2 border-blue-400 rounded-md p-3 focus:ring-2 focus:ring-purple-400 transition-all duration-300"
+                  aria-describedby="month-error"
+                />
               )}
             />
             {errors.month && (
@@ -189,8 +210,10 @@ export default function ReportForm() {
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="presentEmployees">የተገኙ ሰራተኞች ብዛት</Label>
+          <div className="space-y-4">
+            <Label htmlFor="presentEmployees" className="text-blue-600 font-semibold text-lg">
+              የተገኙ ሰራተኞች ብዛት
+            </Label>
             <Controller
               name="presentEmployees"
               control={control}
@@ -200,6 +223,7 @@ export default function ReportForm() {
                   id="presentEmployees"
                   type="number"
                   placeholder="የተገኙ ሰራተኞች ብዛት"
+                  className="border-2 border-blue-400 rounded-md p-3 focus:ring-2 focus:ring-purple-400 transition-all duration-300"
                   aria-describedby="presentEmployees-error"
                 />
               )}
@@ -213,8 +237,10 @@ export default function ReportForm() {
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="absentEmployees">ያልተገኙ ሰራተኞች ብዛት</Label>
+          <div className="space-y-4">
+            <Label htmlFor="absentEmployees" className="text-blue-600 font-semibold text-lg">
+              ያልተገኙ ሰራተኞች ብዛት
+            </Label>
             <Controller
               name="absentEmployees"
               control={control}
@@ -224,6 +250,7 @@ export default function ReportForm() {
                   id="absentEmployees"
                   type="number"
                   placeholder="ያልተገኙ ሰራተኞች ብዛት"
+                  className="border-2 border-blue-400 rounded-md p-3 focus:ring-2 focus:ring-purple-400 transition-all duration-300"
                   aria-describedby="absentEmployees-error"
                 />
               )}
@@ -237,16 +264,32 @@ export default function ReportForm() {
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="images">ምስሎች (ከ5 ባልበለጠ፣ እያንዳንዱ እስከ 5MB)</Label>
-            <Input
-              id="images"
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={(e) => handleFileChange(e, "images")}
-              aria-describedby="images-error"
-            />
+          <div className="space-y-4 md:col-span-2">
+            <Label htmlFor="images" className="text-blue-600 font-semibold text-lg">
+              ምስሎች (ከ5 ባልበለጠ፣ እያንዳንዱ እስከ 5MB)
+            </Label>
+            <div className="flex items-center justify-center w-full">
+              <label
+                htmlFor="images"
+                className="flex flex-col items-center justify-center w-full h-32 border-2 border-blue-400 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+              >
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <Upload className="w-10 h-10 mb-3 text-blue-400" />
+                  <p className="mb-2 text-sm text-blue-500">
+                    <span className="font-semibold">ምስሎችን ለመጫን ጠቅ ያድርጉ</span> ወይም ይጎትቱ እና ይጣሉ
+                  </p>
+                </div>
+                <Input
+                  id="images"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={(e) => handleFileChange(e, "images")}
+                  aria-describedby="images-error"
+                />
+              </label>
+            </div>
             {errors.images && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
@@ -255,7 +298,7 @@ export default function ReportForm() {
               </Alert>
             )}
             {watchImages && watchImages.length > 0 && (
-              <div className="grid grid-cols-3 gap-4 mt-2">
+              <div className="grid grid-cols-3 gap-4 mt-4">
                 {watchImages.map((image, index) => (
                   <div key={index} className="relative">
                     <img
@@ -278,16 +321,32 @@ export default function ReportForm() {
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="pdfs">PDF ፋይሎች (ከ2 ባልበለጠ፣ እያንዳንዱ እስከ 10MB)</Label>
-            <Input
-              id="pdfs"
-              type="file"
-              accept=".pdf"
-              multiple
-              onChange={(e) => handleFileChange(e, "pdfs")}
-              aria-describedby="pdfs-error"
-            />
+          <div className="space-y-4 md:col-span-2">
+            <Label htmlFor="pdfs" className="text-blue-600 font-semibold text-lg">
+              PDF ፋይሎች (ከ2 ባልበለጠ፣ እያንዳንዱ እስከ 10MB)
+            </Label>
+            <div className="flex items-center justify-center w-full">
+              <label
+                htmlFor="pdfs"
+                className="flex flex-col items-center justify-center w-full h-32 border-2 border-blue-400 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+              >
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <FileText className="w-10 h-10 mb-3 text-blue-400" />
+                  <p className="mb-2 text-sm text-blue-500">
+                    <span className="font-semibold">PDF ፋይሎችን ለመጫን ጠቅ ያድርጉ</span> ወይም ይጎትቱ እና ይጣሉ
+                  </p>
+                </div>
+                <Input
+                  id="pdfs"
+                  type="file"
+                  accept=".pdf"
+                  multiple
+                  className="hidden"
+                  onChange={(e) => handleFileChange(e, "pdfs")}
+                  aria-describedby="pdfs-error"
+                />
+              </label>
+            </div>
             {errors.pdfs && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
@@ -296,9 +355,9 @@ export default function ReportForm() {
               </Alert>
             )}
             {watchPdfs && watchPdfs.length > 0 && (
-              <div className="grid grid-cols-2 gap-4 mt-2">
+              <div className="grid grid-cols-2 gap-4 mt-4">
                 {watchPdfs.map((pdf, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 bg-gray-100 rounded-md">
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-100 rounded-md">
                     <span className="text-sm truncate">{pdf.name}</span>
                     <Button
                       type="button"
@@ -314,15 +373,31 @@ export default function ReportForm() {
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="audio">ድምጽ (አማራጭ፣ እስከ 20MB)</Label>
-            <Input
-              id="audio"
-              type="file"
-              accept="audio/*"
-              onChange={(e) => handleFileChange(e, "audio")}
-              aria-describedby="audio-error"
-            />
+          <div className="space-y-4 md:col-span-2">
+            <Label htmlFor="audio" className="text-blue-600 font-semibold text-lg">
+              ድምጽ (አማራጭ፣ እስከ 20MB)
+            </Label>
+            <div className="flex items-center justify-center w-full">
+              <label
+                htmlFor="audio"
+                className="flex flex-col items-center justify-center w-full h-32 border-2 border-blue-400 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+              >
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <Mic className="w-10 h-10 mb-3 text-blue-400" />
+                  <p className="mb-2 text-sm text-blue-500">
+                    <span className="font-semibold">ድምጽ ፋይል ለመጫን ጠቅ ያድርጉ</span> ወይም ይጎትቱ እና ይጣሉ
+                  </p>
+                </div>
+                <Input
+                  id="audio"
+                  type="file"
+                  accept="audio/*"
+                  className="hidden"
+                  onChange={(e) => handleFileChange(e, "audio")}
+                  aria-describedby="audio-error"
+                />
+              </label>
+            </div>
             {errors.audio && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
@@ -331,21 +406,37 @@ export default function ReportForm() {
               </Alert>
             )}
             {watchAudio && (
-              <div className="mt-2">
+              <div className="mt-4">
                 <audio controls src={URL.createObjectURL(watchAudio)} className="w-full" />
               </div>
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="video">ቪዲዮ (አማራጭ፣ እስከ 50MB)</Label>
-            <Input
-              id="video"
-              type="file"
-              accept="video/*"
-              onChange={(e) => handleFileChange(e, "video")}
-              aria-describedby="video-error"
-            />
+          <div className="space-y-4 md:col-span-2">
+            <Label htmlFor="video" className="text-blue-600 font-semibold text-lg">
+              ቪዲዮ (አማራጭ፣ እስከ 50MB)
+            </Label>
+            <div className="flex items-center justify-center w-full">
+              <label
+                htmlFor="video"
+                className="flex flex-col items-center justify-center w-full h-32 border-2 border-blue-400 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+              >
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <Video className="w-10 h-10 mb-3 text-blue-400" />
+                  <p className="mb-2 text-sm text-blue-500">
+                    <span className="font-semibold">ቪዲዮ ፋይል ለመጫን ጠቅ ያድርጉ</span> ወይም ይጎትቱ እና ይጣሉ
+                  </p>
+                </div>
+                <Input
+                  id="video"
+                  type="file"
+                  accept="video/*"
+                  className="hidden"
+                  onChange={(e) => handleFileChange(e, "video")}
+                  aria-describedby="video-error"
+                />
+              </label>
+            </div>
             {errors.video && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
@@ -354,15 +445,20 @@ export default function ReportForm() {
               </Alert>
             )}
             {watchVideo && (
-              <div className="mt-2">
+              <div className="mt-4">
                 <video controls src={URL.createObjectURL(watchVideo)} className="w-full" />
               </div>
             )}
           </div>
         </form>
       </CardContent>
-      <CardFooter>
-        <Button type="submit" disabled={loading} onClick={handleSubmit(onSubmit)} className="w-full">
+      <CardFooter className="bg-white bg-opacity-90 rounded-b-lg">
+        <Button
+          type="submit"
+          disabled={loading}
+          onClick={handleSubmit(onSubmit)}
+          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 rounded-md transition-all duration-300"
+        >
           {loading ? "ሪፖርቱን በማስገባት ላይ..." : "ሪፖርቱን አስገባ"}
         </Button>
       </CardFooter>

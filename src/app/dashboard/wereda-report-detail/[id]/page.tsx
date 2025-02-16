@@ -81,9 +81,11 @@ const fetchReport = async () => {
                 <h2 className="text-xl font-semibold mb-2">የሪፖርት ዝርዝሮች</h2>
                 <p><strong>ስም:</strong> {report.name}</p>
                 <p><strong>ዝርዝር መግለጫ:</strong> {report.description}</p>
-                {report.createdAt == null ? <></>: <p><strong>የተመዘገበበት ቦታ:</strong> {format(new Date(report.createdAt), 'PPpp')}</p>}
-                {report.updatedAt == null ? <></>: <p><strong>Updated ቦታ:</strong> {format(new Date(report.updatedAt), 'PPpp')}</p>}
+                {report.createdAt == null ? <></>: <p><strong>የተመዘገበበት ጊዜ:</strong> {format(new Date(report.createdAt), 'PPpp')}</p>}
                 {report.schedule?.status == null ? <></>: <p><strong>ሁኔታ:</strong> {report.schedule?.status}</p>}
+                <p><strong>ወር:</strong> {report.month}</p>
+                <p><strong>የተገኙ ሰራተኞች ብዛት:</strong> {report.absentEmployees}</p>
+                <p><strong>ያልተገኙ ሰራተኞች ብዛት:</strong> {report.presentEmployees}</p>
               </div>
               {report.reportedByWereda != null ? <div>
                 <h2 className="text-xl font-semibold mb-2">የሪፖርተር መረጃ</h2>
