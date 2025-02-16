@@ -48,7 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 isActive: true
             },
         });
-
+console.log(user)
         console.timeEnd('User Registration');
 
         return res.status(201).json({ message: 'Wana created successfully', data: user });

@@ -7,7 +7,6 @@ import { LogOutIcon, Mail, Phone, Building } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,6 +23,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { apiURL } from "@/utils/constants/constants"
 
 const profileFormSchema = z.object({
   firstName: z.string().min(2, {
@@ -87,22 +87,68 @@ export default function Settings() {
     },
   })
 
-  function onProfileSubmit(values: z.infer<typeof profileFormSchema>) {
-    // TODO: Implement profile update logic
-    console.log(values)
+  async function onProfileSubmit(values: z.infer<typeof profileFormSchema>) {
+    try {
+      const response = await fetch(`${apiURL}api/auth/update`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...values,
+          id: user?.id,
+          type: 2,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to update profile")
+      }
+
+      const data = await response.json()
+      console.log("Profile updated successfully:", data)
+      // TODO: Update local user state or show success message
+    } catch (error) {
+      console.error("Error updating profile:", error)
+      // TODO: Show error message to user
+    }
   }
 
-  function onPasswordSubmit(values: z.infer<typeof passwordFormSchema>) {
-    // TODO: Implement password change logic
-    console.log(values)
+  async function onPasswordSubmit(values: z.infer<typeof passwordFormSchema>) {
+    try {
+      const response = await fetch(`${apiURL}api/auth/change-password`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: user?.id,
+          oldPassword: values.currentPassword,
+          newPassword: values.newPassword,
+        }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || "Failed to change password")
+      }
+
+      const data = await response.json()
+      console.log("Password changed successfully:", data)
+      // TODO: Show success message to user
+      passwordForm.reset()
+    } catch (error) {
+      console.error("Error changing password:", error)
+      // TODO: Show error message to user
+    }
   }
-  
+
   return (
     <div className="container mx-auto py-10">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="profile">Profile</TabsTrigger>
-          {user?.role === "Admin" ? <TabsTrigger value="security">Security</TabsTrigger>:<></>}
+          {user?.role === "Admin" ? <TabsTrigger value="security">Security</TabsTrigger> : <></>}
         </TabsList>
         <TabsContent value="profile">
           <Card>
@@ -204,60 +250,64 @@ export default function Settings() {
             </CardContent>
           </Card>
         </TabsContent>
-        {user?.role === "Admin" ? <TabsContent value="security">
-          <Card>
-            <CardHeader>
-              <CardTitle>Security</CardTitle>
-              <CardDescription>Manage your account security settings</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <Form {...passwordForm}>
-                <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} className="space-y-4">
-                  <FormField
-                    control={passwordForm.control}
-                    name="currentPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Current Password</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="••••••••" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={passwordForm.control}
-                    name="newPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>New Password</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="••••••••" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={passwordForm.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Confirm New Password</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="••••••••" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit">Change Password</Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
-        </TabsContent> : <></>}
+        {user?.role === "Admin" ? (
+          <TabsContent value="security">
+            <Card>
+              <CardHeader>
+                <CardTitle>Security</CardTitle>
+                <CardDescription>Manage your account security settings</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <Form {...passwordForm}>
+                  <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} className="space-y-4">
+                    <FormField
+                      control={passwordForm.control}
+                      name="currentPassword"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Current Password</FormLabel>
+                          <FormControl>
+                            <Input type="password" placeholder="••••••••" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={passwordForm.control}
+                      name="newPassword"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>New Password</FormLabel>
+                          <FormControl>
+                            <Input type="password" placeholder="••••••••" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={passwordForm.control}
+                      name="confirmPassword"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Confirm New Password</FormLabel>
+                          <FormControl>
+                            <Input type="password" placeholder="••••••••" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="submit">Change Password</Button>
+                  </form>
+                </Form>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        ) : (
+          <></>
+        )}
       </Tabs>
       <div className="mt-6">
         <AlertDialog>

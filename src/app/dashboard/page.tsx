@@ -219,7 +219,7 @@ export default function DashboardFront() {
         <MeseretawiNotification myMeseretawiNotifications={myMeseretawiNotifications} />
       )}
       {user?.role === "Wereda" && <WeredaNotification weredaNotifications={weredaNotifications} />}
-      {user?.role === "Wana" && <WanaNotification />}
+      {(user?.role === "Wana" || user?.role === "Admin") && <WanaNotification />}
       {!["Hiwas", "Meseretawi Derejit", "Wereda", "Wana"].includes(user?.role || "") && (
         <Card>
           <CardContent>

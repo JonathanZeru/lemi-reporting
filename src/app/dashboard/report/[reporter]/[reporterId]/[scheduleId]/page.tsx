@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import type React from "react"
 import { useState } from "react"
 import { useForm, Controller } from "react-hook-form"
@@ -14,8 +14,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { toast } from "@/components/ui/use-toast"
 import { useAuthStore } from "@/stores/authStore"
 import { apiURL } from "@/utils/constants/constants"
-import { AlertCircle, FileText, ImageIcon, Mic, Video, X } from "lucide-react"
-import { AmharicReportFormData, amharicReportSchema } from "@/schemas/reportSchema"
+import { AlertCircle, X } from "lucide-react"
+import { type AmharicReportFormData, amharicReportSchema } from "@/schemas/reportSchema"
 
 export default function ReportForm() {
   const { user, accessToken } = useAuthStore()
@@ -36,6 +36,9 @@ export default function ReportForm() {
       description: "",
       images: [],
       pdfs: [],
+      month: "",
+      presentEmployees: 0,
+      absentEmployees: 0,
     },
   })
 
@@ -56,7 +59,10 @@ export default function ReportForm() {
     formData.append("hiwasId", user?.id?.toString() || "")
     formData.append("meseretawiDirijetId", user?.mdId?.toString() || "")
     formData.append("scheduleId", scheduleId || "")
-
+    formData.append("month", data.month)
+    formData.append("presentEmployees", data.presentEmployees.toString())
+    formData.append("absentEmployees", data.absentEmployees.toString())
+    
     // Append files
     data.images?.forEach((image) => formData.append("reportImages", image))
     data.pdfs?.forEach((pdf) => formData.append("reportPdfs", pdf))
@@ -161,6 +167,72 @@ export default function ReportForm() {
                 <AlertCircle className="h-4 w-4" />
                 <AlertTitle>ስህተት</AlertTitle>
                 <AlertDescription>{errors.description.message}</AlertDescription>
+              </Alert>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="month">ወር</Label>
+            <Controller
+              name="month"
+              control={control}
+              render={({ field }) => (
+                <Input {...field} id="month" placeholder="የስብሰባው ወር" aria-describedby="month-error" />
+              )}
+            />
+            {errors.month && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>ስህተት</AlertTitle>
+                <AlertDescription>{errors.month.message}</AlertDescription>
+              </Alert>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="presentEmployees">የተገኙ ሰራተኞች ብዛት</Label>
+            <Controller
+              name="presentEmployees"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  id="presentEmployees"
+                  type="number"
+                  placeholder="የተገኙ ሰራተኞች ብዛት"
+                  aria-describedby="presentEmployees-error"
+                />
+              )}
+            />
+            {errors.presentEmployees && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>ስህተት</AlertTitle>
+                <AlertDescription>{errors.presentEmployees.message}</AlertDescription>
+              </Alert>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="absentEmployees">ያልተገኙ ሰራተኞች ብዛት</Label>
+            <Controller
+              name="absentEmployees"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  id="absentEmployees"
+                  type="number"
+                  placeholder="ያልተገኙ ሰራተኞች ብዛት"
+                  aria-describedby="absentEmployees-error"
+                />
+              )}
+            />
+            {errors.absentEmployees && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>ስህተት</AlertTitle>
+                <AlertDescription>{errors.absentEmployees.message}</AlertDescription>
               </Alert>
             )}
           </div>

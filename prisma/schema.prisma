@@ -123,7 +123,9 @@ model Report {
   reportedBy          String
   reportedByHiwasId   Int?
   reportByHiwas       Hiwas?             @relation(fields: [reportedByHiwasId], references: [id], onDelete: Cascade)
-
+  month String?
+  presentEmployees String?
+  absentEmployees String?
   reportedByMDId      Int?
   reportedByMD        MeseretawiDirijet? @relation(fields: [reportedByMDId], references: [id], onDelete: Cascade)
 

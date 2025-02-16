@@ -68,6 +68,9 @@ export interface Report {
   description: string;
   reportedBy: string;
   reportedByHiwasId: number | null;
+  month: String | null
+  presentEmployees: String | null
+  absentEmployees: String | null
   reportedByMDId: number | null;
   reportedByWeredaId: number | null;
   scheduleId: number | null;
@@ -220,20 +223,6 @@ md: {
       } | null
   }
   
-  interface User {
-    id: number;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    userName: string;
-    password: string;
-    role: string;
-    isActive: boolean;
-    createdAt: string;
-    updatedAt: string;
-    mdId?: number;
-  }
   
   export interface WanaScheduleBody {
     id: number;
@@ -256,4 +245,33 @@ md: {
     createdByWereda: User | null;
     reports: Report
   }
+  export interface User {
+    id: number
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+    userName: string
+    password: string
+    role: string
+    isActive: boolean
+    createdAt: string
+    updatedAt: string
+  }
+  
+  export const apiEndpoints: { [key: string]: string } = {
+    "1": "api/hiwas",
+    "2": "api/meseretawi",
+    "3": "api/wana",
+    "4": "api/wereda",
+  }
+  // ... other type definitions ...
+
+export type UserType = "1" | "2" | "3" | "4"
+
+export const isValidUserType = (type: string | null): type is UserType => {
+  return type === "1" || type === "2" || type === "3" || type === "4"
+}
+
+
   

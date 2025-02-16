@@ -1,14 +1,22 @@
 import { z } from "zod"
 
 export const amharicReportSchema = z.object({
-  name: z
-    .string()
-    .min(1, "እባክዎን የሪፖርት ስም ማስገባት አለብዎት")
-    .max(100, "እባክዎን የሪፖርት ስም ከ100 ፊደላት መብለጥ የለበትም"),
+  name: z.string().min(1, "እባክዎን የሪፖርት ስም ማስገባት አለብዎት").max(100, "እባክዎን የሪፖርት ስም ከ100 ፊደላት መብለጥ የለበትም"),
   description: z
     .string()
     .min(10, "እባክዎን የሪፖርት ማብራሪያ ቢያንስ 10 ፊደላት መሆን አለበት")
     .max(1000, "እባክዎን የሪፖርት ማብራሪያ ከ1000 ፊደላት መብለጥ የለበትም"),
+  month: z.string().min(1, "እባክዎን የስብሰባው ወር ማስገባት አለብዎት").max(20, "እባክዎን የወር ስም ከ20 ፊደላት መብለጥ የለበትም"),
+  presentEmployees: z
+    .number()
+    .int("እባክዎን ሙሉ ቁጥር ያስገቡ")
+    .min(0, "እባክዎን ከ0 በላይ ቁጥር ያስገቡ")
+    .max(1000000, "እባክዎን ከ1,000,000 በታች ቁጥር ያስገቡ"),
+  absentEmployees: z
+    .number()
+    .int("እባክዎን ሙሉ ቁጥር ያስገቡ")
+    .min(0, "እባክዎን ከ0 በላይ ቁጥር ያስገቡ")
+    .max(1000000, "እባክዎን ከ1,000,000 በታች ቁጥር ያስገቡ"),
   images: z
     .array(z.instanceof(File))
     .max(5, "እባክዎን ከ5 ምስሎች በላይ ማስገባት አይችሉም")
@@ -30,3 +38,4 @@ export const amharicReportSchema = z.object({
 })
 
 export type AmharicReportFormData = z.infer<typeof amharicReportSchema>
+

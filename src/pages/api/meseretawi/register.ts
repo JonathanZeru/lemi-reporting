@@ -52,7 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     }
                 })
             ]);
-
+            console.log(user)
             return res.status(201).json({ message: 'User created successfully', data: user[0] });
 
         } catch (error) {

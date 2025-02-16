@@ -46,7 +46,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const meseretawiDirijetId = fields.meseretawiDirijetId ? String(fields.meseretawiDirijetId[0] ?? '') : '';
     const firstName = fields.firstName ? String(fields.firstName[0] ?? '') : '';
     const lastName = fields.lastName ? String(fields.lastName[0] ?? '') : '';
-
+    const month = fields.month ? String(fields.month[0] ?? '') : '';
+    const absentEmployees = fields.absentEmployees ? String(fields.absentEmployees[0] ?? '') : '';
+    const presentEmployees = fields.presentEmployees ? String(fields.presentEmployees[0] ?? '') : '';
     try {
       // Check if report already exists for this schedule
       console.log("here", scheduleId)
@@ -85,6 +87,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           reportVideo: videoPath,
           reportedBy: "Hiwas",
           reportedByHiwasId: Number(hiwasId),
+          month,
+          presentEmployees,
+          absentEmployees
         }
       });
       console.log(newReport)

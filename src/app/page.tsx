@@ -11,9 +11,8 @@ import { Eye, EyeOff, LogIn } from "lucide-react"
 import { useAuthStore } from "@/stores/authStore"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
 import NextTopLoader from "nextjs-toploader"
-import type React from "react" // Added import for React
+import type React from "react"
 
 export default function SignIn() {
   const { login, isLoading, error, user } = useAuthStore()
@@ -72,17 +71,22 @@ export default function SignIn() {
         speed={200}
       />
       <div className="min-h-screen bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 flex flex-col md:flex-row justify-center items-center p-4 sm:p-6 md:p-8">
-        <div className="w-full max-w-md md:w-1/2 md:max-w-none md:flex-1 flex justify-center items-center mb-8 md:mb-0">
+        <div className="w-full max-w-md md:w-1/2 md:max-w-none md:flex-1 flex flex-col justify-center items-center mb-8 md:mb-0">
           <Image
             src={banner || "/placeholder.svg"}
             width={300}
             height={300}
             alt="Banner"
-            className=" "
+            className="md:w-64 md:h-64 w-48 h-48 object-contain mb-4 md:mb-8"
           />
+          <div className="text-center text-white text-lg md:text-2xl font-bold leading-tight mb-6 md:mb-0 px-4 py-2 bg-black bg-opacity-30 rounded-lg backdrop-blur-sm">
+            የለሚ ኩራ ክ/ከተማ ብልጽግና ፖርቲ ቅርንጫፍ ፅ/ቤት
+            <br />
+            ቤተሰብ እና ህብረት ሪፖርት ሲስተም
+          </div>
         </div>
         <div className="w-full max-w-md md:w-1/2 md:max-w-none md:flex-1">
-          <Card className="w-full backdrop-blur-md bg-white/90 dark:bg-gray-800/90 shadow-xl rounded-2xl border-2">
+          <Card className="w-full backdrop-blur-md bg-white/90 dark:bg-gray-800/90 shadow-xl rounded-2xl border-2 border-white/20">
             <CardHeader className="space-y-1">
               <CardTitle className="text-3xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
                 ይግቡ
@@ -140,7 +144,7 @@ export default function SignIn() {
               <CardFooter className="flex flex-col space-y-4">
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105"
                   disabled={isLoading}
                 >
                   {isLoading ? (

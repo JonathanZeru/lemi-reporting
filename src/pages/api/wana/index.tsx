@@ -20,30 +20,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (id) {
       try {
         // Fetch a specific job by ID
-        const job = await prisma.report.findUnique({
+        const job = await prisma.wana.findUnique({
           where: { id: Number(id) },
         });
 
         if (!job) {
-          return res.status(404).json({ error: 'Job not found' });
+          return res.status(404).json({ error: 'wana not found' });
         }
 
         return res.status(200).json(job);
       } catch (error) {
-        console.error('Error retrieving job:', error);
+        console.error('Error retrieving wana:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
       }
     } else {
       try {
         // Fetch all jobs
-        const jobs = await prisma.report.findMany({
+        const jobs = await prisma.wana.findMany({
           orderBy: {
             createdAt: 'desc',
-          },
+          }
         });
         return res.status(200).json(jobs);
       } catch (error) {
-        console.error('Error retrieving jobs:', error);
+        console.error('Error retrieving wana:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
       }finally {
         console.log('Disconnecting Prisma...');

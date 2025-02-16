@@ -34,7 +34,7 @@ const WeredaRegistration = () => {
       email: "",
       phone: "",
       userName: "",
-      password: "",
+      password: ""
     },
   })
 

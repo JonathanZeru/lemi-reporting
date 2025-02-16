@@ -84,6 +84,9 @@ const fetchReport = async () => {
                 {report.createdAt == null ? <></>: <p><strong>Created At:</strong> {format(new Date(report.createdAt), 'PPpp')}</p>}
                 {report.updatedAt == null ? <></>: <p><strong>Updated At:</strong> {format(new Date(report.updatedAt), 'PPpp')}</p>}
                 {report.schedule?.status == null ? <></>: <p><strong>Status:</strong> {report.schedule?.status}</p>}
+                <p><strong>Month:</strong> {report.month}</p>
+                <p><strong>Absent Employees:</strong> {report.absentEmployees}</p>
+                <p><strong>Present Employees:</strong> {report.presentEmployees}</p>
               </div>
               {report.reportedByWereda != null ? <div>
                 <h2 className="text-xl font-semibold mb-2">Reporter Information</h2>

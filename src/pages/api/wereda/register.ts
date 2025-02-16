@@ -18,6 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         const { firstName, lastName, email, phone, userName, password } = req.body;
+        console.log(req.body)
 
         console.time('User Registration');
 
@@ -48,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 isActive: true
             },
         });
-
+        console.log(user)
         console.timeEnd('User Registration'); // Log execution time
 
         return res.status(201).json({ message: 'Wereda created successfully', data: user });

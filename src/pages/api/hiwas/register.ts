@@ -49,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 mdId: Number(mdId),
             },
         });
-
+        console.log(user)
         console.timeEnd('User Registration');
 
         return res.status(201).json({ message: 'Hiwas created successfully', data: user });

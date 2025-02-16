@@ -152,6 +152,9 @@ const fetchReport = async () => {
                 {report.updatedAt == null ? <></>:
                  <p><strong>Updated At:</strong> {format(new Date(report.updatedAt), 'PPpp')}</p>}
                 <p><strong>Status:</strong> {reportStatus}</p>
+                <p><strong>Month:</strong> {report.month}</p>
+                <p><strong>Absent Employees:</strong> {report.absentEmployees}</p>
+                <p><strong>Present Employees:</strong> {report.presentEmployees}</p>
               </div>
              {report.reportByHiwas == null ?
              <></>
