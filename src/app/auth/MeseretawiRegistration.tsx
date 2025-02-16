@@ -107,7 +107,7 @@ const MeseretawiRegistration = () => {
               name="lastName"
               control={control}
               render={({ field }) => (
-                <Input {...field} id="lastName" placeholder="መሠረታዊ ስም ያስገቡ" aria-describedby="lastName-error" />
+                <Input {...field} id="lastName" placeholder="የብልጽግና ህብረት ስም ያስገቡ" aria-describedby="lastName-error" />
               )}
             />
             {errors.lastName && (

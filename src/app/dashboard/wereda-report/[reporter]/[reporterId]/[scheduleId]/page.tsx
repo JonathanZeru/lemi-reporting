@@ -143,7 +143,7 @@ export default function WeredaReportForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">የሪፖርት ማብራሪያ</Label>
+            <Label htmlFor="description">ዝርዝር መግለጫ</Label>
             <Controller
               name="description"
               control={control}

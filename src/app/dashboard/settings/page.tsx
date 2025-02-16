@@ -101,14 +101,14 @@ export default function Settings() {
     <div className="container mx-auto py-10">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          {user?.role === "Admin" ? <TabsTrigger value="security">Security</TabsTrigger>:<></>}
+          <TabsTrigger value="profile">የማንነት መገለጫ</TabsTrigger>
+          {user?.role === "Admin" ? <TabsTrigger value="security">ደህንነት</TabsTrigger>:<></>}
         </TabsList>
         <TabsContent value="profile">
           <Card>
             <CardHeader>
-              <CardTitle>Profile</CardTitle>
-              <CardDescription>View and update your profile information</CardDescription>
+              <CardTitle>የማንነት መገለጫ</CardTitle>
+              <CardDescription>የማንነት መገለጫዎትን ይመልከቱ ወይም  ያዘምኑ</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex items-center space-x-4">
@@ -126,7 +126,7 @@ export default function Settings() {
               {user?.role === "Hiwas" && (
                 <Card className="bg-gradient-to-r from-cyan-500 to-blue-500">
                   <CardHeader>
-                    <CardTitle className="text-white">Meseretawi Dirijit Information</CardTitle>
+                    <CardTitle className="text-white">የብልጽግና ህብረት መረጃ</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-white">
@@ -151,7 +151,7 @@ export default function Settings() {
                     name="firstName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>First Name</FormLabel>
+                        <FormLabel>የመጀመሪያ ስም</FormLabel>
                         <FormControl>
                           <Input placeholder="John" {...field} />
                         </FormControl>
@@ -164,7 +164,7 @@ export default function Settings() {
                     name="lastName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Last Name</FormLabel>
+                        <FormLabel>የአባት ስም</FormLabel>
                         <FormControl>
                           <Input placeholder="Doe" {...field} />
                         </FormControl>
@@ -177,7 +177,8 @@ export default function Settings() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>
+                        ኢሜል</FormLabel>
                         <FormControl>
                           <Input placeholder="john.doe@example.com" {...field} />
                         </FormControl>
@@ -190,7 +191,7 @@ export default function Settings() {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Phone</FormLabel>
+                        <FormLabel> ስልክ</FormLabel>
                         <FormControl>
                           <Input placeholder="+1234567890" {...field} />
                         </FormControl>
@@ -198,7 +199,7 @@ export default function Settings() {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit">Update Profile</Button>
+                  <Button type="submit">የማንነት መገለጫዎትን ያዘምኑ</Button>
                 </form>
               </Form>
             </CardContent>
@@ -207,7 +208,7 @@ export default function Settings() {
         {user?.role === "Admin" ? <TabsContent value="security">
           <Card>
             <CardHeader>
-              <CardTitle>Security</CardTitle>
+              <CardTitle>ደህንነት</CardTitle>
               <CardDescription>Manage your account security settings</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -218,7 +219,7 @@ export default function Settings() {
                     name="currentPassword"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Current Password</FormLabel>
+                        <FormLabel>አሁን የሚጠቀሙበት የሚስጥር ቁጥር</FormLabel>
                         <FormControl>
                           <Input type="password" placeholder="••••••••" {...field} />
                         </FormControl>
@@ -231,7 +232,7 @@ export default function Settings() {
                     name="newPassword"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>New Password</FormLabel>
+                        <FormLabel>አዲስ የሚስጥር ቁጥር</FormLabel>
                         <FormControl>
                           <Input type="password" placeholder="••••••••" {...field} />
                         </FormControl>
@@ -244,7 +245,7 @@ export default function Settings() {
                     name="confirmPassword"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Confirm New Password</FormLabel>
+                        <FormLabel>አዲስ የሚስጥር ቁጥር ያረጋግጡ </FormLabel>
                         <FormControl>
                           <Input type="password" placeholder="••••••••" {...field} />
                         </FormControl>
@@ -252,7 +253,7 @@ export default function Settings() {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit">Change Password</Button>
+                  <Button type="submit"> ሚስጥር ቁጥር ይቀይሩ</Button>
                 </form>
               </Form>
             </CardContent>
@@ -264,19 +265,19 @@ export default function Settings() {
           <AlertDialogTrigger asChild>
             <Button variant="destructive" className="w-full text-red">
               <LogOutIcon className="w-4 h-4 mr-2" />
-              Logout
+              ይዉጡ
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
+              <AlertDialogTitle>መውጣት መፈለገዎትን ያረጋግጡ</AlertDialogTitle>
               <AlertDialogDescription>
-                Logging out will require you to log in again to access the dashboard.
+              ከወጡ ቦሀላ ዳሽቦርዱን ለመጠቀም እንደገና መግባትን ይጠበቅበወታል።
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={logout}>Logout</AlertDialogAction>
+              <AlertDialogCancel>ይቅር</AlertDialogCancel>
+              <AlertDialogAction onClick={logout}>ይዉጡ</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

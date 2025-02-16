@@ -80,10 +80,10 @@ const ChooseRegistration: React.FC = () => {
   if(user!.role !== "Admin"){
     return (
       <div className="flex flex-col items-center justify-center h-screen">
-        <h1 className="text-2xl font-bold">Unauthorized Access</h1>
-        <p className="text-lg">You need to log in to access this page.</p>
+        <h1 className="text-2xl font-bold">ያልተፈቀደ መድረሻ</h1>
+        <p className="text-lg">ይህንን ገፅ ለመጠቀም መጀመሪያ መግባት አለበዎት</p>
         <Button onClick={() => router.push("/")} className="mt-4">
-          Login
+        ይግቡ
         </Button>
       </div>
     ) 
@@ -104,8 +104,8 @@ const ChooseRegistration: React.FC = () => {
       <main className="container mx-auto p-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <RegistrationCard
-            title="መሠረታዊ"
-            description="ለመሠረታዊ ምዝገባ"
+            title="የብልጽግና ህብረት"
+            description="ለብልጽግና ህብረት ምዝገባ"
             icon={UserPlus}
             to="/dashboard/meseretawi"
           />

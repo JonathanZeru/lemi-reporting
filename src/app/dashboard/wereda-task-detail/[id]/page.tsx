@@ -56,9 +56,9 @@ const fetchReport = async () => {
     fetchReport()
   }, [id])
 
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>Error: {error}</div>
-  if (!notification) return <div>No report found</div>
+  if (loading) return <div>በመካሄድ ላይ...</div>
+  if (error) return <div>ስህተት: {error}</div>
+  if (!notification) return <div>ምንም ሪፖርት አልተገኘም።</div>
   const scheduleCreatedAt = new Date(notification.createdAt)
   const reportCreatedAt = new Date(notification.createdAt)
   const timeDifferenceInMinutes = differenceInMinutes(reportCreatedAt, scheduleCreatedAt)
@@ -73,38 +73,38 @@ const fetchReport = async () => {
       <div className="container mx-auto p-4 space-y-6 print:space-y-4">
         <Card className="print:shadow-none print:border-none">
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold">Task Detail</CardTitle>
+            <CardTitle className="text-3xl font-bold">የተግባር ዝርዝሮች</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4 print:grid-cols-1">
               <div>
-                <h2 className="text-xl font-semibold mb-2">Notification Details</h2>
-                <p><strong>Name:</strong> {notification.message}</p>
-                <p><strong>Description:</strong> {notification.recipientType}</p>
-                <p><strong>Created At:</strong> {format(reportCreatedAt, 'PPpp')}</p>
-                <p><strong>Status:</strong><Badge>{notification.isRead ? "seen" : "unseen"}</Badge> schedule.</p>
+                <h2 className="text-xl font-semibold mb-2">ማስታወቂያ ዝርዝሮች</h2>
+                <p><strong>ስም:</strong> {notification.message}</p>
+                <p><strong>ዝርዝር መግለጫ:</strong> {notification.recipientType}</p>
+                <p><strong>የተመዘገበበት ቦታ:</strong> {format(reportCreatedAt, 'PPpp')}</p>
+                <p><strong>ሁኔታ:</strong><Badge>{notification.isRead ? "seen" : "unseen"}</Badge> መርሐግብር.</p>
               </div>
               {notification.schedule != null ? 
               <div>
-                <h2 className="text-xl font-semibold mb-2">Created Schedule Details</h2>
-                <p><strong>Schedule Name:</strong> {notification.schedule.title}</p>
-                <p><strong>Description:</strong> {notification.schedule.description}</p>
-                <p><strong>Created At:</strong> {format(reportCreatedAt, 'PPpp')}</p>
-                <p><strong>Start Time At:</strong> {format(new Date(notification.schedule?.startTime), 'PPpp')}</p>
-                <p><strong>End Time At:</strong> {format(new Date(notification.schedule?.endTime), 'PPpp')}</p>
-                <p><strong>Status:</strong> <Badge>{reportStatus}</Badge> and it is a <Badge>{notification.schedule.status}</Badge> schedule.</p>
+                <h2 className="text-xl font-semibold mb-2">የተመዘገበ መርሐግብር ዝርዝሮች</h2>
+                <p><strong>የመርሐግብር ስም:</strong> {notification.schedule.title}</p>
+                <p><strong>ዝርዝር መግለጫ:</strong> {notification.schedule.description}</p>
+                <p><strong>የተመዘገበበት ቦታ:</strong> {format(reportCreatedAt, 'PPpp')}</p>
+                <p><strong>የመነሻ ጊዜ:</strong> {format(new Date(notification.schedule?.startTime), 'PPpp')}</p>
+                <p><strong>የመጨረሻ ጊዜ:</strong> {format(new Date(notification.schedule?.endTime), 'PPpp')}</p>
+                <p><strong>ሁኔታ:</strong> <Badge>{reportStatus}</Badge> and it is a <Badge>{notification.schedule.status}</Badge> መርሐግብር.</p>
               </div>
             :
             <></>}
             {notification.report != null ? 
             <div>
-              <h2 className="text-xl font-semibold mb-2">Added Report Highlight</h2>
-              <p><strong>Report Name:</strong> {notification.report.name}</p>
-              <p><strong>Description:</strong> {notification.report.description}</p>
-              <p><strong>Created At:</strong> {format(notification.report.createdAt, 'PPpp')}</p>
+              <h2 className="text-xl font-semibold mb-2">የተላከ ሪፖርት አጠቃላይ እይታ</h2>
+              <p><strong>የሪፖርት  ስም:</strong> {notification.report.name}</p>
+              <p><strong>ዝርዝር መግለጫ:</strong> {notification.report.description}</p>
+              <p><strong>የተመዘገበበት ቦታ:</strong> {format(notification.report.createdAt, 'PPpp')}</p>
               <Link href={`/dashboard/wereda-report-detail/${notification.report.id}`}>
               <Button>
-                See More Detail
+              ተጨማሪ ዝርዝር ይመልከቱ 
               </Button>
               </Link>
             </div>

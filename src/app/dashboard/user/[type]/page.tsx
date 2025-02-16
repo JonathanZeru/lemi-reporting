@@ -83,12 +83,12 @@ function EditUserDialog({ user, isOpen, onClose, onSave }: EditUserDialogProps) 
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit User</DialogTitle>
+          <DialogTitle>ተጠቃሚዉን ያስተካክሉ</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="firstName" className="text-right">
-              First Name
+            የመጀመሪያ ስም
             </Label>
             <Input
               id="firstName"
@@ -100,7 +100,7 @@ function EditUserDialog({ user, isOpen, onClose, onSave }: EditUserDialogProps) 
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="lastName" className="text-right">
-              Last Name
+            የበአባት ስም
             </Label>
             <Input
               id="lastName"
@@ -112,7 +112,7 @@ function EditUserDialog({ user, isOpen, onClose, onSave }: EditUserDialogProps) 
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="email" className="text-right">
-              Email
+            ኢሜል
             </Label>
             <Input
               id="email"
@@ -124,7 +124,7 @@ function EditUserDialog({ user, isOpen, onClose, onSave }: EditUserDialogProps) 
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="phone" className="text-right">
-              Phone
+            ስልክ
             </Label>
             <Input
               id="phone"
@@ -136,7 +136,7 @@ function EditUserDialog({ user, isOpen, onClose, onSave }: EditUserDialogProps) 
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="role" className="text-right">
-              Role
+            ሚና
             </Label>
             <Select value={editedUser.role} onValueChange={(value) => handleSelectChange("role", value)}>
               <SelectTrigger className="col-span-3">
@@ -144,16 +144,16 @@ function EditUserDialog({ user, isOpen, onClose, onSave }: EditUserDialogProps) 
               </SelectTrigger>
               <SelectContent>
               <SelectItem value="Admin">Admin</SelectItem>
-                <SelectItem value="Hiwas">Hiwas</SelectItem>
-                <SelectItem value="Meseretawi Derejit">Meseretawi Derejit</SelectItem>
-                <SelectItem value="Wana">Wana</SelectItem>
-                <SelectItem value="Wereda">Wereda</SelectItem>
+                <SelectItem value="Hiwas">የብልጽግና ቤተሰብ</SelectItem>
+                <SelectItem value="Meseretawi Derejit">የብልጽግና ህብረት</SelectItem>
+                <SelectItem value="Wana">የፖለቲካ ዘርፍ ሀላፊ</SelectItem>
+                <SelectItem value="Wereda">ወረዳ</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="status" className="text-right">
-              Status
+            ሁኔታ
             </Label>
             <Select
               value={editedUser.isActive ? "active" : "inactive"}
@@ -171,7 +171,7 @@ function EditUserDialog({ user, isOpen, onClose, onSave }: EditUserDialogProps) 
         </div>
         <DialogFooter>
           <Button type="submit" onClick={handleSave}>
-            Save changes
+          ለውጡን ያስቀምጡ
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -299,12 +299,12 @@ const UserPage = () => {
 
   return (
     <div className="container mx-auto p-6 space-y-8">
-      <h1 className="text-3xl font-bold mb-6">User Management</h1>
+      <h1 className="text-3xl font-bold mb-6">የተጠቃሚ አስተዳደርt</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+            <CardTitle className="text-sm font-medium">አጠቃላይ ተጠቃሚዎች</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{users.length}</div>
@@ -331,7 +331,7 @@ const UserPage = () => {
       <div className="flex flex-col md:flex-row gap-4 items-end">
         <div className="flex-grow space-y-2">
           <label htmlFor="search" className="text-sm font-medium">
-            Search Users
+          ተጠቃሚዎችን ይፈልጉ
           </label>
           <div className="flex gap-2">
             <Select value={searchField} onValueChange={(value) => setSearchField(value as keyof User)}>
@@ -339,11 +339,11 @@ const UserPage = () => {
                 <SelectValue placeholder="Search by" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="firstName">First Name</SelectItem>
-                <SelectItem value="lastName">Last Name</SelectItem>
-                <SelectItem value="email">Email</SelectItem>
-                <SelectItem value="phone">Phone</SelectItem>
-                <SelectItem value="role">Role</SelectItem>
+                <SelectItem value="firstName">የመጀመሪያ ስም</SelectItem>
+                <SelectItem value="lastName">የበአባት ስም</SelectItem>
+                <SelectItem value="email">ኢሜል</SelectItem>
+                <SelectItem value="phone">ስልክ</SelectItem>
+                <SelectItem value="role">ሚና </SelectItem>
               </SelectContent>
             </Select>
             <div className="relative flex-grow">
@@ -370,7 +370,7 @@ const UserPage = () => {
             </SelectContent>
           </Select>
           <Button variant="outline" onClick={clearFilters}>
-            <RefreshCw className="mr-2 h-4 w-4" /> Clear
+            <RefreshCw className="mr-2 h-4 w-4" /> አፅዳ
           </Button>
         </div>
       </div>
@@ -380,22 +380,22 @@ const UserPage = () => {
           <TableHeader>
             <TableRow>
               <TableHead onClick={() => handleSort("firstName")} className="cursor-pointer">
-                First Name {sortColumn === "firstName" && (sortDirection === "asc" ? "↑" : "↓")}
+              የመጀመሪያ ስም {sortColumn === "firstName" && (sortDirection === "asc" ? "↑" : "↓")}
               </TableHead>
               <TableHead onClick={() => handleSort("lastName")} className="cursor-pointer">
-                Last Name {sortColumn === "lastName" && (sortDirection === "asc" ? "↑" : "↓")}
+              የአባት ስም  {sortColumn === "lastName" && (sortDirection === "asc" ? "↑" : "↓")}
               </TableHead>
               <TableHead onClick={() => handleSort("email")} className="cursor-pointer">
-                Email {sortColumn === "email" && (sortDirection === "asc" ? "↑" : "↓")}
+              ኢሜል {sortColumn === "email" && (sortDirection === "asc" ? "↑" : "↓")}
               </TableHead>
               <TableHead onClick={() => handleSort("phone")} className="cursor-pointer">
-                Phone {sortColumn === "phone" && (sortDirection === "asc" ? "↑" : "↓")}
+              ስልክ {sortColumn === "phone" && (sortDirection === "asc" ? "↑" : "↓")}
               </TableHead>
               <TableHead onClick={() => handleSort("role")} className="cursor-pointer">
-                Role {sortColumn === "role" && (sortDirection === "asc" ? "↑" : "↓")}
+              ሚና {sortColumn === "role" && (sortDirection === "asc" ? "↑" : "↓")}
               </TableHead>
               <TableHead onClick={() => handleSort("isActive")} className="cursor-pointer">
-                Status {sortColumn === "isActive" && (sortDirection === "asc" ? "↑" : "↓")}
+              ሁኔታ {sortColumn === "isActive" && (sortDirection === "asc" ? "↑" : "↓")}
               </TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
@@ -404,13 +404,13 @@ const UserPage = () => {
             {isLoading ? (
               <TableRow>
                 <TableCell colSpan={7} className="text-center py-4">
-                  Loading...
+                በመካሄድ ላይ...
                 </TableCell>
               </TableRow>
             ) : displayedUsers.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={7} className="text-center py-4">
-                  No users found
+                ምንም ተጠቃሚ አልተገኘም።
                 </TableCell>
               </TableRow>
             ) : (
@@ -428,10 +428,10 @@ const UserPage = () => {
                   </TableCell>
                   <TableCell>
                     <Button variant="ghost" size="sm" onClick={() => handleEditUser(user)}>
-                      Edit
+                    አስተካክል
                     </Button>
                     <Button variant="ghost" size="sm" onClick={() => handleDeleteUser(user)}>
-                      Delete
+                    ሰርዝ
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -447,17 +447,17 @@ const UserPage = () => {
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
         >
-          Previous
+         ቀዳሚ
         </Button>
         <span>
-          Page {currentPage} of {totalPages}
+        ገጽ {currentPage} of {totalPages}
         </span>
         <Button
           variant="outline"
           onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
           disabled={currentPage === totalPages}
         >
-          Next
+          ቀጥሎ
         </Button>
       </div>
 
@@ -471,15 +471,15 @@ const UserPage = () => {
       <AlertDialog open={isDeleteAlertOpen} onOpenChange={setIsDeleteAlertOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure you want to delete this user?</AlertDialogTitle>
+            <AlertDialogTitle>ተጠቃሚዉን መሰረዝ እደፈለጉ ያረጋግጠዋል?</AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete the user account and remove their data from our
               servers.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDeleteUser}>Delete</AlertDialogAction>
+            <AlertDialogCancel>ተዉ</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDeleteUser}>ሰርዝ</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

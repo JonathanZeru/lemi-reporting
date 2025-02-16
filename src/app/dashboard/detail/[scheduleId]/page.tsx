@@ -107,9 +107,9 @@ const CommonTaskDetail = () => {
     fetchTaskDetail()
   }, [scheduleId])
 
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>Error: {error}</div>
-  if (!taskDetail) return <div>No task detail found</div>
+  if (loading) return <div>በመካሄድ ላይ...</div>
+  if (error) return <div>ስህተት: {error}</div>
+  if (!taskDetail) return <div> ምንም የተግባር ዝርዝር አልተገኘም።</div>
 
   const taskCreatedAt = new Date(taskDetail.createdAt)
   const taskStartTime = new Date(taskDetail.startTime)
@@ -122,115 +122,115 @@ const CommonTaskDetail = () => {
       <div className="container mx-auto p-4 space-y-6 print:space-y-4">
         <Card className="print:shadow-none print:border-none">
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold">Task Detail</CardTitle>
+            <CardTitle className="text-3xl font-bold">የተግባር ዝርዝሮች</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 print:grid-cols-1">
               <div>
-                <h2 className="text-xl font-semibold mb-2">Task Details</h2>
+                <h2 className="text-xl font-semibold mb-2">የተግባር ዝርዝሮች</h2>
                 <p>
-                  <strong>Title:</strong> {taskDetail.title}
+                  <strong>ርዕስ:</strong> {taskDetail.title}
                 </p>
                 <p>
-                  <strong>Description:</strong> {taskDetail.description}
+                  <strong>ዝርዝር መግለጫ:</strong> {taskDetail.description}
                 </p>
                 <p>
-                  <strong>Created At:</strong> {format(taskCreatedAt, "PPpp")}
+                  <strong>የተመዘገበበት ቦታ:</strong> {format(taskCreatedAt, "PPpp")}
                 </p>
                 <p>
-                  <strong>Start Time:</strong> {format(new Date(taskDetail.startTime), "PPpp")}
+                  <strong>የመነሻ ጊዜ:</strong> {format(new Date(taskDetail.startTime), "PPpp")}
                 </p>
                 <p>
-                  <strong>End Time:</strong> {format(new Date(taskDetail.endTime), "PPpp")}
+                  <strong>የመጨረሻ ጊዜ:</strong> {format(new Date(taskDetail.endTime), "PPpp")}
                 </p>
                 <p>
-                  <strong>Status:</strong> <Badge>{taskDetail.status}</Badge>
+                  <strong>ሁኔታ:</strong> <Badge>{taskDetail.status}</Badge>
                 </p>
                 <p>
-                  <strong>Time Status:</strong> <Badge>{taskStatus}</Badge>
+                  <strong> የጊዜዉ ሁኔታ:</strong> <Badge>{taskStatus}</Badge>
                 </p>
               </div>
 
               {taskDetail.createdByHiwas && (
                 <div>
-                  <h2 className="text-xl font-semibold mb-2">Created By</h2>
+                  <h2 className="text-xl font-semibold mb-2">የተፈጠረው በ</h2>
                   <p>
-                    <strong>Name:</strong> {taskDetail.createdByHiwas.firstName} {taskDetail.createdByHiwas.lastName}
+                    <strong>ስም:</strong> {taskDetail.createdByHiwas.firstName} {taskDetail.createdByHiwas.lastName}
                   </p>
                   <p>
-                    <strong>Email:</strong> {taskDetail.createdByHiwas.email}
+                    <strong>ኢሜል:</strong> {taskDetail.createdByHiwas.email}
                   </p>
                   <p>
-                    <strong>Phone:</strong> {taskDetail.createdByHiwas.phone}
+                    <strong>ስልክ:</strong> {taskDetail.createdByHiwas.phone}
                   </p>
                   <p>
-                    <strong>Role:</strong> {taskDetail.createdByHiwas.role}
+                    <strong>ሚና:</strong> {taskDetail.createdByHiwas.role}
                   </p>
                 </div>
               )}
 
               {taskDetail.createdByMD && (
                 <div>
-                  <h2 className="text-xl font-semibold mb-2">Created By</h2>
+                  <h2 className="text-xl font-semibold mb-2">የተፈጠረው በ</h2>
                   <p>
-                    <strong>Name:</strong> {taskDetail.createdByMD.firstName} {taskDetail.createdByMD.lastName}
+                    <strong>ስም:</strong> {taskDetail.createdByMD.firstName} {taskDetail.createdByMD.lastName}
                   </p>
                   <p>
-                    <strong>Email:</strong> {taskDetail.createdByMD.email}
+                    <strong>ኢሜል:</strong> {taskDetail.createdByMD.email}
                   </p>
                   <p>
-                    <strong>Phone:</strong> {taskDetail.createdByMD.phone}
+                    <strong>ስልክ:</strong> {taskDetail.createdByMD.phone}
                   </p>
                   <p>
-                    <strong>Role:</strong> {taskDetail.createdByMD.role}
+                    <strong>ሚና:</strong> {taskDetail.createdByMD.role}
                   </p>
                 </div>
               )}
 
               {taskDetail.createdByWana && (
                 <div>
-                  <h2 className="text-xl font-semibold mb-2">Created By</h2>
+                  <h2 className="text-xl font-semibold mb-2">የተፈጠረው በ</h2>
                   <p>
-                    <strong>Name:</strong> {taskDetail.createdByWana.firstName} {taskDetail.createdByWana.lastName}
+                    <strong>ስም:</strong> {taskDetail.createdByWana.firstName} {taskDetail.createdByWana.lastName}
                   </p>
                   <p>
-                    <strong>Email:</strong> {taskDetail.createdByWana.email}
+                    <strong>ኢሜል:</strong> {taskDetail.createdByWana.email}
                   </p>
                   <p>
-                    <strong>Phone:</strong> {taskDetail.createdByWana.phone}
+                    <strong>ስልክ:</strong> {taskDetail.createdByWana.phone}
                   </p>
                   <p>
-                    <strong>Role:</strong> {taskDetail.createdByWana.role}
+                    <strong>ሚና:</strong> {taskDetail.createdByWana.role}
                   </p>
                 </div>
               )}
 
               {taskDetail.createdByWereda && (
                 <div>
-                  <h2 className="text-xl font-semibold mb-2">Created By</h2>
+                  <h2 className="text-xl font-semibold mb-2">የተፈጠረው በ</h2>
                   <p>
-                    <strong>Name:</strong> {taskDetail.createdByWereda.firstName} {taskDetail.createdByWereda.lastName}
+                    <strong>ስም:</strong> {taskDetail.createdByWereda.firstName} {taskDetail.createdByWereda.lastName}
                   </p>
                   <p>
-                    <strong>Email:</strong> {taskDetail.createdByWereda.email}
+                    <strong>ኢሜል:</strong> {taskDetail.createdByWereda.email}
                   </p>
                   <p>
-                    <strong>Phone:</strong> {taskDetail.createdByWereda.phone}
+                    <strong>ስልክ:</strong> {taskDetail.createdByWereda.phone}
                   </p>
                   <p>
-                    <strong>Role:</strong> {taskDetail.createdByWereda.role}
+                    <strong>ሚና:</strong> {taskDetail.createdByWereda.role}
                   </p>
                 </div>
               )}
 
               {taskDetail.reports && taskDetail.reports.length > 0 && (
                 <div>
-                  <h2 className="text-xl font-semibold mb-2">Reports</h2>
+                  <h2 className="text-xl font-semibold mb-2">ሪፖርቶች</h2>
                   <p>
-                    <strong>Number of Reports:</strong> {taskDetail.reports.length}
+                    <strong>የሪፖርቶች ብዛት:</strong> {taskDetail.reports.length}
                   </p>
                   <Link href={`/dashboard/task-reports/${taskDetail.id}`}>
-                    <Button className="mt-2">See Reports</Button>
+                    <Button className="mt-2">ሪፖርቶችን ይመልከቱ</Button>
                   </Link>
                 </div>
               )}

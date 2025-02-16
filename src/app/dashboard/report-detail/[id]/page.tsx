@@ -63,9 +63,9 @@ const fetchReport = async () => {
     fetchReport()
   }, [id])
 
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>Error: {error}</div>
-  if (!report) return <div>No report found</div>
+  if (loading) return <div>በመካሄድ ላይ...</div>
+  if (error) return <div>ስህተት: {error}</div>
+  if (!report) return <div>ምንም ሪፖርት አልተገኘም።</div>
   let timeDifferenceInMinutes = 0
   if(report.schedule!=null && report.createdAt!=null){
     const scheduleCreatedAt = new Date(report.schedule.createdAt)
@@ -140,39 +140,40 @@ const fetchReport = async () => {
       <div className="container mx-auto p-4 space-y-6 print:space-y-4">
         <Card className="print:shadow-none print:border-none">
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold">Final Report</CardTitle>
+            <CardTitle className="text-3xl font-bold">የመጨረሻ ሪፖርት</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4 print:grid-cols-1">
               <div>
-                <h2 className="text-xl font-semibold mb-2">Report Details</h2>
-                <p><strong>Name:</strong> {report.name}</p>
-                <p><strong>Description:</strong> {report.description}</p>
-                <p><strong>Created At:</strong> {format(reportCreatedAt, 'PPpp')}</p>
+                <h2 className="text-xl font-semibold mb-2">የሪፖርት ዝርዝሮች</h2>
+                <p><strong>ስም:</strong> {report.name}</p>
+                <p><strong>ዝርዝር መግለጫ:</strong> {report.description}</p>
+                <p><strong>የተመዘገበበት ቦታ:</strong> {format(reportCreatedAt, 'PPpp')}</p>
                 {report.updatedAt == null ? <></>:
-                 <p><strong>Updated At:</strong> {format(new Date(report.updatedAt), 'PPpp')}</p>}
-                <p><strong>Status:</strong> {reportStatus}</p>
+                 <p><strong>Updated ቦታ:</strong> {format(new Date(report.updatedAt), 'PPpp')}</p>}
+                <p><strong>ሁኔታ:</strong> {reportStatus}</p>
               </div>
              {report.reportByHiwas == null ?
              <></>
              :<div>
-                <h2 className="text-xl font-semibold mb-2">Reporter Information</h2>
-                <p><strong>Reported By:</strong> {report.reportedBy}</p>
-                <p><strong>Name:</strong> {report.reportByHiwas.firstName} {report.reportByHiwas.lastName}</p>
-                <p><strong>Email:</strong> {report.reportByHiwas.email}</p>
-                <p><strong>Phone:</strong> {report.reportByHiwas.phone}</p>
+                <h2 className="text-xl font-semibold mb-2">የሪፖርተር መረጃ</h2>
+                <p><strong>ሪፖርቱ የተላከዉ በ:</strong> {report.reportedBy}</p>
+                <p><strong>ስም:</strong> {report.reportByHiwas.firstName} {report.reportByHiwas.lastName}</p>
+                <p><strong>ኢሜል:</strong> {report.reportByHiwas.email}</p>
+                <p><strong>ስልክ:</strong> {report.reportByHiwas.phone}</p>
               </div>}
             </div>
             <Separator className="my-4" />
            {report.schedule == null || report.reportByHiwas == null ? 
            <></>
            : <div>
-              <h2 className="text-xl font-semibold mb-2">Schedule Information</h2>
-              <p><strong>Title:</strong> {report.schedule.title}</p>
-              <p><strong>Description:</strong> {report.schedule.description}</p>
-              <p><strong>Start Time:</strong> {format(new Date(report.schedule.startTime), 'PPpp')}</p>
-              <p><strong>End Time:</strong> {format(new Date(report.schedule.endTime), 'PPpp')}</p>
-              <p><strong>Status:</strong> {report.schedule.status} 
+              <h2 className="text-xl font-semibold mb-2">የመርሐግብር መረጃ</h2>
+              <p><strong>
+              ርዕስ:</strong> {report.schedule.title}</p>
+              <p><strong>ዝርዝር መግለጫ:</strong> {report.schedule.description}</p>
+              <p><strong>የመነሻ ጊዜ:</strong> {format(new Date(report.schedule.startTime), 'PPpp')}</p>
+              <p><strong>የመጨረሻ ጊዜ:</strong> {format(new Date(report.schedule.endTime), 'PPpp')}</p>
+              <p><strong>ሁኔታ:</strong> {report.schedule.status} 
               {user?.role == "Meseretawi Derejit" ?
                report.reportByHiwas.mdId == user?.id ?
                report.schedule.status == "Under Meseretawi Review" ? 
@@ -180,7 +181,7 @@ const fetchReport = async () => {
                onClick={()=> handleReportApproval()}
                disabled={loadingAprroval}
                >
-                Approve
+                አጽድቅ
                </Button>:<></>:<></>:<></>
               }
               </p>
@@ -190,7 +191,7 @@ const fetchReport = async () => {
 
         <Card className="print:shadow-none print:border-none">
           <CardHeader>
-            <CardTitle>Images</CardTitle>
+            <CardTitle>ምስሎች</CardTitle>
           </CardHeader>
         {report.reportImages == null ? 
         <></>
@@ -239,27 +240,27 @@ const fetchReport = async () => {
 
         <Card className="print:shadow-none print:border-none">
           <CardHeader>
-            <CardTitle>Audio</CardTitle>
+            <CardTitle>ኦዲዮ</CardTitle>
           </CardHeader>
           <CardContent>
             <audio controls className="w-full print:hidden">
               <source src={`${apiURL}${report.audio}`} type="audio/wav" />
-              Your browser does not support the audio element.
+              ሲስተሙ ድምጽ ፋይል አይቀበልም
             </audio>
-            <p className="hidden print:block">Audio file: {report.audio}</p>
+            <p className="hidden print:block">ድምጽ ፋይል: {report.audio}</p>
           </CardContent>
         </Card>
 
         <Card className="print:shadow-none print:border-none">
           <CardHeader>
-            <CardTitle>Video</CardTitle>
+            <CardTitle>ቪዲዮ</CardTitle>
           </CardHeader>
           <CardContent>
             <video controls className="w-full print:hidden">
               <source src={`${apiURL}${report.reportVideo}`} type="video/mp4" />
-              Your browser does not support the video tag.
+              ሲስተሙ ቪዲዮ ፋይል አይቀበልም.
             </video>
-            <p className="hidden print:block">Video file: {report.reportVideo}</p>
+            <p className="hidden print:block">ቪዲዮ ፋይል: {report.reportVideo}</p>
           </CardContent>
         </Card>
       </div>

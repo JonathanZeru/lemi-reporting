@@ -109,7 +109,7 @@ export default function SignIn() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                    የይለፍ ቃል
+                  የሚስጥር ቁጥር
                   </Label>
                   <div className="relative">
                     <Input

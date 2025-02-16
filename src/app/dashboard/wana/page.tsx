@@ -216,7 +216,7 @@ const WanaSchedule: React.FC = () => {
       <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
         <CardTitle className="text-xl font-bold">{schedule.title}</CardTitle>
         <CardDescription className="text-gray-100">
-          Status:
+        ሁኔታ:
           <Badge
             defaultValue={schedule.status === "Completed" || schedule.status === "Complete" ? "success" : "secondary"}
             className="ml-2"
@@ -230,37 +230,37 @@ const WanaSchedule: React.FC = () => {
           <div className="flex items-center">
             <FileText className="w-5 h-5 mr-2 text-gray-500" />
             <p>
-              <strong>Description:</strong> {schedule.description}
+              <strong>ዝርዝር መግለጫ:</strong> {schedule.description}
             </p>
           </div>
           <div className="flex items-center">
             <CalendarIcon className="w-5 h-5 mr-2 text-gray-500" />
             <p>
-              <strong>Start Date:</strong> {format(parseISO(schedule.startTime), "PPPP")}
+              <strong>የመነሻ ቀን:</strong> {format(parseISO(schedule.startTime), "PPPP")}
             </p>
           </div>
           <div className="flex items-center">
             <Clock className="w-5 h-5 mr-2 text-gray-500" />
             <p>
-              <strong>Start Time:</strong> {format(parseISO(schedule.startTime), "p")}
+              <strong>የመነሻ ጊዜ:</strong> {format(parseISO(schedule.startTime), "p")}
             </p>
           </div>
           <div className="flex items-center">
             <CalendarIcon className="w-5 h-5 mr-2 text-gray-500" />
             <p>
-              <strong>End Date:</strong> {format(parseISO(schedule.endTime), "PPPP")}
+              <strong>የመጨረሻ ቀን:</strong> {format(parseISO(schedule.endTime), "PPPP")}
             </p>
           </div>
           <div className="flex items-center">
             <Clock className="w-5 h-5 mr-2 text-gray-500" />
             <p>
-              <strong>End Time:</strong> {format(parseISO(schedule.endTime), "p")}
+              <strong>የመጨረሻ ጊዜ:</strong> {format(parseISO(schedule.endTime), "p")}
             </p>
           </div>
           <div className="flex items-center">
             <User className="w-5 h-5 mr-2 text-gray-500" />
             <p>
-              <strong>Created By:</strong> {schedule.createdByRole} - {schedule.createdByHiwas?.firstName}{" "}
+              <strong>የተመዘገበዉ በ:</strong> {schedule.createdByRole} - {schedule.createdByHiwas?.firstName}{" "}
               {schedule.createdByHiwas?.lastName}
             </p>
           </div>
@@ -276,7 +276,7 @@ const WanaSchedule: React.FC = () => {
     return (
       <div className="flex justify-center items-center h-screen" aria-live="polite" aria-busy="true">
         <Loader className="w-12 h-12 animate-spin text-blue-500" />
-        <span className="sr-only">Loading schedules. Please wait.</span>
+        <span className="sr-only">መርሐግብር በመካሄድ ላይ. እባኮን  ትንሽ ይጠብቁ.</span>
       </div>
     )
   }
@@ -284,7 +284,7 @@ const WanaSchedule: React.FC = () => {
   return (
     <div className="container mx-auto p-6 bg-gray-50">
       <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4 md:mb-0">Schedule Management</h1>
+        <h1 className="text-4xl font-bold text-gray-800 mb-4 md:mb-0">መርሐግብር አስተዳደር</h1>
         <div className="flex items-center space-x-4">
           <span className="text-lg font-medium">Kanban View</span>
           <Switch
@@ -292,7 +292,7 @@ const WanaSchedule: React.FC = () => {
             onCheckedChange={(checked) => setShowSortedView(!checked)}
             aria-label="Toggle between Kanban and Sorted view"
           />
-          <span className="text-lg font-medium">Sorted View</span>
+          <span className="text-lg font-medium">የተደረደረ እይታ</span>
         </div>
       </div>
 
@@ -302,11 +302,11 @@ const WanaSchedule: React.FC = () => {
             <SelectValue placeholder="Search attribute" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All</SelectItem>
-            <SelectItem value="title">Title</SelectItem>
-            <SelectItem value="description">Description</SelectItem>
-            <SelectItem value="status">Status</SelectItem>
-            <SelectItem value="createdByRole">Created By</SelectItem>
+            <SelectItem value="all">ሁሉም</SelectItem>
+            <SelectItem value="title">ርዕስ</SelectItem>
+            <SelectItem value="description">ዝርዝር መግለጫ</SelectItem>
+            <SelectItem value="status">ሁኔታ</SelectItem>
+            <SelectItem value="createdByRole">የተመዘገበዉ በ</SelectItem>
           </SelectContent>
         </Select>
         <Input
@@ -323,7 +323,7 @@ const WanaSchedule: React.FC = () => {
               className={cn("w-[240px] justify-start text-left font-normal", !startDate && "text-white")}
             >
               <CalendarIcon className="mr-2 h-4 w-4 text-white" />
-              {startDate ? format(startDate, "PPP") : <span>Start date</span>}
+              {startDate ? format(startDate, "PPP") : <span>የመነሻ ቀን</span>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
@@ -337,7 +337,7 @@ const WanaSchedule: React.FC = () => {
               className={cn("w-[240px] justify-start text-left font-normal", !endDate && "text-white")}
             >
               <CalendarIcon className="mr-2 h-4 w-4 text-white" />
-              {endDate ? format(endDate, "PPP") : <span>End date</span>}
+              {endDate ? format(endDate, "PPP") : <span>የመጨረሻ ቀን</span>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
@@ -349,13 +349,13 @@ const WanaSchedule: React.FC = () => {
             <SelectValue placeholder="Sort schedules by" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="startTime">Start Time</SelectItem>
-            <SelectItem value="endTime">End Time</SelectItem>
-            <SelectItem value="createdAt">Created At</SelectItem>
-            <SelectItem value="title">Title</SelectItem>
-            <SelectItem value="status">Status</SelectItem>
-            <SelectItem value="createdByRole">Created By</SelectItem>
-            <SelectItem value="month">Month</SelectItem>
+            <SelectItem value="startTime">የመነሻ ጊዜ</SelectItem>
+            <SelectItem value="endTime">የመጨረሻ ጊዜ</SelectItem>
+            <SelectItem value="createdAt">የተመዘገበበት ቦታ</SelectItem>
+            <SelectItem value="title">ርዕስ</SelectItem>
+            <SelectItem value="status">ሁኔታ</SelectItem>
+            <SelectItem value="createdByRole">የተመዘገበዉ በ</SelectItem>
+            <SelectItem value="month">ወር</SelectItem>
           </SelectContent>
         </Select>
         <Button
