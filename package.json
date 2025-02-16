@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-     "dev": "next dev",
+    "dev": "next dev",
     "build": "yarn migrate:deploy && next build",
     "start": "next start",
     "migrate:dev": "prisma migrate dev",
@@ -56,6 +56,7 @@
     "date-fns": "^3.6.0",
     "embla-carousel-autoplay": "^8.1.7",
     "embla-carousel-react": "^8.1.7",
+    "et-calendar-react": "^1.1.0-9.4",
     "firebase-admin": "^12.4.0",
     "formidable": "^3.5.1",
     "framer-motion": "^12.0.0-alpha.0",
