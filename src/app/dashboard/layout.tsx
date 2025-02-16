@@ -45,7 +45,7 @@ const navigationLists: Record<string, NavItem[]> = {
   ],
   "Meseretawi Derejit": [
     { title: "ማስታወቂያ", icon: <Home className="w-4 h-4" />, link: "" },
-    { title: "የእርሶ ህዋሶች", icon: <Camera className="w-4 h-4" />, link: "my-hiwas" },
+    { title: "የእርሶ የብልጽግና ቤተሰቦች", icon: <Camera className="w-4 h-4" />, link: "my-hiwas" },
     { title: "የመገለጫ ቅንብሮች", icon: <Settings className="w-4 h-4" />, link: "settings" },
   ],
   Wereda: [
@@ -57,9 +57,9 @@ const navigationLists: Record<string, NavItem[]> = {
     { title: "ማስታወቂያ", icon: <Home className="w-4 h-4" />, link: "" },
     { title: "እቅድ", icon: <Workflow className="w-4 h-4" />, link: "wana" },
     { title: "ይመዝገቡ", icon: <User className="w-4 h-4" />, link: "choose" },
-    { title: "ህዋሶች", icon: <Workflow className="w-4 h-4" />, link: "user/1" },
-    { title: "መሠረታዊ", icon: <Workflow className="w-4 h-4" />, link: "user/2" },
-    { title: "ዋና", icon: <Workflow className="w-4 h-4" />, link: "user/3" },
+    { title: "የብልጽግና ቤተሰቦች", icon: <Workflow className="w-4 h-4" />, link: "user/1" },
+    { title: "የብልጽግና ህብረት", icon: <Workflow className="w-4 h-4" />, link: "user/2" },
+    { title: "የፖለቲካ ዘርፍ ሀላፊ", icon: <Workflow className="w-4 h-4" />, link: "user/3" },
     { title: "ወረዳ", icon: <Workflow className="w-4 h-4" />, link: "user/4" },
     { title: "የመገለጫ ቅንብሮች", icon: <Settings className="w-4 h-4" />, link: "settings" },
   ],
@@ -98,10 +98,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     if (!user) {
       return (
         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-500 to-purple-600">
-          <h1 className="text-3xl font-bold text-white mb-4">Unauthorized Access</h1>
-          <p className="text-xl text-white mb-6">You need to log in to access this page.</p>
+          <h1 className="text-3xl font-bold text-white mb-4">ያልተፈቀደ መድረሻ</h1>
+          <p className="text-xl text-white mb-6">ይህንን ገፅ ለመጠቀም መጀመሪያ መግባት አለበዎት.</p>
           <Button onClick={() => router.push("/")} className="bg-white text-blue-500 hover:bg-blue-100">
-            Login
+          ይግቡ
           </Button>
         </div>
       )
@@ -150,20 +150,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <AlertDialogTrigger asChild>
             <Button variant="outline" className="w-full text-red-500 hover:bg-red-50 hover:text-red-600">
               <LogOutIcon className="w-4 h-4 mr-2" />
-              Logout
+              ይዉጡ
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
+              <AlertDialogTitle>ዘግተህ መውጣት መፈለገዎትን ያረጋግጡ?</AlertDialogTitle>
               <AlertDialogDescription>
-                Logging out will require you to log in again to access the dashboard.
+              መውጣት   ከወጡ ቦሀላ ዳሽቦርዱን ለመጠቀም እንደገና መግባትን ይጠበቅበወታል።
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel>ተዉ</AlertDialogCancel>
               <AlertDialogAction onClick={logout} className="bg-red-500 text-white hover:bg-red-600">
-                Logout
+              ይዉጡ
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

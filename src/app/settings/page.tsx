@@ -44,19 +44,19 @@ export default function Settings() {
               <AlertDialogTrigger asChild>
                 <Button variant="destructive" className="text-red-500 px-4 py-2 w-full border-0" size="sm">
                   <LogOutIcon className="w-4 h-4" />
-                  Logout
+                  ይዉጡ
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
+                  <AlertDialogTitle>ዘግተህ መውጣት መፈለገዎትን ያረጋግጡ?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Logging out will require you to log in again to access the dashboard.
+                  መውጣት   ከወጡ ቦሀላ ዳሽቦርዱን ለመጠቀም እንደገና መግባትን ይጠበቅበወታል።
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={logout}>Logout</AlertDialogAction>
+                  <AlertDialogCancel>ተዉ</AlertDialogCancel>
+                  <AlertDialogAction onClick={logout}>ይዉጡ</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>

@@ -99,7 +99,7 @@ export default function AdForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-card-foreground">Image:</label>
+          <label className="block text-sm font-medium text-card-foreground">ምስል:</label>
           <input
             type="file"
             accept="image/*"
@@ -111,7 +111,7 @@ export default function AdForm() {
         {/* Image Preview Section */}
         {profileImage && (
           <div className="mt-4">
-            <h4 className="text-sm font-medium text-card-foreground mb-2">Selected Image:</h4>
+            <h4 className="text-sm font-medium text-card-foreground mb-2">የተመረጠ ምስል:</h4>
             <div className="relative">
               <img
                 src={URL.createObjectURL(profileImage)}
@@ -130,7 +130,7 @@ export default function AdForm() {
         )}
 
         <div>
-          <label className="block text-sm font-medium text-card-foreground">Video:</label>
+          <label className="block text-sm font-medium text-card-foreground">ቪዲዮ:</label>
           <input
             type="file"
             accept="video/*"

@@ -199,7 +199,7 @@ const WanaRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password">የይለፍ ቃል</Label>
+            <Label htmlFor="password">የሚስጥር ቁጥር </Label>
             <div className="relative">
               <Controller
                 name="password"
@@ -229,7 +229,7 @@ const WanaRegistration = () => {
               </Alert>
             )}
             <div className="space-y-2">
-              <Label>የይለፍ ቃል ጥንካሬ</Label>
+              <Label>የሚስጥር ቁጥር  ጥንካሬ</Label>
               <Progress value={passwordStrength} className="w-full" />
               <p className="text-sm text-gray-500">
                 {passwordStrength < 25 && "በጣም ደካማ"}

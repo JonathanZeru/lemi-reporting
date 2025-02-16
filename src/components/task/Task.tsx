@@ -403,11 +403,11 @@ const Task: React.FC = () => {
             <p className="text-gray-600">{selectedTask?.description}</p>
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div>
-                <p className="font-semibold">Start:</p>
+                <p className="font-semibold">ጀምር:</p>
                 <p>{selectedTask && format(new Date(selectedTask.startTime), "pp PP")}</p>
               </div>
               <div>
-                <p className="font-semibold">End:</p>
+                <p className="font-semibold">ጨርስ:</p>
                 <p>{selectedTask && format(new Date(selectedTask.endTime), "pp PP")}</p>
               </div>
             </div>
@@ -423,7 +423,7 @@ const Task: React.FC = () => {
                   onClick={() => selectedTask && handleTaskInProgress(selectedTask)}
                 >
                   {loadingInProgress ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                  Go To Meeting
+                  ወደ ስብሰባ ይሂዱ
                 </Button>
               )}
               <Button
@@ -443,7 +443,7 @@ const Task: React.FC = () => {
               className="w-full mt-4 text-red-400"
               onClick={() => selectedTask && handleDeleteTask(selectedTask.id)}
             >
-              Delete Task
+              ተግባሩን ሰርዝ
             </Button>
           </div>
         </DialogContent>

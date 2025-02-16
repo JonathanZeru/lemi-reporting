@@ -81,30 +81,30 @@ const MyHiwasTable = () => {
         >
           <Column
             field="firstName"
-            header="First Name"
+            header="የመጀመሪያ ስም"
             filter
-            filterPlaceholder="Search by First Name"
+            filterPlaceholder=" በመጀመሪያ ስም ይፈልጉ"
           />
           <Column
             field="lastName"
-            header="Last Name"
+            header=" የአባት ስም"
             filter
-            filterPlaceholder="Search by Last Name"
+            filterPlaceholder="በአባት ስም ይፈልጉ"
           />
-          <Column field="email" header="Email" />
-          <Column field="phone" header="Phone" />
-          <Column field="userName" header="Username" />
+          <Column field="email" header="ኢሜል" />
+          <Column field="phone" header="ስልክ" />
+          <Column field="userName" header="የተጠቃሚ መለያ ስም" />
           <Column
             field="createdAt"
-            header="Created At"
+            header="የተመዘገበበት ቦታ"
             body={(rowData: Hiwas) => formatDate(rowData.createdAt)}
           />
           <Column
-            header="Actions"
+            header="ድርጊት"
             body={(rowData: Hiwas) => (
               <>
                 <Button variant="outline" className="mr-2 bg-primary" onClick={(e) => handleRowClick(rowData.id)}>
-                  Show Schedule
+                መርሐግብር ይመልከቱ
                 </Button>
                 <Button
                   variant="destructive"
@@ -113,7 +113,7 @@ const MyHiwasTable = () => {
                     // You can implement a delete function here
                   }}
                 >
-                  Delete
+                  ሰርዝ
                 </Button>
               </>
             )}

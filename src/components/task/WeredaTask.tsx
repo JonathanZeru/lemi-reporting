@@ -220,8 +220,8 @@ const WeredaTask = () => {
           <p>{task.description}</p>
           <p>{task.status}</p>
           <p className="text-sm text-gray-500 mt-2">
-            Start: {new Date(task.startTime).toLocaleString()} <br />
-            End: {new Date(task.endTime).toLocaleString()}
+          ጀምር: {new Date(task.startTime).toLocaleString()} <br />
+          ጨርስ: {new Date(task.endTime).toLocaleString()}
           </p>
           <Link to={buttonUrl}>
             <Button className="mt-3 px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600">
@@ -242,7 +242,7 @@ const WeredaTask = () => {
             onClick={
             ()=>{handleTaskInProgress(task)}
           }>
-            Go To Meeting  
+            ወደ ስብሰባ ይሂዱ 
           </Button>
           </div>
           :
@@ -254,7 +254,7 @@ const WeredaTask = () => {
           className="mt-3 px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600"
           onClick={() => handleDeleteTask(task.id)}
         >
-          Delete Task
+          ተግባሩን ሰርዝ
         </Button>
       </div>
     );
@@ -310,21 +310,21 @@ const WeredaTask = () => {
       <div className="flex gap-6 justify-between items-stretch">
         <div className="swim-lane flex flex-col gap-5.5 w-1/3">
           <h4 className="text-xl font-bold">
-            To Do ({categorizeTasks("To Do").length})
+          የታቀደ ({categorizeTasks("To Do").length})
           </h4>
           {categorizeTasks("To Do").map((task) => renderTaskCard(task))}
         </div>
 
         <div className="swim-lane flex flex-col gap-5.5 w-1/3">
           <h4 className="text-xl font-bold">
-            In Progress ({categorizeTasks("In Progress").length})
+          በሂደት ላይ ({categorizeTasks("In Progress").length})
           </h4>
           {categorizeTasks("In Progress").map((task) => renderTaskCard(task))}
         </div>
 
         <div className="swim-lane flex flex-col gap-5.5 w-1/3">
           <h4 className="text-xl font-bold">
-            Completed ({categorizeTasks("Completed").length})
+          የጠናቀቀ({categorizeTasks("Completed").length})
           </h4>
           {categorizeTasks("Completed").map((task) => renderTaskCard(task))}
         </div>

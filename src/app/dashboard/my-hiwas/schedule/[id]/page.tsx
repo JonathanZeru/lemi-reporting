@@ -89,14 +89,14 @@ const MyHiwasSchedule = () => {
       href={`/dashboard/report-detail/${task.id}`}
     >
       <Button className="mt-3 px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600">
-      {task.createdByHiwas?.firstName}View Report Details
+      {task.createdByHiwas?.firstName}የሪፖርት ዝርዝሮችን ይመልከቱ
       </Button>
     </Link> : task.status == "Under Meseretawi Review" ? 
       <Link
       href={`/dashboard/report-detail/${task.id}`}
     >
       <Button className="mt-3 px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600">
-      {task.createdByHiwas?.firstName}View Report Details
+      {task.createdByHiwas?.firstName}የሪፖርት ዝርዝሮችን ይመልከቱ
       </Button>
     </Link>
     :
@@ -104,7 +104,7 @@ const MyHiwasSchedule = () => {
     href={`/dashboard/task-detail/${task.createdByHiwasId}`}
         >
           <Button className="mt-3 px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600">
-            View Task
+          ተግባር ይመልከቱ
           </Button>
         </Link>
      }
@@ -117,7 +117,7 @@ const MyHiwasSchedule = () => {
                     </>: task.status == "In Progress" ? 
                     <>
                     <h1 className="mb-4 text-lg font-medium text-red-500">
-                    Meeting started on {format(new Date(task.startTime), 'pp PP')}
+                    ስብሰባዉ የተጀመረዉ {format(new Date(task.startTime), 'pp PP')}
                   </h1>
                     </>:<></>
                   }
@@ -140,13 +140,13 @@ const MyHiwasSchedule = () => {
         {/* In Progress Column */}
         <div className="swim-lane flex flex-col gap-5.5 w-1/3">
           <h4 className="text-xl font-bold">
-            In Progress ({categorizeTasks("In Progress").length})
+          በሂደት ላይ ({categorizeTasks("In Progress").length})
           </h4>
           {categorizeTasks("In Progress").map((task) => renderTaskCard(task))}
         </div>
         <div className="swim-lane flex flex-col gap-5.5 w-1/3">
           <h4 className="text-xl font-bold">
-          Under Your Review ({categorizeTasks("In Progress").length})
+          በእርስዎ እይታ ስር ({categorizeTasks("In Progress").length})
           </h4>
           {categorizeTasks("Under Meseretawi Review").map((task) => renderTaskCard(task))}
         </div>
@@ -154,7 +154,7 @@ const MyHiwasSchedule = () => {
         {/* Completed Column */}
         <div className="swim-lane flex flex-col gap-5.5 w-1/3">
           <h4 className="text-xl font-bold">
-            Completed ({categorizeTasks("Completed").length})
+          የተጠናቀቀ ({categorizeTasks("Completed").length})
           </h4>
           {categorizeTasks("Completed").map((task) => renderTaskCard(task))}
         </div>

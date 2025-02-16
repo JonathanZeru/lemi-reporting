@@ -71,7 +71,7 @@ const RegistrationForm = () => {
       <form onSubmit={handleSubmit}>
         <div className="space-y-4">
           <div>
-            <Label htmlFor="firstName">First Name</Label>
+            <Label htmlFor="firstName">የመጀመሪያ ስም</Label>
             <Input
               id="firstName"
               type="text"
@@ -83,7 +83,7 @@ const RegistrationForm = () => {
           </div>
 
           <div>
-            <Label htmlFor="lastName">Last Name</Label>
+            <Label htmlFor="lastName">የአባት ስም </Label>
             <Input
               id="lastName"
               type="text"
@@ -95,7 +95,7 @@ const RegistrationForm = () => {
           </div>
 
           <div>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">ኢሜል</Label>
             <Input
               id="email"
               type="email"
@@ -107,7 +107,7 @@ const RegistrationForm = () => {
           </div>
 
           <div>
-            <Label htmlFor="phone">Phone</Label>
+            <Label htmlFor="phone">ስልክ</Label>
             <Input
               id="phone"
               type="text"
@@ -119,7 +119,7 @@ const RegistrationForm = () => {
           </div>
 
           <div>
-            <Label htmlFor="userName">Username</Label>
+            <Label htmlFor="userName">የተጠቃሚ መለያ ስም</Label>
             <Input
               id="userName"
               type="text"
@@ -131,7 +131,7 @@ const RegistrationForm = () => {
           </div>
 
           <div>
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">የሚስጥር ቁጥር </Label>
             <Input
               id="password"
               type="password"
@@ -143,7 +143,7 @@ const RegistrationForm = () => {
           </div>
 
           <div>
-            <Label htmlFor="role">Role</Label>
+            <Label htmlFor="role">ሚና</Label>
             <Input
               id="role"
               type="text"
@@ -155,7 +155,7 @@ const RegistrationForm = () => {
           </div>
 
           <div>
-            <Label htmlFor="isActive">Active</Label>
+            <Label htmlFor="isActive">በ ሥራ ላይ</Label>
             <Checkbox
               id="isActive"
               checked={isActive}
@@ -164,7 +164,7 @@ const RegistrationForm = () => {
           </div>
 
           <div>
-            <Label>User Type</Label>
+            <Label>የተጠቃሚ ዓይነት</Label>
             <div className="space-y-2">
               <label className="flex items-center space-x-2">
                 <input
@@ -175,7 +175,7 @@ const RegistrationForm = () => {
                   onChange={() => setUserType('Wana')}
                   className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                 />
-                <span>Wana</span>
+                <span>የፖለቲካ ዘርፍ ሀላፊ </span>
               </label>
               <label className="flex items-center space-x-2">
                 <input
@@ -186,7 +186,7 @@ const RegistrationForm = () => {
                   onChange={() => setUserType('Meseretawi')}
                   className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                 />
-                <span>Meseretawi</span>
+                <span>የብልጽግና ህብረት</span>
               </label>
               <label className="flex items-center space-x-2">
                 <input
@@ -197,7 +197,7 @@ const RegistrationForm = () => {
                   onChange={() => setUserType('Wereda')}
                   className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                 />
-                <span>Wereda</span>
+                <span>ወረዳ</span>
               </label>
               <label className="flex items-center space-x-2">
                 <input
@@ -208,21 +208,21 @@ const RegistrationForm = () => {
                   onChange={() => setUserType('Hiwas')}
                   className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                 />
-                <span>Hiwas</span>
+                <span>የብልጽግና ቤተሰብ</span>
               </label>
             </div>
           </div>
 
           {userType === 'Hiwas' && (
             <div>
-              <Label htmlFor="mdId">Select Meseretawi</Label>
+              <Label htmlFor="mdId">የብልጽግና ህብረቱን ይምረጡ</Label>
               <select
                 value={mdId}
                 onChange={(e) => setMdId(Number(e.target.value))}
                 required
                 className="w-full border-gray-300 rounded"
               >
-                <option value={0}>Select a Meseretawi</option>
+                <option value={0}>የብልጽግና ህብረቱን ይምረጡ</option>
                 {meseretawiOptions.map((option: { id: number; firstName: string; lastName: string }) => (
                   <option key={option.id} value={option.id}>
                     {option.firstName} {option.lastName}
@@ -238,7 +238,7 @@ const RegistrationForm = () => {
             </Button>
             <Link to="/">
             <Button type="submit" disabled={loading} className="w-full">
-              Login
+            ይግቡ
             </Button>
             </Link>
           </div>
