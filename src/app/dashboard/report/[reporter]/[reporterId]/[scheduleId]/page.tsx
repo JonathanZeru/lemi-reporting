@@ -37,8 +37,8 @@ export default function ReportForm() {
       images: [],
       pdfs: [],
       month: "",
-      presentEmployees: 0,
-      absentEmployees: 0,
+      presentEmployees: "0",
+      absentEmployees: "0",
     },
   })
 

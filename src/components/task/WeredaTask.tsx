@@ -1,28 +1,27 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { apiURL } from "../../utils/constants/constants";
-import React from "react";
-import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
-import { Schedule } from "@/types/types";
-import { toast } from "@/components/ui/use-toast";
-import { format, differenceInMinutes } from 'date-fns'
-import { useAuthStore } from "@/stores/authStore";
-import { Badge } from "../ui/badge";
+"use client"
+
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { apiURL } from "../../utils/constants/constants"
+import type React from "react"
+import { Button } from "../ui/button"
+import { Link } from "react-router-dom"
+import type { Schedule } from "@/types/types"
+import { toast } from "@/components/ui/use-toast"
+import { format, differenceInMinutes } from "date-fns"
+import { useAuthStore } from "@/stores/authStore"
 
 const WeredaTask = () => {
   const { user, accessToken } = useAuthStore()
   const [loadingInProgress, setLoadingInProgress] = useState(false)
-  const [formData, ] = useState({
+  const [formData] = useState({
     firstName: user?.firstName,
     lastName: user?.lastName,
     weredaId: user?.id,
-    scheduleId: 0
-});
+    scheduleId: 0,
+  })
 
-
-
-  const [tasks, setTasks] = useState<Schedule[]>([]);
+  const [tasks, setTasks] = useState<Schedule[]>([])
   const [newTask, setNewTask] = useState({
     title: "",
     description: "",
@@ -30,184 +29,173 @@ const WeredaTask = () => {
     endTime: "",
     weredaId: user?.id,
     firstName: user?.firstName,
-    lastName: user?.lastName
-  });
+    lastName: user?.lastName,
+  })
 
-  // Set creatorId in newTask when user data is available
   useEffect(() => {
     if (user && user.id) {
       setNewTask((prevTask) => ({
         ...prevTask,
-        creatorId: user.id, // Set creatorId when user is available
-      }));
-      fetchTasks(user?.id);  // Fetch tasks once user is loaded
+        creatorId: user.id,
+      }))
+      fetchTasks(user?.id)
     }
-  }, [user]);
+  }, [user])
 
   const fetchTasks = (userId: number) => {
-    console.log("user.id= ", userId);  // Ensure user.id is available
+    console.log("የተጠቃሚ መለያ= ", userId)
     console.log(`${apiURL}api/schedule/wereda?weredaId=${userId}`)
     axios
       .get(`${apiURL}api/schedule/wereda?weredaId=${userId}`)
       .then((response) => {
         console.log(response.data)
-        setTasks(response.data);
+        setTasks(response.data)
       })
       .catch((error) => {
-        console.error("Error fetching schedule data:", error);
-      });
-      console.log("tasks = = == = =",  tasks, " ====")
-  };
+        console.error("የስራ መርሃ ግብር መረጃን በማምጣት ላይ ስህተት ተከስቷል:", error)
+      })
+    console.log("ተግባራት = = == = =", tasks, " ====")
+  }
 
-  // Handle input changes for the new task
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setNewTask((prevTask) => ({
       ...prevTask,
       [name]: value,
-    }));
-  };
-
-  // Handle new task form submission
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newTask.weredaId) {
-      toast({
-        title: "Error",
-        description: "User ID is not available!",
-      });
-      return;
-    }
-    try {
-      const response = await axios.post(`${apiURL}api/schedule/wereda`,
-         newTask);
-      if (response.status === 201) {
-        toast({
-          title: "Success",
-          description: "Task created successfully!",
-        });
-        fetchTasks(user?.id || 0);  // Fetch updated tasks after task creation
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to create task!",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "An error occurred while creating the task.",
-      });
-    }
-  };
-
-  // Handle task deletion
-  const handleDeleteTask = async (taskId: number) => {
-    try {
-      const response = await axios.delete(`${apiURL}api/schedule/delete?id=${taskId}`);
-      if (response.status === 200) {
-        toast({
-          title: "Success",
-          description: "Task deleted successfully!",
-        });
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to delete task!",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "An error occurred while deleting the task.",
-      });
-    }
-  };
-
-  // Categorize tasks based on their status
-  const categorizeTasks = (status: string) =>{
-    console.log(status)
-    return tasks.filter((task) => task.status == status);
+    }))
   }
 
-  const handleTaskInProgress = async (task: Schedule)=>{
-    
-        setLoadingInProgress(true);
-        console.log("ere 2")
-        
-           console.log("ere 3");
-           
-             const form = new FormData();
-             formData.scheduleId = task.id;
-           console.log("ere 4");
-   
-           // Append form fields
-           Object.entries(formData).forEach(([key, value]) => {
-               form.append(key, value as string);
-           });
-           
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!newTask.weredaId) {
+      toast({
+        title: "ስህተት",
+        description: "የተጠቃሚ መለያ አልተገኘም!",
+      })
+      return
+    }
     try {
-      const response = await axios.post(`${apiURL}api/schedule/wereda-in-progress`, 
-        form,
-        {
+      const response = await axios.post(`${apiURL}api/schedule/wereda`, newTask)
+      if (response.status === 201) {
+        toast({
+          title: "ተሳክቷል",
+          description: "የስራ መርሃ ግብር በተሳካ ሁኔታ ተፈጥሯል!",
+        })
+        fetchTasks(user?.id || 0)
+      } else {
+        toast({
+          title: "ስህተት",
+          description: "የስራ መርሃ ግብር መፍጠር አልተሳካም!",
+        })
+      }
+    } catch (error) {
+      toast({
+        title: "ስህተት",
+        description: "የስራ መርሃ ግብር በመፍጠር ላይ ስህተት ተከስቷል።",
+      })
+    }
+  }
+
+  const handleDeleteTask = async (taskId: number) => {
+    try {
+      const response = await axios.delete(`${apiURL}api/schedule/delete?id=${taskId}`)
+      if (response.status === 200) {
+        toast({
+          title: "ተሳክቷል",
+          description: "የስራ መርሃ ግብር በተሳካ ሁኔታ ተሰርዟል!",
+        })
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId))
+      } else {
+        toast({
+          title: "ስህተት",
+          description: "የስራ መርሃ ግብር መሰረዝ አልተሳካም!",
+        })
+      }
+    } catch (error) {
+      toast({
+        title: "ስህተት",
+        description: "የስራ መርሃ ግብር በመሰረዝ ላይ ስህተት ተከስቷል።",
+      })
+    }
+  }
+
+  const categorizeTasks = (status: string) => {
+    console.log(status)
+    return tasks.filter((task) => task.status == status)
+  }
+
+  const handleTaskInProgress = async (task: Schedule) => {
+    setLoadingInProgress(true)
+    console.log("ere 2")
+
+    console.log("ere 3")
+
+    const form = new FormData()
+    formData.scheduleId = task.id
+    console.log("ere 4")
+
+    Object.entries(formData).forEach(([key, value]) => {
+      form.append(key, value as string)
+    })
+
+    try {
+      const response = await axios.post(`${apiURL}api/schedule/wereda-in-progress`, form, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      });
+      })
       if (response.status === 201) {
         toast({
-          title: "Success",
-          description: "Task in progress!",
-        });
+          title: "ተሳክቷል",
+          description: "የስራ መርሃ ግብር በሂደት ላይ ነው!",
+        })
         fetchTasks(task.id)
       } else {
         toast({
-          title: "Error",
-          description: "Failed to add task to in progress!",
-        });
+          title: "ስህተት",
+          description: "የስራ መርሃ ግብርን በሂደት ላይ ማስገባት አልተሳካም!",
+        })
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "An error occurred while adding task to in progress.",
-      });
+        title: "ስህተት",
+        description: "የስራ መርሃ ግብርን በሂደት ላይ በማስገባት ላይ ስህተት ተከስቷል።",
+      })
     }
   }
-  // Render individual task card
+
   const renderTaskCard = (task: Schedule) => {
     console.log(task)
     const taskStartTime = new Date(task.startTime)
-  const taskEndTime = new Date(task.endTime)
-  const timeDifferenceInMinutes = differenceInMinutes(taskEndTime, taskStartTime)
+    const taskEndTime = new Date(task.endTime)
+    const timeDifferenceInMinutes = differenceInMinutes(taskEndTime, taskStartTime)
 
-  const taskStatus =
-    timeDifferenceInMinutes > 0
-      ? `Meeting should have start on ${format(new Date(task.startTime), 'pp PP')}!` :
-       timeDifferenceInMinutes == 0
-      ? `Should be In Progress now!!`
-      : 'Up to Date';
+    const taskStatus =
+      timeDifferenceInMinutes > 0
+        ? `ስብሰባው በ ${format(new Date(task.startTime), "pp PP")} መጀመር ነበረበት!`
+        : timeDifferenceInMinutes == 0
+          ? `አሁን በሂደት ላይ መሆን አለበት!!`
+          : "ወቅታዊ"
 
-    const buttonText = task.status === "Completed" ?
-      "View Report" :
-      task.status == "Under Meseretawi Review"
-        ? "View Report" :
-        "Add Report";
-    
-        const buttonUrl = task.status === "Completed"
-      ? `/dashboard/wereda-report-detail/${task.id}`
-      : task.status === "Under Meseretawi Review"
+    const buttonText =
+      task.status === "Completed" ? "ሪፖርት ይመልከቱ" : task.status == "Under Meseretawi Review" ? "ሪፖርት ይመልከቱ" : "ሪፖርት ያክሉ"
+
+    const buttonUrl =
+      task.status === "Completed"
         ? `/dashboard/wereda-report-detail/${task.id}`
-        : `/dashboard/wereda-report/${task.createdByRole}/${task.createdByRole === "Hiwas"
-          ? task.createdByHiwasId
-          : task.createdByRole === "MD"
-            ? task.createdByMDId
-            : task.createdByRole === "Wereda"
-              ? task.createdByWeredaId
-              : task.createdByRole === "Wana"
-                ? task.createdByWanaId
-                : ""
-        }/${task.id}`;
+        : task.status === "Under Meseretawi Review"
+          ? `/dashboard/wereda-report-detail/${task.id}`
+          : `/dashboard/wereda-report/${task.createdByRole}/${
+              task.createdByRole === "Hiwas"
+                ? task.createdByHiwasId
+                : task.createdByRole === "MD"
+                  ? task.createdByMDId
+                  : task.createdByRole === "Wereda"
+                    ? task.createdByWeredaId
+                    : task.createdByRole === "Wana"
+                      ? task.createdByWanaId
+                      : ""
+            }/${task.id}`
 
     return (
       <div
@@ -220,35 +208,36 @@ const WeredaTask = () => {
           <p>{task.description}</p>
           <p>{task.status}</p>
           <p className="text-sm text-gray-500 mt-2">
-          ጀምር: {new Date(task.startTime).toLocaleString()} <br />
-          ጨርስ: {new Date(task.endTime).toLocaleString()}
+            ጀምር: {new Date(task.startTime).toLocaleString()} <br />
+            ጨርስ: {new Date(task.endTime).toLocaleString()}
           </p>
           <Link to={buttonUrl}>
             <Button className="mt-3 px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600">
               {buttonText}
             </Button>
           </Link>
-          
-          {
-            task.status == "To Do" ? 
+
+          {task.status == "To Do" ? (
             <>
-            <h1 className="mb-4 text-lg font-medium text-red-500">
-          {taskStatus}
-          </h1>
-          {timeDifferenceInMinutes >= 0 ?
-          <div>
-            <Button 
-            disabled={loadingInProgress}
-            onClick={
-            ()=>{handleTaskInProgress(task)}
-          }>
-            ወደ ስብሰባ ይሂዱ 
-          </Button>
-          </div>
-          :
-          <></>}
-            </>:<></>
-          }
+              <h1 className="mb-4 text-lg font-medium text-red-500">{taskStatus}</h1>
+              {timeDifferenceInMinutes >= 0 ? (
+                <div>
+                  <Button
+                    disabled={loadingInProgress}
+                    onClick={() => {
+                      handleTaskInProgress(task)
+                    }}
+                  >
+                    ወደ ስብሰባ ይሂዱ
+                  </Button>
+                </div>
+              ) : (
+                <></>
+              )}
+            </>
+          ) : (
+            <></>
+          )}
         </div>
         <Button
           className="mt-3 px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600"
@@ -257,19 +246,19 @@ const WeredaTask = () => {
           ተግባሩን ሰርዝ
         </Button>
       </div>
-    );
-  };
+    )
+  }
   return (
     <div className="container mx-auto p-6">
       <form className="mb-8" onSubmit={handleFormSubmit}>
-        <h2 className="text-2xl font-bold mb-4">Create a New Wereda Schedule</h2>
+        <h2 className="text-2xl font-bold mb-4">አዲስ የወረዳ የስራ መርሃ ግብር ይፍጠሩ</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input
             type="text"
             name="title"
             value={newTask.title}
             onChange={handleInputChange}
-            placeholder="Task Title"
+            placeholder="የስራ መርሃ ግብር ርዕስ"
             className="p-2 border rounded"
             required
           />
@@ -278,7 +267,7 @@ const WeredaTask = () => {
             name="description"
             value={newTask.description}
             onChange={handleInputChange}
-            placeholder="Task Description"
+            placeholder="የስራ መርሃ ግብር መግለጫ"
             className="p-2 border rounded"
             required
           />
@@ -299,38 +288,30 @@ const WeredaTask = () => {
             required
           />
         </div>
-        <Button
-          type="submit"
-          className="mt-4 px-6 py-2 bg-green-500 text-white rounded shadow hover:bg-green-600"
-        >
-          Create Task
+        <Button type="submit" className="mt-4 px-6 py-2 bg-green-500 text-white rounded shadow hover:bg-green-600">
+          የስራ መርሃ ግብር ፍጠር
         </Button>
       </form>
 
       <div className="flex gap-6 justify-between items-stretch">
         <div className="swim-lane flex flex-col gap-5.5 w-1/3">
-          <h4 className="text-xl font-bold">
-          የታቀደ ({categorizeTasks("To Do").length})
-          </h4>
+          <h4 className="text-xl font-bold">የታቀደ ({categorizeTasks("To Do").length})</h4>
           {categorizeTasks("To Do").map((task) => renderTaskCard(task))}
         </div>
 
         <div className="swim-lane flex flex-col gap-5.5 w-1/3">
-          <h4 className="text-xl font-bold">
-          በሂደት ላይ ({categorizeTasks("In Progress").length})
-          </h4>
+          <h4 className="text-xl font-bold">በሂደት ላይ ({categorizeTasks("In Progress").length})</h4>
           {categorizeTasks("In Progress").map((task) => renderTaskCard(task))}
         </div>
 
         <div className="swim-lane flex flex-col gap-5.5 w-1/3">
-          <h4 className="text-xl font-bold">
-          የጠናቀቀ({categorizeTasks("Completed").length})
-          </h4>
+          <h4 className="text-xl font-bold">የጠናቀቀ ({categorizeTasks("Completed").length})</h4>
           {categorizeTasks("Completed").map((task) => renderTaskCard(task))}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default WeredaTask;
+export default WeredaTask
+

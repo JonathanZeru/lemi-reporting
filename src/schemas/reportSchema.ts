@@ -8,13 +8,11 @@ export const amharicReportSchema = z.object({
     .max(1000, "እባክዎን የሪፖርት ማብራሪያ ከ1000 ፊደላት መብለጥ የለበትም"),
   month: z.string().min(1, "እባክዎን የስብሰባው ወር ማስገባት አለብዎት").max(20, "እባክዎን የወር ስም ከ20 ፊደላት መብለጥ የለበትም"),
   presentEmployees: z
-    .number()
-    .int("እባክዎን ሙሉ ቁጥር ያስገቡ")
+    .string()
     .min(0, "እባክዎን ከ0 በላይ ቁጥር ያስገቡ")
     .max(1000000, "እባክዎን ከ1,000,000 በታች ቁጥር ያስገቡ"),
   absentEmployees: z
-    .number()
-    .int("እባክዎን ሙሉ ቁጥር ያስገቡ")
+    .string()
     .min(0, "እባክዎን ከ0 በላይ ቁጥር ያስገቡ")
     .max(1000000, "እባክዎን ከ1,000,000 በታች ቁጥር ያስገቡ"),
   images: z

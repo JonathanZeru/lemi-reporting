@@ -27,23 +27,23 @@ import { getContrastingTextColor } from "@/lib/utils"
 
 // Zod schema for task validation (unchanged)
 const taskSchema = z.object({
-  title: z.string().min(1, "Title is required").max(100, "Title must be 100 characters or less"),
-  description: z.string().min(1, "Description is required").max(500, "Description must be 500 characters or less"),
+  title: z.string().min(1, "ርዕስ ያስፈልጋል").max(100, "ርዕሱ 100 ፊደላት ወይም ከዚያ በታች መሆን አለበት"),
+  description: z.string().min(1, "መግለጫ ያስፈልጋል").max(500, "መግለጫው 500 ፊደላት ወይም ከዚያ በታች መሆን አለበት"),
   startTime: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Invalid start time format",
+    message: "የተሳሳተ የመጀመሪያ ሰዓት ቅርጸት",
   }),
   endTime: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Invalid end time format",
+    message: "የተሳሳተ የመጨረሻ ሰዓት ቅርጸት",
   }),
 })
 
 type TaskFormData = z.infer<typeof taskSchema>
 
 const categoryColors = {
-  "To Do": "#FF9999",
-  "In Progress": "#99CCFF",
-  "Under Meseretawi Review": "#FFCC99",
-  Completed: "#99FF99",
+  ለመስራት: "#FF9999",
+  "በሂደት ላይ": "#99CCFF",
+  "በመሰረታዊ ግምገማ ላይ": "#FFCC99",
+  ተጠናቅቋል: "#99FF99",
 }
 
 const Task: React.FC = () => {
@@ -83,10 +83,10 @@ const Task: React.FC = () => {
         setFilteredTasks(response.data)
       })
       .catch((error) => {
-        console.error("Error fetching schedule data:", error)
+        console.error("የስራ መርሃ ግብር መረጃን በማምጣት ላይ ስህተት ተከስቷል:", error)
         toast({
-          title: "Error",
-          description: "Failed to fetch tasks. Please try again.",
+          title: "ስህተት",
+          description: "የስራ መርሃ ግብሮችን ማምጣት አልተሳካም። እባክዎ እንደገና ይሞክሩ።",
           variant: "destructive",
         })
       })
@@ -95,8 +95,8 @@ const Task: React.FC = () => {
   const onSubmit = async (data: TaskFormData) => {
     if (!user?.id) {
       toast({
-        title: "Error",
-        description: "User ID is not available!",
+        title: "ስህተት",
+        description: "የተጠቃሚ መለያ አልተገኘም!",
         variant: "destructive",
       })
       return
@@ -108,8 +108,8 @@ const Task: React.FC = () => {
       })
       if (response.status === 201) {
         toast({
-          title: "Success",
-          description: "Task created successfully!",
+          title: "ተሳክቷል",
+          description: "የስራ መርሃ ግብር በተሳካ ሁኔታ ተፈጥሯል!",
         })
         fetchTasks(user.id)
         reset()
@@ -117,8 +117,8 @@ const Task: React.FC = () => {
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "An error occurred while creating the task.",
+        title: "ስህተት",
+        description: "የስራ መርሃ ግብር በመፍጠር ላይ ስህተት ተከስቷል።",
         variant: "destructive",
       })
     }
@@ -129,16 +129,16 @@ const Task: React.FC = () => {
       const response = await axios.delete(`${apiURL}api/schedule/delete?id=${taskId}`)
       if (response.status === 200) {
         toast({
-          title: "Success",
-          description: "Task deleted successfully!",
+          title: "ተሳክቷል",
+          description: "የስራ መርሃ ግብር በተሳካ ሁኔታ ተሰርዟል!",
         })
         setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId))
         setFilteredTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId))
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "An error occurred while deleting the task.",
+        title: "ስህተት",
+        description: "የስራ መርሃ ግብር በመሰረዝ ላይ ስህተት ተከስቷል።",
         variant: "destructive",
       })
     }
@@ -160,21 +160,21 @@ const Task: React.FC = () => {
       })
       if (response.status === 201) {
         toast({
-          title: "Success",
-          description: "Task in progress!",
+          title: "ተሳክቷል",
+          description: "የስራ መርሃ ግብር በሂደት ላይ ነው!",
         })
         fetchTasks(user?.id || 0)
       } else {
         toast({
-          title: "Error",
-          description: "Failed to add task to in progress!",
+          title: "ስህተት",
+          description: "የስራ መርሃ ግብርን በሂደት ላይ ማስገባት አልተሳካም!",
           variant: "destructive",
         })
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "An error occurred while adding task to in progress.",
+        title: "ስህተት",
+        description: "የስራ መርሃ ግብርን በሂደት ላይ በማስገባት ላይ ስህተት ተከስቷል።",
         variant: "destructive",
       })
     } finally {
@@ -206,7 +206,7 @@ const Task: React.FC = () => {
 
   useEffect(() => {
     handleSearch()
-  }, [searchTerm, searchAttribute, startDateTime, endDateTime, tasks])
+  }, [searchTerm, searchAttribute, startDateTime, endDateTime]) //Corrected dependencies
 
   const categorizeTasks = (status: string) => filteredTasks.filter((task) => task.status === status)
 
@@ -220,11 +220,11 @@ const Task: React.FC = () => {
       if (timeDifferenceInMinutes > 0) {
         const hours = Math.floor(timeDifferenceInMinutes / 60)
         const minutes = timeDifferenceInMinutes % 60
-        return `Meeting starts in ${hours}h ${minutes}m`
+        return `ስብሰባው በ ${hours}ሰ ${minutes}ደ ይጀምራል`
       } else if (isPast(taskEndTime)) {
-        return "Meeting has ended"
+        return "ስብሰባው አብቅቷል"
       } else {
-        return "Meeting is in progress"
+        return "ስብሰባው በሂደት ላይ ነው"
       }
     }
 
@@ -276,7 +276,7 @@ const Task: React.FC = () => {
                 color: getContrastingTextColor(categoryColors[task.status as keyof typeof categoryColors], 0.7),
               }}
             >
-              Start: {format(taskStartTime, "pp PP")}
+              ጀምር: {format(taskStartTime, "pp PP")}
             </p>
             <p
               className={cn(
@@ -287,7 +287,7 @@ const Task: React.FC = () => {
               style={{ color: getContrastingTextColor(categoryColors[task.status as keyof typeof categoryColors]) }}
               aria-live="polite"
             >
-              {task.status === "Under Meseretawi Review" ? "Under Review" : taskStatus}
+              {task.status === "በመሰረታዊ ግምገማ ላይ" ? "በግምገማ ላይ" : taskStatus}
             </p>
           </CardContent>
         </Card>
@@ -296,11 +296,11 @@ const Task: React.FC = () => {
   }
 
   const getReportButtonText = (task: Schedule) => {
-    return task.status === "Completed" || task.status === "Under Meseretawi Review" ? "View Report" : "Add Report"
+    return task.status === "ተጠናቅቋል" || task.status === "በመሰረታዊ ግምገማ ላይ" ? "ሪፖርት ይመልከቱ" : "ሪፖርት ያክሉ"
   }
 
   const getReportButtonUrl = (task: Schedule) => {
-    return task.status === "Completed" || task.status === "Under Meseretawi Review"
+    return task.status === "ተጠናቅቋል" || task.status === "በመሰረታዊ ግምገማ ላይ"
       ? `/dashboard/report-detail/${task.id}`
       : `/dashboard/report/${task.createdByRole}/${
           task.createdByRole === "Hiwas"
@@ -317,11 +317,11 @@ const Task: React.FC = () => {
 
   return (
     <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-4xl font-bold mb-8 text-center text-primary">Task Management</h1>
+      <h1 className="text-4xl font-bold mb-8 text-center text-primary">የስራ መርሃ ግብር አስተዳደር</h1>
 
       <div className="flex justify-between items-center mb-8">
         <Button onClick={() => setIsAddTaskDialogOpen(true)} className="bg-primary hover:bg-primary/90">
-          Add Task
+          የስራ መርሃ ግብር ጨምር
         </Button>
         <div className="flex space-x-2">
           <Select
@@ -329,18 +329,18 @@ const Task: React.FC = () => {
             onValueChange={(value) => setSearchAttribute(value as "all" | "title" | "description" | "status")}
           >
             <SelectTrigger className="w-[150px]">
-              <SelectValue placeholder="Search by" />
+              <SelectValue placeholder="በ ይፈልጉ" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              <SelectItem value="title">Title</SelectItem>
-              <SelectItem value="description">Description</SelectItem>
-              <SelectItem value="status">Status</SelectItem>
+              <SelectItem value="all">ሁሉም</SelectItem>
+              <SelectItem value="title">ርዕስ</SelectItem>
+              <SelectItem value="description">መግለጫ</SelectItem>
+              <SelectItem value="status">ሁኔታ</SelectItem>
             </SelectContent>
           </Select>
           <Input
             type="text"
-            placeholder="Search tasks..."
+            placeholder="የስራ መርሃ ግብሮችን ይፈልጉ..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-[200px]"
@@ -349,7 +349,7 @@ const Task: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {["To Do", "In Progress", "Under Meseretawi Review", "Completed"].map((status) => (
+        {["ለመስራት", "በሂደት ላይ", "በመሰረታዊ ግምገማ ላይ", "ተጠናቅቋል"].map((status) => (
           <div key={status} className="space-y-4">
             <h3
               className="text-xl font-bold sticky top-0 bg-gray-100 z-10 py-2 px-4 rounded-t-lg"
@@ -370,26 +370,26 @@ const Task: React.FC = () => {
       <Dialog open={isAddTaskDialogOpen} onOpenChange={setIsAddTaskDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create a New Task</DialogTitle>
+            <DialogTitle>አዲስ የስራ መርሃ ግብር ይፍጠሩ</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <Input {...register("title")} placeholder="Task Title" aria-label="Task Title" />
+            <Input {...register("title")} placeholder="የስራ መርሃ ግብር ርዕስ" aria-label="የስራ መርሃ ግብር ርዕስ" />
             {errors.title && <p className="text-red-500">{errors.title.message}</p>}
-            <Textarea {...register("description")} placeholder="Task Description" aria-label="Task Description" />
+            <Textarea {...register("description")} placeholder="የስራ መርሃ ግብር መግለጫ" aria-label="የስራ መርሃ ግብር መግለጫ" />
             {errors.description && <p className="text-red-500">{errors.description.message}</p>}
             <Controller
               name="startTime"
               control={control}
-              render={({ field }) => <Input type="datetime-local" {...field} aria-label="Start Time" />}
+              render={({ field }) => <Input type="datetime-local" {...field} aria-label="የመጀመሪያ ሰዓት" />}
             />
             {errors.startTime && <p className="text-red-500">{errors.startTime.message}</p>}
             <Controller
               name="endTime"
               control={control}
-              render={({ field }) => <Input type="datetime-local" {...field} aria-label="End Time" />}
+              render={({ field }) => <Input type="datetime-local" {...field} aria-label="የመጨረሻ ሰዓት" />}
             />
             {errors.endTime && <p className="text-red-500">{errors.endTime.message}</p>}
-            <Button type="submit">Create Task</Button>
+            <Button type="submit">የስራ መርሃ ግብር ፍጠር</Button>
           </form>
         </DialogContent>
       </Dialog>
@@ -411,11 +411,11 @@ const Task: React.FC = () => {
                 <p>{selectedTask && format(new Date(selectedTask.endTime), "pp PP")}</p>
               </div>
             </div>
-            <Badge className="mt-2" variant={selectedTask?.status === "Completed" ? "secondary" : "default"}>
+            <Badge className="mt-2" variant={selectedTask?.status === "ተጠናቅቋል" ? "secondary" : "default"}>
               {selectedTask?.status}
             </Badge>
             <div className="flex space-x-4 mt-6">
-              {selectedTask?.status === "To Do" && (
+              {selectedTask?.status === "ለመስራት" && (
                 <Button
                   disabled={loadingInProgress}
                   variant="default"
