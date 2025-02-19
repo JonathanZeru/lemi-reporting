@@ -84,18 +84,18 @@ const MeseretawiRegistration = () => {
   return (
     <Card className="w-full max-w-lg mx-auto">
       <CardHeader>
-        <CardTitle>የብልጽግና ህብረት ድርጅት ምዝገባ</CardTitle>
-        <CardDescription>እባክዎን የብልጽግና ህብረት ድርጅት ተጠቃሚ ለመመዝገብ የሚከተለውን ቅጽ ይሙሉ።</CardDescription>
+        <CardTitle>የብልጽግና ህብረት ምዝገባ</CardTitle>
+        <CardDescription>እባክዎን የብልጽግና ህብረት ተጠቃሚ ለመመዝገብ የሚከተለውን ቅጽ ይሙሉ።</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="firstName">የብልጽግና ህብረት</Label>
+            <Label htmlFor="firstName">የህብረቱን ስም</Label>
             <Controller
               name="firstName"
               control={control}
               render={({ field }) => (
-                <Input {...field} id="firstName" placeholder="የብልጽግና ህብረት ስምዎን ያስገቡ" aria-describedby="firstName-error" />
+                <Input {...field} id="firstName" placeholder="የብልጽግና ህብረቱን ስም ያስገቡ " aria-describedby="firstName-error" />
               )}
             />
             {errors.firstName && (
@@ -107,12 +107,12 @@ const MeseretawiRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="lastName">የብልጽግና ህብረት ስም</Label>
+            <Label htmlFor="lastName">የህብረቱ ሰብሳቢ ስም </Label>
             <Controller
               name="lastName"
               control={control}
               render={({ field }) => (
-                <Input {...field} id="lastName" placeholder="የብልጽግና ህብረት ስም ያስገቡ" aria-describedby="lastName-error" />
+                <Input {...field} id="lastName" placeholder="የብልጽግና የህብረቱን ስም ያስገቡ" aria-describedby="lastName-error" />
               )}
             />
             {errors.lastName && (
@@ -124,7 +124,7 @@ const MeseretawiRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">ኢሜይል</Label>
+            <Label htmlFor="email">ኢሜል</Label>
             <Controller
               name="email"
               control={control}
@@ -133,7 +133,7 @@ const MeseretawiRegistration = () => {
                   {...field}
                   id="email"
                   type="email"
-                  placeholder="የኢሜይል አድራሻዎን ያስገቡ"
+                  placeholder="የኢሜል አድራሻዎን ያስገቡ"
                   aria-describedby="email-error"
                 />
               )}

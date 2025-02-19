@@ -83,13 +83,13 @@ const HiwasRegistration = () => {
   return (
     <Card className="w-full max-w-lg mx-auto">
       <CardHeader>
-        <CardTitle>እባኮትን ተመዝገቡ</CardTitle>
-        <CardDescription>ከታች ያለውን ቅፅ በትክክል ሙሉ። እናመሰግናለን።</CardDescription>
+        <CardTitle>የብልጽግና ቤተሰብ ምዝገባ</CardTitle>
+        <CardDescription>እባክዎን የብልጽግና ቤተሰብ ተጠቃሚ ለመመዝገብ የሚከተለውን ቅጽ ይሙሉ።</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="firstName">የብልጽግና ቤተሰብ ሰብሳቢ ስም</Label>
+            <Label htmlFor="firstName">የብልጽግና ቤተሰቡ ስም</Label>
             <Controller
               name="firstName"
               control={control}
@@ -97,7 +97,7 @@ const HiwasRegistration = () => {
                 <Input
                   {...field}
                   id="firstName"
-                  placeholder="እባኮትን የብልጽግና ቤተሰብ ስምዎን ያስገቡ"
+                  placeholder="እባኮትን የብልጽግና ቤተሰቡን ስምዎን ያስገቡ"
                   aria-describedby="firstName-error"
                 />
               )}
@@ -111,12 +111,12 @@ const HiwasRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="lastName">የብልጽግና ቤተሰብ ስም</Label>
+            <Label htmlFor="lastName">የብልጽግና ቤተሰቡ ሰብሳቢ ስም</Label>
             <Controller
               name="lastName"
               control={control}
               render={({ field }) => (
-                <Input {...field} id="lastName" placeholder="የብልጽግና ቤተሰብ ስምዎን ያስገቡ" aria-describedby="lastName-error" />
+                <Input {...field} id="lastName" placeholder="እባኮትን የብልጽግና ቤተሰቡን ሰብሳቢ ስም ያስገቡ" aria-describedby="lastName-error" />
               )}
             />
             {errors.lastName && (

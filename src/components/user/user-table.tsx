@@ -28,17 +28,17 @@ export function UserTable({
         <TableHeader>
           <TableRow>
             <TableHead onClick={() => handleSort("firstName")} className="cursor-pointer">
-              First Name {sortColumn === "firstName" && (sortDirection === "asc" ? "↑" : "↓")}
+            ስም {sortColumn === "firstName" && (sortDirection === "asc" ? "↑" : "↓")}
             </TableHead>
             <TableHead onClick={() => handleSort("lastName")} className="cursor-pointer">
-              Last Name {sortColumn === "lastName" && (sortDirection === "asc" ? "↑" : "↓")}
+            የሰብሳቢ ስም {sortColumn === "lastName" && (sortDirection === "asc" ? "↑" : "↓")}
             </TableHead>
             <TableHead onClick={() => handleSort("email")} className="cursor-pointer">
-              Email {sortColumn === "email" && (sortDirection === "asc" ? "↑" : "↓")}
+            ኢሜል {sortColumn === "email" && (sortDirection === "asc" ? "↑" : "↓")}
             </TableHead>
             <TableHead>Password</TableHead>
             <TableHead onClick={() => handleSort("phone")} className="cursor-pointer">
-              Phone {sortColumn === "phone" && (sortDirection === "asc" ? "↑" : "↓")}
+            ስልክ {sortColumn === "phone" && (sortDirection === "asc" ? "↑" : "↓")}
             </TableHead>
             <TableHead onClick={() => handleSort("role")} className="cursor-pointer">
               Role {sortColumn === "role" && (sortDirection === "asc" ? "↑" : "↓")}

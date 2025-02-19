@@ -79,13 +79,13 @@ const WanaRegistration = () => {
   return (
     <Card className="w-full max-w-lg mx-auto">
       <CardHeader>
-        <CardTitle>የፖለቲካ ዘርፍ ሀላፊ ተጠቃሚ ምዝገባ</CardTitle>
-        <CardDescription>እባክዎን የፖለቲካ ዘርፍ ሀላፊ ተጠቃሚ ለመመዝገብ የሚከተለውን ቅጽ ይሙሉ።</CardDescription>
+        <CardTitle>የአቅም ግንባታና ፖለቲካ ዘርፍ ኃላፊ ምዝገባ</CardTitle>
+        <CardDescription>እባክዎን የአቅም ግንባታና ፖለቲካ ዘርፍ ኃላፊ ተጠቃሚ ለመመዝገብ የሚከተለውን ቅጽ ይሙሉ።</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="firstName">ፖለቲካ ዘርፍ ሀላፊ ስም</Label>
+            <Label htmlFor="firstName">የአቅም ግንባታና ፖለቲካ ዘርፍ ኃላፊ ስም</Label>
             <Controller
               name="firstName"
               control={control}
@@ -93,7 +93,7 @@ const WanaRegistration = () => {
                 <Input
                   {...field}
                   id="firstName"
-                  placeholder="ፖለቲካ ዘርፍ ሀላፊ ስምዎን ያስገቡ"
+                  placeholder="የአቅም ግንባታና ፖለቲካ ዘርፍ ኃላፊ ስም ያስገቡ"
                   aria-describedby="firstName-error"
                 />
               )}
@@ -107,7 +107,7 @@ const WanaRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="lastName">የፖለቲካ ዘርፍ ሀላፊ ስም</Label>
+            <Label htmlFor="lastName">የአቅም ግንባታና ፖለቲካ ዘርፍ ኃላፊ ስም</Label>
             <Controller
               name="lastName"
               control={control}
@@ -115,7 +115,7 @@ const WanaRegistration = () => {
                 <Input
                   {...field}
                   id="lastName"
-                  placeholder="የፖለቲካ ዘርፍ ሀላፊ ስም ያስገቡ"
+                  placeholder="የአቅም ግንባታና ፖለቲካ ዘርፍ ኃላፊ ስም ያስገቡ"
                   aria-describedby="lastName-error"
                 />
               )}
@@ -129,7 +129,7 @@ const WanaRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">ኢሜይል</Label>
+            <Label htmlFor="email">ኢሜል</Label>
             <Controller
               name="email"
               control={control}

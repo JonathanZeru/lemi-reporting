@@ -59,7 +59,7 @@ const navigationLists: Record<string, NavItem[]> = {
     { title: "ይመዝገቡ", icon: <User className="w-4 h-4" />, link: "choose" },
     { title: "የብልጽግና ቤተሰቦች", icon: <Workflow className="w-4 h-4" />, link: "user/1" },
     { title: "የብልጽግና ህብረት", icon: <Workflow className="w-4 h-4" />, link: "user/2" },
-    { title: "የፖለቲካ ዘርፍ ሀላፊ", icon: <Workflow className="w-4 h-4" />, link: "user/3" },
+    { title: "የአቅም ግንባታ እና ፖለቲካ ዘርፍ ሀላፊ", icon: <Workflow className="w-4 h-4" />, link: "user/3" },
     { title: "ወረዳ", icon: <Workflow className="w-4 h-4" />, link: "user/4" },
     { title: "የመገለጫ ቅንብሮች", icon: <Settings className="w-4 h-4" />, link: "settings" },
   ],

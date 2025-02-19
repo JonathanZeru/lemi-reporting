@@ -109,7 +109,7 @@ const ChooseRegistration: React.FC = () => {
             icon={UserPlus}
             to="/dashboard/meseretawi"
           />
-          <RegistrationCard title="የፖለቲካ ዘርፍ ሀላፊ" description="ለፖለቲካ ዘርፍ ሀላፊ ምዝገባ" icon={Building} to="/dashboard/wana-registration" />
+          <RegistrationCard title="የአቅም ግንባታ እና ፖለቲካ ዘርፍ ሀላፊ" description="የአቅም ግንባታ እና ፖለቲካ ዘርፍ ሀላፊ ምዝገባ" icon={Building} to="/dashboard/wana-registration" />
           <RegistrationCard title="ወረዳ" description="ለወረዳ ምዝገባ" icon={Landmark} to="/dashboard/wereda" />
         </div>
 

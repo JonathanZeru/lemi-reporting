@@ -81,13 +81,13 @@ const WanaRegistration = () => {
   return (
     <Card className="w-full max-w-lg mx-auto">
       <CardHeader>
-        <CardTitle>የፖለቲካ ዘርፍ ሀላፊ ተጠቃሚ ምዝገባ</CardTitle>
-        <CardDescription>እባክዎን የፖለቲካ ዘርፍ ሀላፊ ተጠቃሚ ለመመዝገብ የሚከተለውን ቅጽ ይሙሉ።</CardDescription>
+        <CardTitle>የአቅም ግንባታና ፖለቲካ ዘርፍ ኃላፊ ምዝገባ</CardTitle>
+        <CardDescription>እባክዎን የአቅም ግንባታና ፖለቲካ ዘርፍ ኃላፊ ተጠቃሚ ለመመዝገብ የሚከተለውን ቅጽ ይሙሉ።</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="firstName">የፖለቲካ ዘርፍ ሀላፊ ስም</Label>
+            <Label htmlFor="firstName">የአቅም ግንባታና ፖለቲካ ዘርፍ ኃላፊ ስም</Label>
             <Controller
               name="firstName"
               control={control}
@@ -95,7 +95,7 @@ const WanaRegistration = () => {
                 <Input
                   {...field}
                   id="firstName"
-                  placeholder="የፖለቲካ ዘርፍ ሀላፊ ስምዎን ያስገቡ"
+                  placeholder="የአቅም ግንባታና ፖለቲካ ዘርፍ ኃላፊ ስም ያስገቡ"
                   aria-describedby="firstName-error"
                 />
               )}
@@ -109,7 +109,7 @@ const WanaRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="lastName">የፖለቲካ ዘርፍ ሀላፊ ስም</Label>
+            <Label htmlFor="lastName">የአቅም ግንባታና ፖለቲካ ዘርፍ ኃላፊ ስም</Label>
             <Controller
               name="lastName"
               control={control}
@@ -117,7 +117,7 @@ const WanaRegistration = () => {
                 <Input
                   {...field}
                   id="lastName"
-                  placeholder="የፖለቲካ ዘርፍ ሀላፊ ስም ያስገቡ"
+                  placeholder="የአቅም ግንባታና ፖለቲካ ዘርፍ ኃላፊ ስም ያስገቡ"
                   aria-describedby="lastName-error"
                 />
               )}
@@ -131,7 +131,7 @@ const WanaRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">ኢሜይል</Label>
+            <Label htmlFor="email">ኢሜል</Label>
             <Controller
               name="email"
               control={control}
@@ -140,7 +140,7 @@ const WanaRegistration = () => {
                   {...field}
                   id="email"
                   type="email"
-                  placeholder="የኢሜይል አድራሻዎን ያስገቡ"
+                  placeholder="የኢሜል አድራሻዎን ያስገቡ"
                   aria-describedby="email-error"
                 />
               )}
@@ -199,7 +199,7 @@ const WanaRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password">የሚስጥር ቁጥር </Label>
+            <Label htmlFor="password">የይለፍ ቃል </Label>
             <div className="relative">
               <Controller
                 name="password"
@@ -229,7 +229,7 @@ const WanaRegistration = () => {
               </Alert>
             )}
             <div className="space-y-2">
-              <Label>የሚስጥር ቁጥር  ጥንካሬ</Label>
+              <Label>የይለፍ ቃል  ጥንካሬ</Label>
               <Progress value={passwordStrength} className="w-full" />
               <p className="text-sm text-gray-500">
                 {passwordStrength < 25 && "በጣም ደካማ"}
