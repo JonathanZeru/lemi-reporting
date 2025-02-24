@@ -33,7 +33,6 @@ const MeseretawiRegistration = () => {
       lastName: "",
       email: "",
       phone: "",
-      userName: "",
       password: "",
       role: "Meseretawi Derejit"
     },
@@ -84,18 +83,18 @@ const MeseretawiRegistration = () => {
   return (
     <Card className="w-full max-w-lg mx-auto">
       <CardHeader>
-        <CardTitle>የብልጽግና ህብረት ምዝገባ</CardTitle>
-        <CardDescription>እባክዎን የብልጽግና ህብረት ተጠቃሚ ለመመዝገብ የሚከተለውን ቅጽ ይሙሉ።</CardDescription>
+        <CardTitle>የብልጽግና ህብረት ድርጅት ምዝገባ</CardTitle>
+        <CardDescription>እባክዎን የብልጽግና ህብረት ድርጅት ተጠቃሚ ለመመዝገብ የሚከተለውን ቅጽ ይሙሉ።</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="firstName">የህብረቱን ስም</Label>
+            <Label htmlFor="firstName">የብልጽግና ህብረት</Label>
             <Controller
               name="firstName"
               control={control}
               render={({ field }) => (
-                <Input {...field} id="firstName" placeholder="የብልጽግና ህብረቱን ስም ያስገቡ " aria-describedby="firstName-error" />
+                <Input {...field} id="firstName" placeholder="የብልጽግና ህብረት ስምዎን ያስገቡ" aria-describedby="firstName-error" />
               )}
             />
             {errors.firstName && (
@@ -107,12 +106,12 @@ const MeseretawiRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="lastName">የህብረቱ ሰብሳቢ ስም </Label>
+            <Label htmlFor="lastName">የብልጽግና ህብረት ስም</Label>
             <Controller
               name="lastName"
               control={control}
               render={({ field }) => (
-                <Input {...field} id="lastName" placeholder="የብልጽግና የህብረቱን ስም ያስገቡ" aria-describedby="lastName-error" />
+                <Input {...field} id="lastName" placeholder="የብልጽግና ህብረት ስም ያስገቡ" aria-describedby="lastName-error" />
               )}
             />
             {errors.lastName && (
@@ -124,7 +123,7 @@ const MeseretawiRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">ኢሜል</Label>
+            <Label htmlFor="email">ኢሜይል</Label>
             <Controller
               name="email"
               control={control}
@@ -133,7 +132,7 @@ const MeseretawiRegistration = () => {
                   {...field}
                   id="email"
                   type="email"
-                  placeholder="የኢሜል አድራሻዎን ያስገቡ"
+                  placeholder="የኢሜይል አድራሻዎን ያስገቡ"
                   aria-describedby="email-error"
                 />
               )}
@@ -165,23 +164,6 @@ const MeseretawiRegistration = () => {
               <Alert variant="destructive">
                 <AlertTitle>ስህተት</AlertTitle>
                 <AlertDescription>{errors.phone.message}</AlertDescription>
-              </Alert>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="userName">የተጠቃሚ ስም</Label>
-            <Controller
-              name="userName"
-              control={control}
-              render={({ field }) => (
-                <Input {...field} id="userName" placeholder="የተጠቃሚ ስም ይምረጡ" aria-describedby="userName-error" />
-              )}
-            />
-            {errors.userName && (
-              <Alert variant="destructive">
-                <AlertTitle>ስህተት</AlertTitle>
-                <AlertDescription>{errors.userName.message}</AlertDescription>
               </Alert>
             )}
           </div>

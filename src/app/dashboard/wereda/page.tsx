@@ -33,7 +33,6 @@ const WeredaRegistration = () => {
       lastName: "",
       email: "",
       phone: "",
-      userName: "",
       password: ""
     },
   })
@@ -162,23 +161,6 @@ const WeredaRegistration = () => {
               <Alert variant="destructive">
                 <AlertTitle>ስህተት</AlertTitle>
                 <AlertDescription>{errors.phone.message}</AlertDescription>
-              </Alert>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="userName">የተጠቃሚ ስም</Label>
-            <Controller
-              name="userName"
-              control={control}
-              render={({ field }) => (
-                <Input {...field} id="userName" placeholder="የተጠቃሚ ስም ይምረጡ" aria-describedby="userName-error" />
-              )}
-            />
-            {errors.userName && (
-              <Alert variant="destructive">
-                <AlertTitle>ስህተት</AlertTitle>
-                <AlertDescription>{errors.userName.message}</AlertDescription>
               </Alert>
             )}
           </div>

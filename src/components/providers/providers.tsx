@@ -2,7 +2,6 @@
 
 import { ThemeProvider } from "@/utils/providers/theme-provider"
 import { PrimeReactProvider } from "primereact/api"
-import { AnimatePresence } from "framer-motion"
 import { ModalProvider } from "@/utils/providers/modalProvider"
 import { Toaster } from "@/components/ui/toaster"
 import { useEffect } from "react"
@@ -33,7 +32,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
   }, [])
 
   return (
-    <AnimatePresence mode="wait">
       <PrimeReactProvider>
         <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
           <ModalProvider>
@@ -43,7 +41,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
           </ModalProvider>
         </ThemeProvider>
       </PrimeReactProvider>
-    </AnimatePresence>
   )
 }
 

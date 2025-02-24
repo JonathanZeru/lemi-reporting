@@ -17,21 +17,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-        const { firstName, lastName, email, phone, userName, password } = req.body;
+        const { firstName, lastName, email, phone, password } = req.body;
         console.log(req.body)
 
         console.time('User Registration');
 
         // Parallel existence checks
-        const [emailExists, phoneExists, usernameExists] = await Promise.all([
+        const [emailExists, phoneExists] = await Promise.all([
             prisma.wereda.findFirst({ where: { email } }),
             prisma.wereda.findFirst({ where: { phone } }),
-            prisma.wereda.findFirst({ where: { userName } })
         ]);
 
         if (emailExists) return res.status(409).json({ message: 'Email already used!' });
         if (phoneExists) return res.status(409).json({ message: 'Phone Number already used!' });
-        if (usernameExists) return res.status(409).json({ message: 'User name already used!' });
 
         // Hash password with lower cost factor for speed
         const hashedPassword = await bcrypt.hash(password, 8);
@@ -43,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 lastName,
                 email,
                 phone,
-                userName,
+                userName: email,
                 password: hashedPassword,
                 role: 'Wereda',
                 isActive: true

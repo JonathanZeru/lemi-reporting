@@ -14,13 +14,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === 'POST') {
         console.log("Processing registration...");
 
-        const { firstName, lastName, email, phone, userName, password, role } = req.body;
+        const { firstName, lastName, email, phone, password, role } = req.body;
         
         try {
             // Check for existing user
             const existingUser = await prisma.meseretawiDirijet.findFirst({
                 where: {
-                    OR: [{ email }, { phone }, { userName }]
+                    OR: [{ email }, { phone }]
                 },
                 select: { email: true, phone: true, userName: true }
             });
@@ -45,7 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         lastName,
                         email,
                         phone,
-                        userName,
+                        userName: email,
                         password: hashedPassword,
                         role: role,
                         isActive: true

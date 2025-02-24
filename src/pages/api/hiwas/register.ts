@@ -17,20 +17,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-        const { firstName, lastName, email, phone, userName, password, mdId } = req.body;
+        const { firstName, lastName, email, phone, password, mdId } = req.body;
 
         console.time('User Registration');
 
         // Run existence checks in parallel
-        const [emailExists, phoneExists, usernameExists] = await Promise.all([
+        const [emailExists, phoneExists] = await Promise.all([
             prisma.hiwas.findFirst({ where: { email } }),
             prisma.hiwas.findFirst({ where: { phone } }),
-            prisma.hiwas.findFirst({ where: { userName } })
         ]);
 
         if (emailExists) return res.status(409).json({ message: 'Email already used!' });
         if (phoneExists) return res.status(409).json({ message: 'Phone Number already used!' });
-        if (usernameExists) return res.status(409).json({ message: 'User name already used!' });
 
         // Hash password asynchronously with a lower cost factor (faster)
         const hashedPassword = await bcrypt.hash(password, 8);
@@ -42,7 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 lastName,
                 email,
                 phone,
-                userName,
+                userName: email,
                 password: hashedPassword,
                 role: 'Hiwas',
                 isActive: true,
