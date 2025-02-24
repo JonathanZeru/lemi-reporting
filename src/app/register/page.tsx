@@ -177,7 +177,7 @@ const RegistrationForm = () => {
                   onChange={() => setUserType('Wana')}
                   className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                 />
-                <span>የፖለቲካ ዘርፍ ሀላፊ</span>
+                <span>የአቅም ግንባታ እና ፖለቲካ ዘርፍ ሀላፊ</span>
               </label>
               <label className="flex items-center space-x-2">
                 <input

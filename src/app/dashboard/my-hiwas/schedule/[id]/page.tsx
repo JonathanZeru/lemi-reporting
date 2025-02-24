@@ -132,7 +132,7 @@ const MyHiwasSchedule = () => {
         {/* To Do Column */}
         <div className="swim-lane flex flex-col gap-5.5 w-1/3">
           <h4 className="text-xl font-bold">
-            To Do ({categorizeTasks("To Do").length})
+          በእቅድ ላይ({categorizeTasks("To Do").length})
           </h4>
           {categorizeTasks("To Do").map((task) => renderTaskCard(task))}
         </div>

@@ -79,18 +79,18 @@ const WeredaRegistration = () => {
   return (
     <Card className="w-full max-w-lg mx-auto">
       <CardHeader>
-        <CardTitle>የወረዳ ምዝገባ</CardTitle>
+        <CardTitle>የወረዳ ተጠቃሚ ምዝገባ</CardTitle>
         <CardDescription>እባክዎን የወረዳ ተጠቃሚ ለመመዝገብ የሚከተለውን ቅጽ ይሙሉ።</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="firstName">ወረዳ ስም</Label>
+            <Label htmlFor="firstName">የወረዳዉ ስም</Label>
             <Controller
               name="firstName"
               control={control}
               render={({ field }) => (
-                <Input {...field} id="firstName" placeholder="ወረዳ ስምዎን ያስገቡ" aria-describedby="firstName-error" />
+                <Input {...field} id="firstName" placeholder="የወረዳዉን ስም ያስገቡ(ምሳሌ፡ ወረዳ X)" aria-describedby="firstName-error" />
               )}
             />
             {errors.firstName && (
@@ -102,12 +102,12 @@ const WeredaRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="lastName">ወረዳ ስም</Label>
+            <Label htmlFor="lastName">የወረዳዉ የአቅም ግንባታ እና ፖለቲካ ዘርፍ ኃላፊ ስም</Label>
             <Controller
               name="lastName"
               control={control}
               render={({ field }) => (
-                <Input {...field} id="lastName" placeholder="ወረዳ ስም ያስገቡ" aria-describedby="lastName-error" />
+                <Input {...field} id="lastName" placeholder="የወረዳዉን የአቅም ግንባታ እና ፖለቲካ ዘርፍ ኃላፊ ስም ያስገቡ" aria-describedby="lastName-error" />
               )}
             />
             {errors.lastName && (
@@ -119,7 +119,7 @@ const WeredaRegistration = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">ኢሜይል</Label>
+            <Label htmlFor="email">ኢሜል</Label>
             <Controller
               name="email"
               control={control}
@@ -128,7 +128,7 @@ const WeredaRegistration = () => {
                   {...field}
                   id="email"
                   type="email"
-                  placeholder="የኢሜይል አድራሻዎን ያስገቡ"
+                  placeholder="የኢሜል አድራሻዎን ያስገቡ"
                   aria-describedby="email-error"
                 />
               )}
