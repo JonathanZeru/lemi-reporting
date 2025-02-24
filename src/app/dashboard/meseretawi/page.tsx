@@ -35,7 +35,7 @@ const MeseretawiRegistration = () => {
       phone: "",
       userName: "",
       password: "",
-      role: "Admin"
+      role: "Meseretawi Derejit"
     },
   })
 

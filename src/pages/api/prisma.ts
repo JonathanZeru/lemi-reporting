@@ -4,24 +4,24 @@ declare global {
 	var prisma: PrismaClient | undefined
 }
 
+// Use a global instance of Prisma to prevent too many connections
 export const prisma = global.prisma || new PrismaClient({
 	log: ['error', 'warn'], // Reduce logs in production
 	errorFormat: 'minimal', // Minimize error messages
-  })
+});
+
+if (!global.prisma) {
+	global.prisma = prisma;
+}
 
 const connectDatabase = async () => {
 	try {
-		await prisma.$connect()
-		console.log('🚀 ~ database connected.')
+		await prisma.$connect();
+		console.log('🚀 ~ Database connected.');
 	} catch (error: any) {
-		console.log(
-			'🚀 ~ file: client.ts:14 ~ connectDatabase ~ error:'
-		)
-		process.exit(1)
-	} finally {
-		await prisma.$disconnect()
-		console.log('🚀 ~ database disconnected.')
+		console.error('❌ ~ Database connection error:', error);
+		process.exit(1); // Exit if the database fails to connect
 	}
-}
+};
 
-export default connectDatabase
+export default connectDatabase;
