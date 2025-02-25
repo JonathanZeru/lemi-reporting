@@ -22,17 +22,6 @@
       "static/chunks/9518-28e3b505f58ba588.js",
       "static/chunks/app/layout-da4fdedacf610252.js"
     ],
-    "/register/page": [
-      "static/chunks/webpack-c670abb4ca9b0860.js",
-      "static/chunks/fd9d1056-a402954fb213d0cb.js",
-      "static/chunks/2117-e6f2989b6c6a6475.js",
-      "static/chunks/main-app-f2f02c41a1b1cce7.js",
-      "static/chunks/7432-71d39013d7443c08.js",
-      "static/chunks/3464-e86ffd7293f6f71e.js",
-      "static/chunks/2144-54e6a9f7d63083c2.js",
-      "static/chunks/1078-69a458a19a118fbe.js",
-      "static/chunks/app/register/page-992db6ab5a3060b8.js"
-    ],
     "/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
       "static/chunks/fd9d1056-a402954fb213d0cb.js",
@@ -42,7 +31,18 @@
       "static/chunks/3464-e86ffd7293f6f71e.js",
       "static/chunks/7169-27cc29470f115dcb.js",
       "static/chunks/7672-0190352fac5e93a4.js",
-      "static/chunks/app/page-1cdb3a723d5ddb22.js"
+      "static/chunks/app/page-86444156552ea989.js"
+    ],
+    "/register/page": [
+      "static/chunks/webpack-c670abb4ca9b0860.js",
+      "static/chunks/fd9d1056-a402954fb213d0cb.js",
+      "static/chunks/2117-e6f2989b6c6a6475.js",
+      "static/chunks/main-app-f2f02c41a1b1cce7.js",
+      "static/chunks/7432-71d39013d7443c08.js",
+      "static/chunks/3464-e86ffd7293f6f71e.js",
+      "static/chunks/2144-54e6a9f7d63083c2.js",
+      "static/chunks/1078-69a458a19a118fbe.js",
+      "static/chunks/app/register/page-2091a32c8ceb3a95.js"
     ],
     "/settings/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
@@ -53,19 +53,19 @@
       "static/chunks/3464-e86ffd7293f6f71e.js",
       "static/chunks/5812-ea40c357728020ba.js",
       "static/chunks/7880-407e5ef93b7389af.js",
-      "static/chunks/app/settings/page-721673e7a263db55.js"
+      "static/chunks/app/settings/page-99d98b7b8a7c61f7.js"
     ],
-    "/dashboard/my-hiwas/page": [
+    "/dashboard/hiwas/[meseretawiName]/[meseretawiId]/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
       "static/chunks/fd9d1056-a402954fb213d0cb.js",
       "static/chunks/2117-e6f2989b6c6a6475.js",
       "static/chunks/main-app-f2f02c41a1b1cce7.js",
-      "static/chunks/131c4705-2d989ac329682d46.js",
       "static/chunks/7432-71d39013d7443c08.js",
       "static/chunks/3464-e86ffd7293f6f71e.js",
-      "static/chunks/8284-20d668a9a6f9c265.js",
-      "static/chunks/8689-accd6940ececb6ce.js",
-      "static/chunks/app/dashboard/my-hiwas/page-19921bd12621abf3.js"
+      "static/chunks/2144-54e6a9f7d63083c2.js",
+      "static/chunks/186-17b8634c7f2b9769.js",
+      "static/chunks/8362-45a65c823d9c4c15.js",
+      "static/chunks/app/dashboard/hiwas/[meseretawiName]/[meseretawiId]/page-1fe9f1e1ee84490b.js"
     ],
     "/dashboard/layout": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
@@ -79,29 +79,7 @@
       "static/chunks/5812-ea40c357728020ba.js",
       "static/chunks/7880-407e5ef93b7389af.js",
       "static/chunks/7169-27cc29470f115dcb.js",
-      "static/chunks/app/dashboard/layout-ee9ab34e07cd9f41.js"
-    ],
-    "/dashboard/choose/page": [
-      "static/chunks/webpack-c670abb4ca9b0860.js",
-      "static/chunks/fd9d1056-a402954fb213d0cb.js",
-      "static/chunks/2117-e6f2989b6c6a6475.js",
-      "static/chunks/main-app-f2f02c41a1b1cce7.js",
-      "static/chunks/7432-71d39013d7443c08.js",
-      "static/chunks/3464-e86ffd7293f6f71e.js",
-      "static/chunks/2144-54e6a9f7d63083c2.js",
-      "static/chunks/app/dashboard/choose/page-d437eac7ab2382f5.js"
-    ],
-    "/dashboard/hiwas/[meseretawiName]/[meseretawiId]/page": [
-      "static/chunks/webpack-c670abb4ca9b0860.js",
-      "static/chunks/fd9d1056-a402954fb213d0cb.js",
-      "static/chunks/2117-e6f2989b6c6a6475.js",
-      "static/chunks/main-app-f2f02c41a1b1cce7.js",
-      "static/chunks/7432-71d39013d7443c08.js",
-      "static/chunks/3464-e86ffd7293f6f71e.js",
-      "static/chunks/2144-54e6a9f7d63083c2.js",
-      "static/chunks/186-17b8634c7f2b9769.js",
-      "static/chunks/8362-f3c8087c0885d72f.js",
-      "static/chunks/app/dashboard/hiwas/[meseretawiName]/[meseretawiId]/page-1fe9f1e1ee84490b.js"
+      "static/chunks/app/dashboard/layout-a371524a1552b486.js"
     ],
     "/dashboard/detail/[scheduleId]/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
@@ -113,7 +91,7 @@
       "static/chunks/2144-54e6a9f7d63083c2.js",
       "static/chunks/7107-31112fe733fa26d7.js",
       "static/chunks/926-e741dc7d319bf898.js",
-      "static/chunks/app/dashboard/detail/[scheduleId]/page-b9c38f1a2f7fc382.js"
+      "static/chunks/app/dashboard/detail/[scheduleId]/page-0900c22301d60bca.js"
     ],
     "/dashboard/meseretawi-task-detail/[id]/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
@@ -125,19 +103,9 @@
       "static/chunks/2144-54e6a9f7d63083c2.js",
       "static/chunks/7107-31112fe733fa26d7.js",
       "static/chunks/926-e741dc7d319bf898.js",
-      "static/chunks/app/dashboard/meseretawi-task-detail/[id]/page-55402e089fa47a82.js"
+      "static/chunks/app/dashboard/meseretawi-task-detail/[id]/page-8bf52d6971007abe.js"
     ],
-    "/dashboard/page": [
-      "static/chunks/webpack-c670abb4ca9b0860.js",
-      "static/chunks/fd9d1056-a402954fb213d0cb.js",
-      "static/chunks/2117-e6f2989b6c6a6475.js",
-      "static/chunks/main-app-f2f02c41a1b1cce7.js",
-      "static/chunks/7432-71d39013d7443c08.js",
-      "static/chunks/3464-e86ffd7293f6f71e.js",
-      "static/chunks/7169-27cc29470f115dcb.js",
-      "static/chunks/app/dashboard/page-bae7ec0299933e81.js"
-    ],
-    "/dashboard/my-hiwas/schedule/[id]/page": [
+    "/dashboard/choose/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
       "static/chunks/fd9d1056-a402954fb213d0cb.js",
       "static/chunks/2117-e6f2989b6c6a6475.js",
@@ -145,32 +113,7 @@
       "static/chunks/7432-71d39013d7443c08.js",
       "static/chunks/3464-e86ffd7293f6f71e.js",
       "static/chunks/2144-54e6a9f7d63083c2.js",
-      "static/chunks/7107-31112fe733fa26d7.js",
-      "static/chunks/app/dashboard/my-hiwas/schedule/[id]/page-970cefb9f57ab567.js"
-    ],
-    "/dashboard/meseretawi/page": [
-      "static/chunks/webpack-c670abb4ca9b0860.js",
-      "static/chunks/fd9d1056-a402954fb213d0cb.js",
-      "static/chunks/2117-e6f2989b6c6a6475.js",
-      "static/chunks/main-app-f2f02c41a1b1cce7.js",
-      "static/chunks/7432-71d39013d7443c08.js",
-      "static/chunks/3464-e86ffd7293f6f71e.js",
-      "static/chunks/2144-54e6a9f7d63083c2.js",
-      "static/chunks/186-17b8634c7f2b9769.js",
-      "static/chunks/8362-f3c8087c0885d72f.js",
-      "static/chunks/app/dashboard/meseretawi/page-f035ae909bc655d4.js"
-    ],
-    "/dashboard/report-detail/[id]/page": [
-      "static/chunks/webpack-c670abb4ca9b0860.js",
-      "static/chunks/fd9d1056-a402954fb213d0cb.js",
-      "static/chunks/2117-e6f2989b6c6a6475.js",
-      "static/chunks/main-app-f2f02c41a1b1cce7.js",
-      "static/chunks/7432-71d39013d7443c08.js",
-      "static/chunks/3464-e86ffd7293f6f71e.js",
-      "static/chunks/7107-31112fe733fa26d7.js",
-      "static/chunks/926-e741dc7d319bf898.js",
-      "static/chunks/7559-c5c57e541cb733e5.js",
-      "static/chunks/app/dashboard/report-detail/[id]/page-ad0d23303f4b0d0b.js"
+      "static/chunks/app/dashboard/choose/page-5eecd0bd36007b5f.js"
     ],
     "/dashboard/register/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
@@ -181,7 +124,19 @@
       "static/chunks/3464-e86ffd7293f6f71e.js",
       "static/chunks/2144-54e6a9f7d63083c2.js",
       "static/chunks/1078-69a458a19a118fbe.js",
-      "static/chunks/app/dashboard/register/page-88c6fbecdbfd42c2.js"
+      "static/chunks/app/dashboard/register/page-975961f41985e216.js"
+    ],
+    "/dashboard/meseretawi/page": [
+      "static/chunks/webpack-c670abb4ca9b0860.js",
+      "static/chunks/fd9d1056-a402954fb213d0cb.js",
+      "static/chunks/2117-e6f2989b6c6a6475.js",
+      "static/chunks/main-app-f2f02c41a1b1cce7.js",
+      "static/chunks/7432-71d39013d7443c08.js",
+      "static/chunks/3464-e86ffd7293f6f71e.js",
+      "static/chunks/2144-54e6a9f7d63083c2.js",
+      "static/chunks/186-17b8634c7f2b9769.js",
+      "static/chunks/8362-45a65c823d9c4c15.js",
+      "static/chunks/app/dashboard/meseretawi/page-f035ae909bc655d4.js"
     ],
     "/dashboard/schedule/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
@@ -196,8 +151,42 @@
       "static/chunks/5812-ea40c357728020ba.js",
       "static/chunks/609-c85567a6fb99565c.js",
       "static/chunks/6401-3bf73db912e02fb0.js",
-      "static/chunks/4572-2a12394a761c6814.js",
+      "static/chunks/4572-0d7888b3895bf941.js",
       "static/chunks/app/dashboard/schedule/page-f34af80358475d39.js"
+    ],
+    "/dashboard/page": [
+      "static/chunks/webpack-c670abb4ca9b0860.js",
+      "static/chunks/fd9d1056-a402954fb213d0cb.js",
+      "static/chunks/2117-e6f2989b6c6a6475.js",
+      "static/chunks/main-app-f2f02c41a1b1cce7.js",
+      "static/chunks/7432-71d39013d7443c08.js",
+      "static/chunks/3464-e86ffd7293f6f71e.js",
+      "static/chunks/7169-27cc29470f115dcb.js",
+      "static/chunks/app/dashboard/page-d3dab0e7665cf20f.js"
+    ],
+    "/dashboard/my-hiwas/page": [
+      "static/chunks/webpack-c670abb4ca9b0860.js",
+      "static/chunks/fd9d1056-a402954fb213d0cb.js",
+      "static/chunks/2117-e6f2989b6c6a6475.js",
+      "static/chunks/main-app-f2f02c41a1b1cce7.js",
+      "static/chunks/131c4705-2d989ac329682d46.js",
+      "static/chunks/7432-71d39013d7443c08.js",
+      "static/chunks/3464-e86ffd7293f6f71e.js",
+      "static/chunks/8284-20d668a9a6f9c265.js",
+      "static/chunks/8689-accd6940ececb6ce.js",
+      "static/chunks/app/dashboard/my-hiwas/page-afc39d31863e7c88.js"
+    ],
+    "/dashboard/report-detail/[id]/page": [
+      "static/chunks/webpack-c670abb4ca9b0860.js",
+      "static/chunks/fd9d1056-a402954fb213d0cb.js",
+      "static/chunks/2117-e6f2989b6c6a6475.js",
+      "static/chunks/main-app-f2f02c41a1b1cce7.js",
+      "static/chunks/7432-71d39013d7443c08.js",
+      "static/chunks/3464-e86ffd7293f6f71e.js",
+      "static/chunks/7107-31112fe733fa26d7.js",
+      "static/chunks/926-e741dc7d319bf898.js",
+      "static/chunks/7559-c5c57e541cb733e5.js",
+      "static/chunks/app/dashboard/report-detail/[id]/page-1a0601c1a4a07247.js"
     ],
     "/dashboard/report/[reporter]/[reporterId]/[scheduleId]/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
@@ -207,8 +196,32 @@
       "static/chunks/7432-71d39013d7443c08.js",
       "static/chunks/3464-e86ffd7293f6f71e.js",
       "static/chunks/186-17b8634c7f2b9769.js",
-      "static/chunks/5555-060f42fc4b9b4afc.js",
+      "static/chunks/5555-9c4eca3c9fa6f067.js",
       "static/chunks/app/dashboard/report/[reporter]/[reporterId]/[scheduleId]/page-9586ce111b422fe5.js"
+    ],
+    "/dashboard/task-detail/[id]/page": [
+      "static/chunks/webpack-c670abb4ca9b0860.js",
+      "static/chunks/fd9d1056-a402954fb213d0cb.js",
+      "static/chunks/2117-e6f2989b6c6a6475.js",
+      "static/chunks/main-app-f2f02c41a1b1cce7.js",
+      "static/chunks/7432-71d39013d7443c08.js",
+      "static/chunks/3464-e86ffd7293f6f71e.js",
+      "static/chunks/2144-54e6a9f7d63083c2.js",
+      "static/chunks/7107-31112fe733fa26d7.js",
+      "static/chunks/926-e741dc7d319bf898.js",
+      "static/chunks/app/dashboard/task-detail/[id]/page-0971e2d4bf87e9e5.js"
+    ],
+    "/dashboard/wana-registration/page": [
+      "static/chunks/webpack-c670abb4ca9b0860.js",
+      "static/chunks/fd9d1056-a402954fb213d0cb.js",
+      "static/chunks/2117-e6f2989b6c6a6475.js",
+      "static/chunks/main-app-f2f02c41a1b1cce7.js",
+      "static/chunks/7432-71d39013d7443c08.js",
+      "static/chunks/3464-e86ffd7293f6f71e.js",
+      "static/chunks/2144-54e6a9f7d63083c2.js",
+      "static/chunks/186-17b8634c7f2b9769.js",
+      "static/chunks/8362-45a65c823d9c4c15.js",
+      "static/chunks/app/dashboard/wana-registration/page-199a3b5dfd254915.js"
     ],
     "/dashboard/settings/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
@@ -221,7 +234,7 @@
       "static/chunks/5812-ea40c357728020ba.js",
       "static/chunks/7880-407e5ef93b7389af.js",
       "static/chunks/6465-3db6a57762d51d53.js",
-      "static/chunks/app/dashboard/settings/page-cf4e5a7b30653c37.js"
+      "static/chunks/app/dashboard/settings/page-5fd9881b5751b508.js"
     ],
     "/dashboard/user/[type]/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
@@ -234,10 +247,22 @@
       "static/chunks/7880-407e5ef93b7389af.js",
       "static/chunks/609-c85567a6fb99565c.js",
       "static/chunks/6747-61709d1ba7560f57.js",
-      "static/chunks/4572-2a12394a761c6814.js",
+      "static/chunks/4572-0d7888b3895bf941.js",
       "static/chunks/app/dashboard/user/[type]/page-9ceed315d91135db.js"
     ],
-    "/dashboard/task-detail/[id]/page": [
+    "/dashboard/wereda-report-detail/[id]/page": [
+      "static/chunks/webpack-c670abb4ca9b0860.js",
+      "static/chunks/fd9d1056-a402954fb213d0cb.js",
+      "static/chunks/2117-e6f2989b6c6a6475.js",
+      "static/chunks/main-app-f2f02c41a1b1cce7.js",
+      "static/chunks/7432-71d39013d7443c08.js",
+      "static/chunks/3464-e86ffd7293f6f71e.js",
+      "static/chunks/7107-31112fe733fa26d7.js",
+      "static/chunks/926-e741dc7d319bf898.js",
+      "static/chunks/7559-c5c57e541cb733e5.js",
+      "static/chunks/app/dashboard/wereda-report-detail/[id]/page-7ccbf865d0603709.js"
+    ],
+    "/dashboard/wereda-schedule/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
       "static/chunks/fd9d1056-a402954fb213d0cb.js",
       "static/chunks/2117-e6f2989b6c6a6475.js",
@@ -247,9 +272,9 @@
       "static/chunks/2144-54e6a9f7d63083c2.js",
       "static/chunks/7107-31112fe733fa26d7.js",
       "static/chunks/926-e741dc7d319bf898.js",
-      "static/chunks/app/dashboard/task-detail/[id]/page-da7fb9b15653a02a.js"
+      "static/chunks/app/dashboard/wereda-schedule/page-4bd310c47cebd737.js"
     ],
-    "/dashboard/wana-registration/page": [
+    "/dashboard/wereda/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
       "static/chunks/fd9d1056-a402954fb213d0cb.js",
       "static/chunks/2117-e6f2989b6c6a6475.js",
@@ -258,8 +283,8 @@
       "static/chunks/3464-e86ffd7293f6f71e.js",
       "static/chunks/2144-54e6a9f7d63083c2.js",
       "static/chunks/186-17b8634c7f2b9769.js",
-      "static/chunks/8362-f3c8087c0885d72f.js",
-      "static/chunks/app/dashboard/wana-registration/page-199a3b5dfd254915.js"
+      "static/chunks/8362-45a65c823d9c4c15.js",
+      "static/chunks/app/dashboard/wereda/page-caa25b2eaa902d5c.js"
     ],
     "/dashboard/wana/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
@@ -273,31 +298,7 @@
       "static/chunks/5812-ea40c357728020ba.js",
       "static/chunks/609-c85567a6fb99565c.js",
       "static/chunks/7159-2ef3590a5b7ccc13.js",
-      "static/chunks/app/dashboard/wana/page-8ce062f5d9f3929d.js"
-    ],
-    "/dashboard/wereda-report-detail/[id]/page": [
-      "static/chunks/webpack-c670abb4ca9b0860.js",
-      "static/chunks/fd9d1056-a402954fb213d0cb.js",
-      "static/chunks/2117-e6f2989b6c6a6475.js",
-      "static/chunks/main-app-f2f02c41a1b1cce7.js",
-      "static/chunks/7432-71d39013d7443c08.js",
-      "static/chunks/3464-e86ffd7293f6f71e.js",
-      "static/chunks/7107-31112fe733fa26d7.js",
-      "static/chunks/926-e741dc7d319bf898.js",
-      "static/chunks/7559-c5c57e541cb733e5.js",
-      "static/chunks/app/dashboard/wereda-report-detail/[id]/page-64950ca1bbb337f6.js"
-    ],
-    "/dashboard/wereda-schedule/page": [
-      "static/chunks/webpack-c670abb4ca9b0860.js",
-      "static/chunks/fd9d1056-a402954fb213d0cb.js",
-      "static/chunks/2117-e6f2989b6c6a6475.js",
-      "static/chunks/main-app-f2f02c41a1b1cce7.js",
-      "static/chunks/7432-71d39013d7443c08.js",
-      "static/chunks/3464-e86ffd7293f6f71e.js",
-      "static/chunks/2144-54e6a9f7d63083c2.js",
-      "static/chunks/7107-31112fe733fa26d7.js",
-      "static/chunks/926-e741dc7d319bf898.js",
-      "static/chunks/app/dashboard/wereda-schedule/page-a94a78cbff12016c.js"
+      "static/chunks/app/dashboard/wana/page-5dc6b8e3c65cced4.js"
     ],
     "/dashboard/wereda-report/[reporter]/[reporterId]/[scheduleId]/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
@@ -307,10 +308,10 @@
       "static/chunks/7432-71d39013d7443c08.js",
       "static/chunks/3464-e86ffd7293f6f71e.js",
       "static/chunks/186-17b8634c7f2b9769.js",
-      "static/chunks/5555-060f42fc4b9b4afc.js",
+      "static/chunks/5555-9c4eca3c9fa6f067.js",
       "static/chunks/app/dashboard/wereda-report/[reporter]/[reporterId]/[scheduleId]/page-cd5c9c6d9c0f7276.js"
     ],
-    "/dashboard/wereda/page": [
+    "/dashboard/my-hiwas/schedule/[id]/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
       "static/chunks/fd9d1056-a402954fb213d0cb.js",
       "static/chunks/2117-e6f2989b6c6a6475.js",
@@ -318,9 +319,8 @@
       "static/chunks/7432-71d39013d7443c08.js",
       "static/chunks/3464-e86ffd7293f6f71e.js",
       "static/chunks/2144-54e6a9f7d63083c2.js",
-      "static/chunks/186-17b8634c7f2b9769.js",
-      "static/chunks/8362-f3c8087c0885d72f.js",
-      "static/chunks/app/dashboard/wereda/page-caa25b2eaa902d5c.js"
+      "static/chunks/7107-31112fe733fa26d7.js",
+      "static/chunks/app/dashboard/my-hiwas/schedule/[id]/page-6f9c3a66a55cae7a.js"
     ],
     "/dashboard/wereda-task-detail/[id]/page": [
       "static/chunks/webpack-c670abb4ca9b0860.js",
@@ -332,7 +332,7 @@
       "static/chunks/2144-54e6a9f7d63083c2.js",
       "static/chunks/7107-31112fe733fa26d7.js",
       "static/chunks/926-e741dc7d319bf898.js",
-      "static/chunks/app/dashboard/wereda-task-detail/[id]/page-c24e525001a911ff.js"
+      "static/chunks/app/dashboard/wereda-task-detail/[id]/page-9773391b8cbb7222.js"
     ]
   }
 }
